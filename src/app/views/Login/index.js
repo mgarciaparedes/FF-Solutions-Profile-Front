@@ -1,4 +1,10 @@
 import React, { useState, useContext } from "react";
+import { Container } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+
 // import { Form, InputGroup, Button } from "react-bootstrap";
 // import { Formik } from "formik";
 // import * as Yup from "yup";
@@ -22,97 +28,122 @@ import React, { useState, useContext } from "react";
 // });
 
 export const Login = () => {
-//   const { loginContext } = useContext(AppContext);
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
 
-//   const [disabledButton, setDisabledButton] = useState(false);
+  //   const { loginContext } = useContext(AppContext);
 
-//   const onSubmit = (event) => {
-//     const { email, password } = event;
+  //   const [disabledButton, setDisabledButton] = useState(false);
 
-//     setDisabledButton(true);
+  //   const onSubmit = (event) => {
+  //     const { email, password } = event;
 
-//     const payload = {
-//       email: email,
-//       password: password,
-//     };
+  //     setDisabledButton(true);
 
-//     axios
-//       .post(`/auth/login`, payload)
-//       .then((res) => {
-//         const { ok, msg, token, name, userid } = res.data;
-//         //Capturamos el token y lo dejamos en la cabecera
-//         axios.defaults.headers.common["x-token"] = res.data.token;
+  //     const payload = {
+  //       email: email,
+  //       password: password,
+  //     };
 
-//         /*Sí el login es ok, loguea*/
-//         if (ok && msg === "login") {
-//           axios.get(`/users/getProfileUserData`).then((res2) => {
-//             const {
-//               ok,
-//               msg,
-//               serialNumber,
-//               username,
-//               email,
-//               data,
-//               gallery,
-//               customImage,
-//             } = res2.data;
-//             /*Sí el login es ok, loguea*/
-//             if (ok) {
-//               setDisabledButton(false);
+  //     axios
+  //       .post(`/auth/login`, payload)
+  //       .then((res) => {
+  //         const { ok, msg, token, name, userid } = res.data;
+  //         //Capturamos el token y lo dejamos en la cabecera
+  //         axios.defaults.headers.common["x-token"] = res.data.token;
 
-//               const json = {
-//                 authenticated: true,
-//                 user: name,
-//                 token: token,
-//                 email: email,
-//                 serialNumber: serialNumber,
-//                 username: username,
-//                 profileData: data,
-//                 galleryImages:
-//                   gallery && gallery.galleryImages
-//                     ? gallery.galleryImages
-//                     : null,
-//                 galleryActive:
-//                   gallery && gallery.galleryActive
-//                     ? gallery.galleryActive
-//                     : null,
-//                 customImage: customImage ? customImage : null,
-//                 sendNotifications: data ? data.sendNotifications : false,
-//                 isLinked: data ? data.isLinked : false,
-//                 usernameLinked: data ? data.usernameLinked : "",
-//               };
-//               loginContext(json);
+  //         /*Sí el login es ok, loguea*/
+  //         if (ok && msg === "login") {
+  //           axios.get(`/users/getProfileUserData`).then((res2) => {
+  //             const {
+  //               ok,
+  //               msg,
+  //               serialNumber,
+  //               username,
+  //               email,
+  //               data,
+  //               gallery,
+  //               customImage,
+  //             } = res2.data;
+  //             /*Sí el login es ok, loguea*/
+  //             if (ok) {
+  //               setDisabledButton(false);
 
-//               history.push("/dashboard");
-//             }
-//           });
-//         }
-//       })
-//       .catch((e) => {
-//         /*Sí los servicios están OFF, retornamos este swal*/
-//         if (e.response === undefined) {
-//           swalOffBackend();
-//           setDisabledButton(false);
-//           return 1;
-//         }
+  //               const json = {
+  //                 authenticated: true,
+  //                 user: name,
+  //                 token: token,
+  //                 email: email,
+  //                 serialNumber: serialNumber,
+  //                 username: username,
+  //                 profileData: data,
+  //                 galleryImages:
+  //                   gallery && gallery.galleryImages
+  //                     ? gallery.galleryImages
+  //                     : null,
+  //                 galleryActive:
+  //                   gallery && gallery.galleryActive
+  //                     ? gallery.galleryActive
+  //                     : null,
+  //                 customImage: customImage ? customImage : null,
+  //                 sendNotifications: data ? data.sendNotifications : false,
+  //                 isLinked: data ? data.isLinked : false,
+  //                 usernameLinked: data ? data.usernameLinked : "",
+  //               };
+  //               loginContext(json);
 
-//         /*Si ocurre algo en el request, retoramos esto*/
-//         const { msg, ok } = e.response.data;
-//         if (!ok) {
-//           Swal.fire({
-//             title: "Error",
-//             text: msg,
-//             icon: "error",
-//             confirmButtonText: "Try again",
-//           });
-//         }
+  //               history.push("/dashboard");
+  //             }
+  //           });
+  //         }
+  //       })
+  //       .catch((e) => {
+  //         /*Sí los servicios están OFF, retornamos este swal*/
+  //         if (e.response === undefined) {
+  //           swalOffBackend();
+  //           setDisabledButton(false);
+  //           return 1;
+  //         }
 
-//         setDisabledButton(false);
-//       });
-//   };
+  //         /*Si ocurre algo en el request, retoramos esto*/
+  //         const { msg, ok } = e.response.data;
+  //         if (!ok) {
+  //           Swal.fire({
+  //             title: "Error",
+  //             text: msg,
+  //             icon: "error",
+  //             confirmButtonText: "Try again",
+  //           });
+  //         }
+
+  //         setDisabledButton(false);
+  //       });
+  //   };
 
   return (
     <>
+      <Container>
+        <Button variant="contained">Hello World</Button>
+        <Grid container spacing={2}>
+          <Grid item xs={6} md={8}>
+            <Item>xs=6 md=8</Item>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <Item>xs=6 md=4</Item>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <Item>xs=6 md=4</Item>
+          </Grid>
+          <Grid item xs={6} md={8}>
+            <Item>xs=6 md=8</Item>
+          </Grid>
+        </Grid>
+      </Container>
       {/* <div className="container-login">
         <div className="d-flex justify-content-center">
           <div className="card-login">
@@ -233,7 +264,7 @@ export const Login = () => {
               {/* <div className="d-flex justify-content-center">
                 <a href="/">Privacy Policy and Terms of Service</a>
               </div> */}
-            {/*</div>
+      {/*</div>
           </div>
         </div>
       </div> */}
