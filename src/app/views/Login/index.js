@@ -1,9 +1,13 @@
 import React, { useState, useContext } from "react";
-import { Container } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
+import { Container, Grid } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
+import img from '../../../assets/images/Logo-Apple.jpg';
+import history from "../../../components/History";
+
 
 // import { Form, InputGroup, Button } from "react-bootstrap";
 // import { Formik } from "formik";
@@ -27,14 +31,10 @@ import { styled } from "@mui/material/styles";
 //     .matches(/^\S*$/, "Password can't have spaces."),
 // });
 
+
+
 export const Login = () => {
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+
 
   //   const { loginContext } = useContext(AppContext);
 
@@ -124,26 +124,72 @@ export const Login = () => {
   //         setDisabledButton(false);
   //       });
   //   };
+  
 
   return (
     <>
-      <Container>
-        <Button variant="contained">Hello World</Button>
-        <Grid container spacing={2}>
-          <Grid item xs={6} md={8}>
-            <Item>xs=6 md=8</Item>
+      <img src={img}/>      
+
+
+
+      <Grid justifyContent='center' container sx={ {
+        marginTop: 20        
+        } }>
+        <Grid item xs={4} sx={ { paddingBottom: 5, paddingTop: 2, paddingX: 6 } }>
+          <Grid
+            component="form"        
+            autoComplete="off"   
+            justifySelf='center'
+            textAlign='center'                 
+          >      
+          <TextField id="standard-basic" label="Email@gmail.com" variant="standard" xs={12}/>                   
           </Grid>
-          <Grid item xs={6} md={4}>
-            <Item>xs=6 md=4</Item>
+
+          <Grid
+            component="form"        
+            autoComplete="off"
+            textAlign='center'
+          >
+          <TextField id="standard-basic" label="Password" variant="standard" type='password'/>          
           </Grid>
-          <Grid item xs={6} md={4}>
-            <Item>xs=6 md=4</Item>
+
+          <Grid marginTop={2}>
+            <Button variant="text">Submit</Button>
+            <Button variant="text" color="secondary">Remove</Button>
           </Grid>
-          <Grid item xs={6} md={8}>
-            <Item>xs=6 md=8</Item>
+          <Grid sx={ { paddingTop: 3 } }>
+            <Link
+              component="button"
+              variant="body3"            
+            >
+              Sign up
+            </Link>
           </Grid>
+          <Grid>
+            <Link
+              component="button"
+              variant="body3"            
+            >
+              Forgot Password
+            </Link>
+          </Grid>
+          <Grid>
+            <Link
+              component="button"
+              variant="body3"              
+              onClick={ ()=> history.push('/create-profile') }            
+            >
+              Create your profile
+            </Link>
+          </Grid>     
+
         </Grid>
-      </Container>
+      </Grid>
+      
+
+
+      
+      
       {/* <div className="container-login">
         <div className="d-flex justify-content-center">
           <div className="card-login">
