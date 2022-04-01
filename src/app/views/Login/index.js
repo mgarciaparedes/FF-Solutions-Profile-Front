@@ -44,6 +44,12 @@ export const Login = () => {
     });
   };
 
+  const signIn = ()=>{
+    
+    history.push('/dashboard')
+
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -115,6 +121,7 @@ export const Login = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={ signIn }
               >
                 Sign In
               </Button>
@@ -125,7 +132,7 @@ export const Login = () => {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link onClick={() => history.push('/create-profile')} variant="body2">
+                  <Link onClick={() => history.push('/create-profile')} variant="body2" sx={ { cursor: "pointer" } }>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

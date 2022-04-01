@@ -10,7 +10,7 @@ import AppProvider from "../components/AppContext";
 import { Login } from "./views/Login/index";
 import { CreateProfile } from "./views/CreateProfile/index";
 import { Error404 } from "./views/Error404";
-// import { Dashboard } from "./views/Dashboard/index";
+import { Dashboard } from "./views/Dashboard/index";
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
 // import { EditProfile } from "./views/EditProfile/index";
@@ -31,15 +31,15 @@ const RouteApp = () => {
             path="/create-profile"
             component={() => <CreateProfile />}
           />
-          {/* <Route exact path="/edit-profile" component={() => <EditProfile />} />
+          <Route exact path="/dashboard" component={() => <Dashboard />} />
+          {/*<Route exact path="/edit-profile" component={() => <EditProfile />} />
           <Route
             exact
             path="/forgot-password"
             component={() => <ForgotPassword />}
           />
-          <Route exact path="/advanced-tools" component={() => <AdvancedTools />} />
-          <Route exact path="/dashboard" component={() => <Dashboard />} />
-          <Route exact path="/help" component={() => <Help />} /> */}
+          <Route exact path="/advanced-tools" component={() => <AdvancedTools />} /> */}
+          {/* <Route exact path="/help" component={() => <Help />} /> */}
 
           {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}
           
