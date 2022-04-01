@@ -19,7 +19,9 @@ import {
   Typography,
   Grid
 } from "@mui/material";
-import "../../../assets/scss/main.scss";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
+import Sidebar from "../../../components/Sidebar";
 
 
 // import { Alert, Carousel } from "react-bootstrap";
@@ -50,8 +52,9 @@ const contentStyle = {
 }; 
   return (
     <>
+    <Navbar />
       <Grid container justifyContent='center'>
-        <Grid item xs={8} >
+        <Grid item xs={12} >
           <Carousel autoplay>
             <Grid justifyItems='center'>
               <Grid style={contentStyle}>
@@ -176,8 +179,7 @@ const contentStyle = {
         </div>
       </div> */}       
                           
-                
-            
+    <Footer />
     </>
   );
 
