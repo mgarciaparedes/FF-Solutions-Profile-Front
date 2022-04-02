@@ -11,6 +11,8 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import history from "./History";
 
 const Sidebar = () => {
   const [state, setState] = useState({
@@ -55,6 +57,15 @@ const Sidebar = () => {
             <ListItemText primary={text} />
           </ListItem>
         ))}
+      </List>
+      <Divider />
+      <List>
+          <ListItem button onClick={()=> history.push('/login')}>
+            <ListItemIcon>
+              <PowerSettingsNewIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Sign off"} />
+          </ListItem>
       </List>
     </Box>
   );
