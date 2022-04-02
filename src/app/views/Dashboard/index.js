@@ -17,6 +17,9 @@ import { Card, CardContent, CardMedia, Typography, Grid } from "@mui/material";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import Sidebar from "../../../components/Sidebar";
+import banner from '../../../assets/images/banner.png'
+import banner2 from '../../../assets/images/banner2.jpg'
+import banner3 from '../../../assets/images/banner3.jpg'
 
 // import { Alert, Carousel } from "react-bootstrap";
 // import { SideNavigation } from "../../../components/SideNavigation";
@@ -28,19 +31,19 @@ import Sidebar from "../../../components/Sidebar";
 
 const images = [
   {
-    url: "/static/images/buttons/breakfast.jpg",
-    title: "Breakfast",
-    width: "33%",
+    url: banner3,
+    title: 'Breakfast',
+    width: '40%',
   },
   {
-    url: "/static/images/buttons/burgers.jpg",
-    title: "Burgers",
-    width: "34%",
+    url: banner,
+    title: 'Stay tunned',
+    width: '30%',
   },
   {
-    url: "/static/images/buttons/camera.jpg",
-    title: "Camera",
-    width: "33%",
+    url: banner2,
+    title: 'Set up your Profile',
+    width: '30%',
   },
 ];
 
