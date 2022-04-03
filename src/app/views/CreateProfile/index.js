@@ -13,8 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import history from '../../../components/History';
-
-
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 // import React, { useState } from "react";
 // import { Form, InputGroup, Button, Alert } from "react-bootstrap";
@@ -344,25 +344,74 @@ import history from '../../../components/History';
 
 
 
+//Constante con el formato de validación para cada campo-------------------------------------------
+
+const validationSchema = yup.object({
+  fullName: yup.string()    
+    .required("Full name is required"),
+  userName: yup
+    .string("Enter your Username")    
+    .required("Username is required"),
+  email: yup.string()
+    .email('Must be a valid email')
+    .required('Email is required'),
+  serialNumber: yup.number()
+    .typeError("Must be just numbers.")
+    .integer("The serial number can't include a decimal point.")
+    .required('Serial number is required.'),
+  password: yup.string()    
+    .required("Password is required")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"),
+  confirmPassword: yup.string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required("Confirmation password is required")
+});
+
+
+//Footer de Formulario createProfile--------------------------------------------------------
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}></Typography>
   );
 }
 
+//Se crea el tema de plantilla preconfigurado por Material UI para obtener el diseño de CreateProfile------
 const theme = createTheme();
 
+
+//Inicio de componente-----------------------------------------------------------------------------------------
 export const CreateProfile = ()=>{
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+//Configurar los valores a evaluar por el formulario-----------------------------------------------------------
+
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      userName: "",
+      email: "",
+      serialNumber: "",
+      password: "",
+      confirmPassword: ""      
+    },
+    validationSchema: validationSchema, //Se le pasa la costante de formato de cada campo--------------
+    onSubmit: (values) => {
+      //Si llega acá es porque pasó todas las validaciones, le enviamos los values
+      //de cada campo en el formulario, se obtienen con el nombre de cada campo.      
+      signUp(values); 
+    },
+  });
+
+  // Funcion que envia objeto de valores al console.---------------------------------------------------
+  const signUp = (values) => {
+    console.log(values);    
+  }; 
+   
 
   return (
+
+    // Inicio de Tema proporcionado por template de Material UI
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -374,106 +423,148 @@ export const CreateProfile = ()=>{
             alignItems: 'center',
           }}
         >
+
+    {/* Icono de candado en CreateProfile */}
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+
+    {/* Titulo de CreateProfile */}
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  autoComplete="off"
-                  name="firstName"
-                  required
+
+      {/* Inicio de formulario */}
+
+              <form onSubmit={formik.handleSubmit}>
+                <Grid container spacing={1}>
+
+            {/*Campo FullName*/}
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      autoComplete="off"
+                      name="fullName"
+                      // required
+                      fullWidth
+                      id="fullName"
+                      label="Full Name"
+                      // autoFocus
+                      value={formik.values.fullName}
+                      onChange={formik.handleChange}
+                      error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+                      helperText={formik.touched.fullName && formik.errors.fullName}
+                    />
+                  </Grid>
+                  
+            {/*Campo userName*/}
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      // required
+                      fullWidth
+                      id="userName"
+                      label="profile.stdicompany.com/username"
+                      name="userName"
+                      autoComplete="family-name"
+                      value={formik.values.userName}
+                      onChange={formik.handleChange}
+                      error={formik.touched.userName && Boolean(formik.errors.userName)}
+                      helperText={formik.touched.userName && formik.errors.userName}
+                    />
+                  </Grid>
+
+            {/*Campo email*/}
+                  <Grid item xs={12}>
+                    <TextField
+                      // required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={formik.touched.email && Boolean(formik.errors.email)}
+                      helperText={formik.touched.email && formik.errors.email}
+                    />
+                  </Grid>
+
+            {/*Campo serial number*/}
+                  <Grid item xs={12}>
+                    <TextField                      
+                      fullWidth
+                      id="serialNumber"
+                      label="Type the serial number"
+                      name="serialNumber"                      
+                      value={formik.values.serialNumber}
+                      onChange={formik.handleChange}
+                      error={formik.touched.serialNumber && Boolean(formik.errors.serialNumber)}
+                      helperText={formik.touched.serialNumber && formik.errors.serialNumber}
+                    />
+                  </Grid>
+
+            {/* Campo de password */}
+                  <Grid item xs={6}>
+                    <TextField                      
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={formik.touched.password && Boolean(formik.errors.password)}
+                      helperText={formik.touched.password && formik.errors.password}                      
+                    />
+                  </Grid>
+
+            {/* Campo de confirm password*/}
+                  <Grid item xs={6}>
+                    <TextField                      
+                      fullWidth
+                      name="confirmPassword"
+                      label="Confirm Password"
+                      type="password"
+                      id="confirmPassword"
+                      value={formik.values.confirmPassword}
+                      onChange={formik.handleChange}
+                      error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                      helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}                      
+                    />
+                  </Grid>
+
+            {/* Checkbox para recibir promociones y actualizaciones. */}
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={<Checkbox value="allowExtraEmails" color="primary" />}
+                      label="I want to receive inspiration, marketing promotions and updates via email."
+                    />
+                  </Grid>
+                </Grid>
+            {/* Boton de registrarse */}
+                <Button
+                  type="submit"
                   fullWidth
-                  id="firstName"
-                  label="Full Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="profile.stdicompany.com/username"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Type the serial number"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Confirm Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link onClick={()=>{ history.push('/login') }} variant="body2" sx={{ cursor: 'pointer' }}>
-                  Already have an account? Sign in
-                </Link>                
-              </Grid>
-            </Grid>
-          </Box>
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign Up
+                </Button>
+
+            {/* Link de cuando se tiene una cuenta. */}
+                <Grid container justifyContent="flex-end">
+                  <Grid item>
+                    <Link onClick={()=>{ history.push('/login') }} variant="body2" sx={{ cursor: 'pointer' }}>
+                      Already have an account? Sign in
+                    </Link>                
+                  </Grid>
+                </Grid>
+
+              </form>            
         </Box>
+          
+        
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
 }
-
-
-
