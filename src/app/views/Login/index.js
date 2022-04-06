@@ -23,6 +23,7 @@ import history from "../../../components/History";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useSnackbar } from "notistack";
+// import { Components } from "antd/lib/date-picker/generatePicker";
 
 //Constante con el formato de validación para cada campo-----------------------------------------------------
 const validationSchema = yup.object({
@@ -63,6 +64,21 @@ export const Login = () => {
   //Valores iniciales
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  //Variable que guarda la opción Cerrar de los Snackbars
+  const action = (key) => (
+    <>
+      <Button
+        variant="outlined"
+        color="error"
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        Close
+      </Button>
+    </>
+  );
 
   //Setear los valores a evaluar por el formulario-------------------------------------------------------------
   const formik = useFormik({
@@ -108,6 +124,8 @@ export const Login = () => {
 
         enqueueSnackbar("Login succesfull", {
           variant: "success",
+          autoHideDuration: 2000,
+          // action,
         });
 
         //Capturamos el token y lo dejamos en la cabecera
@@ -123,6 +141,8 @@ export const Login = () => {
           setLoading(false);
           enqueueSnackbar("An error ocurred. Please try again!", {
             variant: "error",
+            autoHideDuration: 3000,
+            // action,
           });
           return 1;
         }
@@ -130,10 +150,12 @@ export const Login = () => {
         /*Si ocurre algo en el request, retoramos esto*/
         const { msg, ok } = e.response.data;
 
-        if(msg === undefined || msg === null || msg === ""){
+        if (msg === undefined || msg === null || msg === "") {
           setLoading(false);
           enqueueSnackbar("An error ocurred. Please try again!", {
             variant: "error",
+            autoHideDuration: 3000,
+            // action,
           });
           return "orlando";
         }
@@ -142,6 +164,8 @@ export const Login = () => {
           setLoading(false);
           enqueueSnackbar(msg, {
             variant: "error",
+            autoHideDuration: 3000,
+            // action,
           });
           return 1;
         }
