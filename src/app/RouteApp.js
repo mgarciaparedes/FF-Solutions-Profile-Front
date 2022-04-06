@@ -2,6 +2,7 @@ import React from "react";
 import "../assets/scss/main.scss";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { withRouter } from "react-router";
+import { SnackbarProvider } from "notistack";
 
 //Aquí importamos módulo que permite guardar las variables de sesión en la aplicación
 import AppProvider from "../components/AppContext";
@@ -18,32 +19,38 @@ import { Dashboard } from "./views/Dashboard/index";
 // import { UserName } from "./views/UserName/index";
 // import { ActivateLinkedProfile } from "./views/ActivateLinkedProfile";
 
-
 /*Componente para el manejo de rutas de la app*/
 const RouteApp = () => {
   return (
     <>
-      <AppProvider>
-        <Switch>
-          <Route exact path="/login" component={() => <Login />} />
-          <Route
-            exact
-            path="/create-profile"
-            component={() => <CreateProfile />}
-          />
-          <Route exact path="/dashboard" component={() => <Dashboard />} />
-          {/*<Route exact path="/edit-profile" component={() => <EditProfile />} />
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: "right",
+        }}
+      >
+        <AppProvider>
+          <Switch>
+            <Route exact path="/login" component={() => <Login />} />
+            <Route
+              exact
+              path="/create-profile"
+              component={() => <CreateProfile />}
+            />
+            <Route exact path="/dashboard" component={() => <Dashboard />} />
+            {/*<Route exact path="/edit-profile" component={() => <EditProfile />} />
           <Route
             exact
             path="/forgot-password"
             component={() => <ForgotPassword />}
           />
           <Route exact path="/advanced-tools" component={() => <AdvancedTools />} /> */}
-          {/* <Route exact path="/help" component={() => <Help />} /> */}
+            {/* <Route exact path="/help" component={() => <Help />} /> */}
 
-          {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}
-          
-          {/* <Route
+            {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}
+
+            {/* <Route
             exact
             path="/:params"
             component={(params) => <UserName {...params} />}
@@ -53,10 +60,11 @@ const RouteApp = () => {
             path="/activateLinkedProfile/:params"
             component={(params) => <ActivateLinkedProfile {...params} />}
           /> */}
-          <Route exact path="/" render={() => <Redirect to="/login" />} />
-          <Route path="*" component={() => <Error404 />} />
-        </Switch>
-      </AppProvider>
+            <Route exact path="/" render={() => <Redirect to="/login" />} />
+            <Route path="*" component={() => <Error404 />} />
+          </Switch>
+        </AppProvider>
+      </SnackbarProvider>
     </>
   );
 };
