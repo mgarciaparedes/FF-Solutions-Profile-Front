@@ -16,12 +16,14 @@ import {
   Grid,
   Typography,
   Snackbar,
+  IconButton
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import history from "../../../components/History";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import DeleteIcon from "@mui/icons-material/Delete"
 import { useSnackbar } from "notistack";
 // import { Components } from "antd/lib/date-picker/generatePicker";
 
@@ -68,15 +70,25 @@ export const Login = () => {
   //Variable que guarda la opción Cerrar de los Snackbars
   const action = (key) => (
     <>
-      <Button
+      <IconButton
         variant="outlined"
-        color="error"
+        sx={{
+          color: "white",
+          // border: "1px solid white",
+          // p: 0,
+          // width: 5,
+          // "&:hover": {
+          //   border: "1px solid white",
+          //   background: "white",
+          //   color: "red",
+          // },
+        }}
         onClick={() => {
           closeSnackbar(key);
         }}
       >
-        Close
-      </Button>
+        <DeleteIcon />
+      </IconButton>
     </>
   );
 
@@ -125,7 +137,7 @@ export const Login = () => {
         enqueueSnackbar("Login succesfull", {
           variant: "success",
           autoHideDuration: 2000,
-          // action,
+          action,
         });
 
         //Capturamos el token y lo dejamos en la cabecera
@@ -142,7 +154,7 @@ export const Login = () => {
           enqueueSnackbar("An error ocurred. Please try again!", {
             variant: "error",
             autoHideDuration: 3000,
-            // action,
+            action,
           });
           return 1;
         }
@@ -155,7 +167,7 @@ export const Login = () => {
           enqueueSnackbar("An error ocurred. Please try again!", {
             variant: "error",
             autoHideDuration: 3000,
-            // action,
+            action,
           });
           return "orlando";
         }
@@ -165,7 +177,7 @@ export const Login = () => {
           enqueueSnackbar(msg, {
             variant: "error",
             autoHideDuration: 3000,
-            // action,
+            action,
           });
           return 1;
         }
