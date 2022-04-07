@@ -1,5 +1,4 @@
-// import React, { useState, useContext } from "react";
-// import * as React from 'react';
+import React, { useState, useContext } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -8,10 +7,8 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import { styled } from "@mui/material/styles";
-import React from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button, Alert } from "@mui/material";
-// import autoBind from "react-autobind";
 import ButtonBase from "@mui/material/ButtonBase";
 import { Card, CardContent, CardMedia, Typography, Grid } from "@mui/material";
 import Navbar from "../../../components/Navbar";
@@ -20,14 +17,7 @@ import Sidebar from "../../../components/Sidebar";
 import banner from '../../../assets/images/banner.png'
 import banner2 from '../../../assets/images/banner2.jpg'
 import banner3 from '../../../assets/images/banner3.jpg'
-
-// import { Alert, Carousel } from "react-bootstrap";
-// import { SideNavigation } from "../../../components/SideNavigation";
-// import { AppContext } from "../../../components/AppContext";
-// import logoImage from "../../../assets/images/logo-white.png";
-// import banner from "../../../assets/images/Banner.jpg";
-// import banner2 from "../../../assets/images/Banner2.png";
-// import * as Icon from "react-bootstrap-icons";
+import { AppContext } from "../../../components/AppContext";
 
 const images = [
   {
@@ -112,7 +102,7 @@ const ImageMarked = styled("span")(({ theme }) => ({
 }));
 
 export const Dashboard = () => {
-  //   const { objLogin } = useContext(AppContext);
+    const { objLogin } = useContext(AppContext);
   //   const [show, setShow] = useState(true);
   //   const [index, setIndex] = useState(0);
 
@@ -131,6 +121,7 @@ export const Dashboard = () => {
   return (
     <>
       <Navbar />
+
       <Box
         marginTop={7}
         sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
@@ -165,9 +156,9 @@ export const Dashboard = () => {
         ))}
       </Box>
 
-      <Grid container spacing={2}>
+       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Alert severity="error">This is an error alert — check it out!</Alert>
+          <Alert severity="error">{objLogin.user}</Alert>
           <Alert severity="warning">
             This is a warning alert — check it out!
           </Alert>
@@ -178,7 +169,7 @@ export const Dashboard = () => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2}>
+      {/* <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h6" component="h1">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -201,7 +192,7 @@ export const Dashboard = () => {
             culpa qui officia deserunt mollit anim id est laborum.
           </Typography>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       {/* Carousel basico. */}
       {/* <Grid container justifyContent='center'>

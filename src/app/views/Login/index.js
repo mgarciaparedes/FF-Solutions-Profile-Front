@@ -16,16 +16,16 @@ import {
   Grid,
   Typography,
   Snackbar,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import history from "../../../components/History";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import DeleteIcon from "@mui/icons-material/Delete"
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useSnackbar } from "notistack";
-// import { Components } from "antd/lib/date-picker/generatePicker";
+import { AppContext } from "../../../components/AppContext";
 
 //Constante con el formato de validación para cada campo-----------------------------------------------------
 const validationSchema = yup.object({
@@ -64,6 +64,7 @@ const theme = createTheme();
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const Login = () => {
   //Valores iniciales
+  const { loginContext } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -126,24 +127,63 @@ export const Login = () => {
     axios
       .post(`/auth/login/`, payload)
       .then((res) => {
-        //Si llegó acá quiere decir que la respuesta es correcta
-        //Se inicia sesión
-        //Lo primero es detener el progress bar
-        setLoading(false);
-
         //Se desestructura la respuesta del servicio
         const { ok, msg, token, name, userid } = res.data;
-
-        enqueueSnackbar("Login succesfull", {
-          variant: "success",
-          autoHideDuration: 2000,
-          action,
-        });
 
         //Capturamos el token y lo dejamos en la cabecera
         axios.defaults.headers.common["x-token"] = res.data.token;
 
-        history.push("/dashboard");
+        if (ok && msg === "login") {
+          axios.get(`/users/getProfileUserData`).then((res2) => {
+            const {
+              ok,
+              msg,
+              serialNumber,
+              username,
+              email,
+              data,
+              gallery,
+              customImage,
+            } = res2.data;
+
+            //Detener el progress bar
+            setLoading(false);
+
+            //Objeto json que guarda variables de sesión en el AppContext
+            const json = {
+              authenticated: true,
+              user: name,
+              token: token,
+              email: email,
+              serialNumber: serialNumber,
+              username: username,
+              profileData: data,
+              galleryImages:
+                gallery && gallery.galleryImages
+                  ? gallery.galleryImages
+                  : null,
+              galleryActive:
+                gallery && gallery.galleryActive
+                  ? gallery.galleryActive
+                  : null,
+              customImage: customImage ? customImage : null,
+              sendNotifications: data ? data.sendNotifications : false,
+              isLinked: data ? data.isLinked : false,
+              usernameLinked: data ? data.usernameLinked : "",
+            };
+            loginContext(json);
+
+            //Mensaje de login exitoso
+            enqueueSnackbar("Login succesfull", {
+              variant: "success",
+              autoHideDuration: 2000,
+              action,
+            });
+
+            //Redireccionamiento a vista dashboard
+            history.push("/dashboard");
+          });
+        }
       })
       .catch((e) => {
         //catch es la respuesta de error en la promesa
