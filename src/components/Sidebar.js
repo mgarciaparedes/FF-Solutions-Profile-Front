@@ -17,10 +17,17 @@ import {
   Zoom,
   Fab
 } from "@mui/material";
+
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import SettingsApplicationsSharpIcon from '@mui/icons-material/SettingsApplicationsSharp';
+import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
+import LockResetRoundedIcon from '@mui/icons-material/LockResetRounded';
+
 import { AppContext } from "./AppContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
@@ -69,26 +76,28 @@ const Sidebar = () => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+        {["Home", "Set Up Profile"].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
+            <ListItemIcon>              
+              {index % 2 === 0 ? <HomeRoundedIcon /> : <SettingsApplicationsSharpIcon />}
+            </ListItemIcon>            
             <ListItemText primary={text} />
           </ListItem>
         ))}
       </List>
+
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
+        {["Advanced tool", "Change Password"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {index % 2 === 0 ? <ConstructionRoundedIcon /> : <LockResetRoundedIcon />}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
       </List>
+      
       <Divider />
       <List>
         <ListItem button onClick={() => handleOpen()}>

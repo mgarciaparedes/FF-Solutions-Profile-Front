@@ -127,7 +127,7 @@ export const Login = () => {
     axios
       .post(`/auth/login/`, payload)
       .then((res) => {
-        //Se desestructura la respuesta del servicio
+        //Se desestructura la respuesta del servicio        
         const { ok, msg, token, name, userid } = res.data;
 
         //Capturamos el token y lo dejamos en la cabecera

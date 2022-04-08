@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,6 +8,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import LinearProgress from '@mui/material/LinearProgress';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -15,48 +17,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import history from '../../../components/History';
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from 'axios';
+import { useSnackbar } from "notistack";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-// import React, { useState } from "react";
-// import { Form, InputGroup, Button, Alert } from "react-bootstrap";
-// import { Formik } from "formik";
-// import * as Yup from "yup";
-// import Swal from "sweetalert2";
-// import history from "../../../components/History";
-// import LogoWhite from "../../../assets/images/logo-white.png";
-// import * as Icon from "react-bootstrap-icons";
-// import axios from "axios";
-// import helpers from "../../../components/Helpers";
 
-// const { swalOffBackend } = helpers;
-
-// const schema = Yup.object({
-//   fullName: Yup.string().required("Fullname is required."),
-//   userName: Yup.string()
-//     .required("Username is required.")
-//     .min(8, "Username must have at least 8 digits.")
-//     .max(35, "Username must have a maximum of 35 digits.")
-//     .matches(/^\S*$/, "Username can't have spaces.")
-//     .matches(/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/g,"Username can't have special symbols"),
-//   email: Yup.string()
-//     .required("Email is required.")
-//     .email("Invalid email format."),
-//   serialNumber: Yup.string()
-//     .required("Serial Number is required."),
-//     //.matches(/^[1-9]+[0-9]*$/, "Only numbers."),
-//   password: Yup.string()
-//     .required("Password is required.")
-//     .min(8, "PAssword must have at least 8 digits.")
-//     .matches(/^\S*$/, "Password can't have spaces."),
-//   passwordConfirm: Yup.string()
-//     .required("Confirm password is required.")
-//     .when("password", {
-//       is: (val) => (val && val.length > 0 ? true : false),
-//       then: Yup.string().oneOf(
-//         [Yup.ref("password")],
-//         "Both password need to be the same"
-//       ),
-//     }),
-// });
 
 // export const CreateProfile = () => {
 //   const [disabledButton, setDisabledButton] = useState(false);
@@ -116,233 +81,6 @@ import * as yup from "yup";
 //       });
 //   };
 
-  // return (
-  //   <>
-      {/* <div className="container-login">
-        <div className="d-flex justify-content-center">
-          <div className="card-sign-up">
-            <div className="card-header">
-              <h3 className="text-center">Create your profile</h3>
-            </div>
-            <div className="card-body">
-              <Formik
-                validationSchema={schema}
-                // onSubmit={(values, { resetForm }) => {
-                //   onSubmit(values);
-                //   resetForm({ values: null });
-                // }}
-                onSubmit={onSubmit}
-                initialValues={{
-                  fullName: "",
-                  userName: "",
-                  email: "",
-                  serialNumber: "",
-                  password: "",
-                  passwordConfirm: "",
-                }}
-              >
-                {({
-                  handleSubmit,
-                  handleChange,
-                  handleBlur,
-                  setFieldValue,
-                  values,
-                  touched,
-                  isValid,
-                  errors,
-                }) => (
-                  <Form
-                    onSubmit={handleSubmit}
-                    noValidate
-                    autoComplete="off"
-                    name="addServiceData"
-                    id="addServiceData"
-                  >
-                    <InputGroup className="mb-2">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text>
-                          <Icon.PersonFill />
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <Form.Control
-                        type="text"
-                        placeholder="Type here your full name"
-                        name="fullName"
-                        value={values.fullName}
-                        onChange={handleChange}
-                        isValid={!!touched.fullName && !errors.fullName}
-                        isInvalid={!!errors.fullName && !!touched.fullName}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.fullName}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-
-                    <InputGroup className="mb-2">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text>
-                          profile.stdicompany.com/
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <Form.Control
-                        type="text"
-                        placeholder="username"
-                        name="userName"
-                        value={values.userName}
-                        onChange={handleChange}
-                        isValid={!!touched.userName && !errors.userName}
-                        isInvalid={!!errors.userName && !!touched.userName}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.userName}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-
-                    <InputGroup className="mb-2">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text>
-                          <Icon.At />
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <Form.Control
-                        type="text"
-                        placeholder="Example: johndoe@example.com"
-                        name="email"
-                        value={values.email}
-                        onChange={handleChange}
-                        isValid={!!touched.email && !errors.email}
-                        isInvalid={!!errors.email && !!touched.email}
-                        className="lowercase"
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.email}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-
-                    <InputGroup className="mb-2">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text>
-                          <Icon.Upc />
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <Form.Control
-                        type="text"
-                        placeholder="Type the serial number"
-                        name="serialNumber"
-                        value={values.serialNumber}
-                        onChange={handleChange}
-                        isValid={!!touched.serialNumber && !errors.serialNumber}
-                        isInvalid={
-                          !!errors.serialNumber && !!touched.serialNumber
-                        }
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.serialNumber}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-
-                    <InputGroup className="mb-2">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text>
-                          <Icon.KeyFill />
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <Form.Control
-                        type="password"
-                        placeholder="Enter your password"
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        isValid={!!touched.password && !errors.password}
-                        isInvalid={!!errors.password && !!touched.password}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.password}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-
-                    <InputGroup className="mb-2">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text>
-                          <Icon.KeyFill />
-                        </InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <Form.Control
-                        type="password"
-                        placeholder="Confirm your password"
-                        name="passwordConfirm"
-                        value={values.passwordConfirm}
-                        onChange={handleChange}
-                        isValid={
-                          !!touched.passwordConfirm && !errors.passwordConfirm
-                        }
-                        isInvalid={
-                          !!errors.passwordConfirm && !!touched.passwordConfirm
-                        }
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.passwordConfirm}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-
-                    <InputGroup className="mb-2">
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        disabled={disabledButton === true}
-                        block
-                      >
-                        <div className="d-flex d-inline-block justify-content-center">
-                          <span
-                            className="spinner-border spinner-border-sm mt-1 mr-2"
-                            role="status"
-                            style={{
-                              display:
-                                disabledButton === true
-                                  ? "inline-block"
-                                  : "none",
-                            }}
-                            aria-hidden="true"
-                          ></span>
-                          {disabledButton === true
-                            ? " Loading, please wait..."
-                            : "Create Account"}
-                        </div>
-                      </Button>
-                    </InputGroup>
-
-                    <Alert variant="info">
-                      <Icon.ExclamationTriangleFill /> By registering you agree
-                      to our <a href="/">privacy policy and terms of service</a>
-                      .
-                    </Alert>
-                  </Form>
-                )}
-              </Formik>
-            </div>
-            <div className="card-footer">
-              <div className="d-flex justify-content-center text-white">
-                Already have an account? &nbsp;
-                <a href="/login">Click here</a>
-                &nbsp; to login.
-              </div>
-              <div className="d-flex justify-content-center text-white">
-                Don't have an account? &nbsp;
-                <a href="/create-profile"> Sign Up</a>
-              </div>
-              {/* <div className="d-flex justify-content-center">
-                <a href="/">Privacy Policy and Terms of Service</a>
-              </div> */}
-            {/*</div>
-          </div>
-        </div>
-      </div> */}
-      {/* <div>Estamos en Create Profile</div>
-    </>
-  );
-}; */}
-
-
 
 //Constante con el formato de validación para cada campo-------------------------------------------
 
@@ -384,6 +122,34 @@ const theme = createTheme();
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const CreateProfile = ()=>{
 
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
+
+  const action = (key) => (
+    <>
+      <IconButton
+        variant="outlined"
+        sx={{
+          color: "white",
+          // border: "1px solid white",
+          // p: 0,
+          // width: 5,
+          // "&:hover": {
+          //   border: "1px solid white",
+          //   background: "white",
+          //   color: "red",
+          // },
+        }}
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+    </>
+  );
+  
+
 //Configurar los valores a evaluar por el formulario-----------------------------------------------------------
 
   const formik = useFormik({
@@ -399,13 +165,69 @@ export const CreateProfile = ()=>{
     onSubmit: (values) => {
       //Si llega acá es porque pasó todas las validaciones, le enviamos los values
       //de cada campo en el formulario, se obtienen con el nombre de cada campo.      
-      signUp(values); 
+      createProfile(values); 
     },
   });
 
   // Funcion que envia objeto de valores al console.---------------------------------------------------
-  const signUp = (values) => {
-    console.log(values);    
+  const createProfile = (values) => {
+    
+    setLoading(true);
+
+    const { fullName, userName, email, serialNumber, password } = values;
+
+    const payload = {
+          name: fullName,
+          username: userName,
+          email: email,
+          serialNumber: serialNumber,
+          password: password
+    }
+
+    axios
+        .post(`/users/saveNewUser`, payload)
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+        })
+        .catch((e) => {          
+          //catch es la respuesta de error en la promesa
+          /*Sí los servicios están OFF, retornamos este mensaje*/
+          if (e.response === undefined) {
+            //Si hay error se detiene el progress bar
+            setLoading(false);
+            enqueueSnackbar("An error ocurred. Please try again!", {
+              variant: "error",
+              autoHideDuration: 3000,
+              action,
+            });
+            return 1;
+          }
+  
+          /*Si ocurre algo en el request, retoramos esto*/
+          const { msg, ok } = e.response.data;
+  
+          if (msg === undefined || msg === null || msg === "") {
+            setLoading(false);
+            enqueueSnackbar("An error ocurred. Please try again!", {
+              variant: "error",
+              autoHideDuration: 3000,
+              action,
+            });
+            return 1;
+          }
+  
+          if (!ok) {
+            setLoading(false);
+            enqueueSnackbar(msg, {
+              variant: "error",
+              autoHideDuration: 3000,
+              action,
+            });
+            return 1;
+          }
+        });
+    
   }; 
    
 
@@ -541,6 +363,7 @@ export const CreateProfile = ()=>{
                   </Grid>
                 </Grid>
             {/* Boton de registrarse */}
+            {loading ? <LinearProgress /> : <></>}
                 <Button
                   type="submit"
                   fullWidth
