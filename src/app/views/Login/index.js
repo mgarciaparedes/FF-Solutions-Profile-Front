@@ -26,9 +26,9 @@ import * as yup from "yup";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSnackbar } from "notistack";
 import { AppContext } from "../../../components/AppContext";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from "@mui/material/InputAdornment";
 
 //Constante con el formato de validación para cada campo-----------------------------------------------------
 const validationSchema = yup.object({
@@ -66,7 +66,6 @@ const theme = createTheme();
 
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const Login = () => {
-
   // useState para mostrar y ocultar contraseña
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -136,7 +135,7 @@ export const Login = () => {
     axios
       .post(`/auth/login/`, payload)
       .then((res) => {
-        //Se desestructura la respuesta del servicio        
+        //Se desestructura la respuesta del servicio
         const { ok, msg, token, name, userid } = res.data;
 
         //Capturamos el token y lo dejamos en la cabecera
@@ -168,13 +167,9 @@ export const Login = () => {
               username: username,
               profileData: data,
               galleryImages:
-                gallery && gallery.galleryImages
-                  ? gallery.galleryImages
-                  : null,
+                gallery && gallery.galleryImages ? gallery.galleryImages : null,
               galleryActive:
-                gallery && gallery.galleryActive
-                  ? gallery.galleryActive
-                  : null,
+                gallery && gallery.galleryActive ? gallery.galleryActive : null,
               customImage: customImage ? customImage : null,
               sendNotifications: data ? data.sendNotifications : false,
               isLinked: data ? data.isLinked : false,
@@ -312,21 +307,22 @@ export const Login = () => {
                   margin="normal"
                   fullWidth
                   name="password"
-                  label="Password"                  
+                  label="Password"
                   type={showPassword ? "text" : "password"}
-                      InputProps={{ // <-- This is where the toggle button is added.
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                            >
-                              {showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
+                  InputProps={{
+                    // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   id="password"
                   autoComplete="current-password"
                   value={formik.values.password}
@@ -343,7 +339,7 @@ export const Login = () => {
               /> */}
 
                 {/*Loading progress bar */}
-                {loading ? <LinearProgress /> : <></>}
+                {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
                 {/* <Backdrop
                   sx={{
                     color: "#fff",
