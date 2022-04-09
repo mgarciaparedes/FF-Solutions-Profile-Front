@@ -26,6 +26,9 @@ import * as yup from "yup";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSnackbar } from "notistack";
 import { AppContext } from "../../../components/AppContext";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
 
 //Constante con el formato de validación para cada campo-----------------------------------------------------
 const validationSchema = yup.object({
@@ -63,7 +66,13 @@ const theme = createTheme();
 
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const Login = () => {
-  //Valores iniciales
+
+  // useState para mostrar y ocultar contraseña
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  // Valores iniciales
   const { loginContext } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -209,7 +218,7 @@ export const Login = () => {
             autoHideDuration: 3000,
             action,
           });
-          return "orlando";
+          return 1;
         }
 
         if (!ok) {
@@ -303,8 +312,21 @@ export const Login = () => {
                   margin="normal"
                   fullWidth
                   name="password"
-                  label="Password"
-                  type="password"
+                  label="Password"                  
+                  type={showPassword ? "text" : "password"}
+                      InputProps={{ // <-- This is where the toggle button is added.
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
                   id="password"
                   autoComplete="current-password"
                   value={formik.values.password}

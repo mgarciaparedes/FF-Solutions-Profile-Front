@@ -20,7 +20,9 @@ import * as yup from "yup";
 import axios from 'axios';
 import { useSnackbar } from "notistack";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
 
 
 // export const CreateProfile = () => {
@@ -121,6 +123,16 @@ const theme = createTheme();
 
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const CreateProfile = ()=>{
+  
+  // useState para mostrar y ocultar contraseña
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+  
+  // useState para mostrar y ocultar confirmar contraseña
+  const [showCoPassword, setShowCoPassword] = useState(false);
+  const handleClickShowCoPassword = () => setShowCoPassword(!showCoPassword);
+  const handleMouseDownCoPassword = () => setShowCoPassword(!showCoPassword);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -265,12 +277,10 @@ export const CreateProfile = ()=>{
                   <Grid item xs={12} sm={12}>
                     <TextField
                       autoComplete="off"
-                      name="fullName"
-                      // required
+                      name="fullName"                      
                       fullWidth
                       id="fullName"
-                      label="Full Name"
-                      // autoFocus
+                      label="Full Name"                      
                       value={formik.values.fullName}
                       onChange={formik.handleChange}
                       error={formik.touched.fullName && Boolean(formik.errors.fullName)}
@@ -280,8 +290,7 @@ export const CreateProfile = ()=>{
                   
             {/*Campo userName*/}
                   <Grid item xs={12} sm={12}>
-                    <TextField
-                      // required
+                    <TextField                      
                       fullWidth
                       id="userName"
                       label="profile.stdicompany.com/username"
@@ -296,8 +305,7 @@ export const CreateProfile = ()=>{
 
             {/*Campo email*/}
                   <Grid item xs={12}>
-                    <TextField
-                      // required
+                    <TextField                      
                       fullWidth
                       id="email"
                       label="Email Address"
@@ -329,24 +337,52 @@ export const CreateProfile = ()=>{
                     <TextField                      
                       fullWidth
                       name="password"
-                      label="Password"
-                      type="password"
+                      label="Password"                      
                       id="password"
+                      type={showPassword ? "text" : "password"}
+                      InputProps={{ // <-- This is where the toggle button is added.
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}  
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       error={formik.touched.password && Boolean(formik.errors.password)}
                       helperText={formik.touched.password && formik.errors.password}                      
-                    />
+                    /> 
                   </Grid>
 
             {/* Campo de confirm password*/}
+            
                   <Grid item xs={6}>
                     <TextField                      
                       fullWidth
                       name="confirmPassword"
                       label="Confirm Password"
-                      type="password"
                       id="confirmPassword"
+                      sx={{ fontSize: '50' }}
+                      type={showCoPassword ? "text" : "password"}
+                      InputProps={{ // <-- This is where the toggle button is added.
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowCoPassword}
+                              onMouseDown={handleMouseDownCoPassword}
+                            >
+                              {showCoPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
                       value={formik.values.confirmPassword}
                       onChange={formik.handleChange}
                       error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
