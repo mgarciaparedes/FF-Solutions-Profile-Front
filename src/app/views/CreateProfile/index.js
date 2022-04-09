@@ -43,7 +43,7 @@ const validationSchema = yup.object({
     .string()
     .required("Password is required")
     .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.-])[A-Za-z\d@$!%*#?&.-]{8,}$/,
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
     ),
   confirmPassword: yup
@@ -364,6 +364,7 @@ export const CreateProfile = () => {
               type="submit"
               fullWidth
               variant="contained"
+              disabled={loading}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
