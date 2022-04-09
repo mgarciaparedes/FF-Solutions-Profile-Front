@@ -85,7 +85,7 @@ const Sidebar = () => {
           sx={{ width: 66, height: 66 }}          
         />        
       </Stack>      
-      <Typography textAlign='center' marginBottom={1}>{objLogin.user}</Typography>
+      <Typography variant="h6" textAlign='center' marginBottom={1}>{objLogin.user}</Typography>
 
       <Divider />
 
