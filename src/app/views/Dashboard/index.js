@@ -14,35 +14,35 @@ import { Card, CardContent, CardMedia, Typography, Grid } from "@mui/material";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import Sidebar from "../../../components/Sidebar";
-import banner from '../../../assets/images/banner.png'
-import banner2 from '../../../assets/images/banner2.jpg'
-import banner3 from '../../../assets/images/banner3.jpg'
+import banner from "../../../assets/images/banner.png";
+import banner2 from "../../../assets/images/banner2.jpg";
+import banner3 from "../../../assets/images/banner3.jpg";
 import { AppContext } from "../../../components/AppContext";
 
 const images = [
   {
     url: banner3,
-    title: 'Breakfast',
-    width: '40%',
+    title: "Breakfast",
+    width: "33%",
   },
   {
     url: banner,
-    title: 'Stay tunned',
-    width: '30%',
+    title: "Stay tunned",
+    width: "34%",
   },
   {
     url: banner2,
-    title: 'Set up your Profile',
-    width: '30%',
+    title: "Set up your Profile",
+    width: "33%",
   },
 ];
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
-  height: 200,
+  height: 450,
   [theme.breakpoints.down("sm")]: {
     width: "100% !important", // Overrides inline-style
-    height: 100,
+    height: 200,
   },
   "&:hover, &.Mui-focusVisible": {
     zIndex: 1,
@@ -102,22 +102,19 @@ const ImageMarked = styled("span")(({ theme }) => ({
 }));
 
 export const Dashboard = () => {
-    const { objLogin } = useContext(AppContext);
+  const { objLogin } = useContext(AppContext);
   //   const [show, setShow] = useState(true);
   //   const [index, setIndex] = useState(0);
 
   //   const handleSelect = (selectedIndex, e) => {
   //     setIndex(selectedIndex);
   //   };
-  
+
   return (
     <>
       <Navbar />
 
-      <Box
-        marginTop={7}
-        sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
-      >
+      <Box marginTop={7} sx={{ width: "100%" }}>
         {images.map((image) => (
           <ImageButton
             focusRipple
@@ -146,9 +143,9 @@ export const Dashboard = () => {
             </Image>
           </ImageButton>
         ))}
-      </Box>  
+      </Box>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };
