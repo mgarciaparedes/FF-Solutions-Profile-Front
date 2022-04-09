@@ -109,15 +109,7 @@ export const Dashboard = () => {
   //   const handleSelect = (selectedIndex, e) => {
   //     setIndex(selectedIndex);
   //   };
-
-  // CAROUSEL BASICO
-  // const contentStyle = {
-  //   height: '400px',
-  //   color: '#fff',
-  //   lineHeight: '160px',
-  //   textAlign: 'center',
-  //   background: '#364d79',
-  // };
+  
   return (
     <>
       <Navbar />

@@ -17,21 +17,23 @@ import {
   Zoom,
   Fab
 } from "@mui/material";
-
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+// Importaciones de iconos
 import MenuIcon from "@mui/icons-material/Menu";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SettingsApplicationsSharpIcon from '@mui/icons-material/SettingsApplicationsSharp';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import LockResetRoundedIcon from '@mui/icons-material/LockResetRounded';
+import PrivacyTipSharpIcon from '@mui/icons-material/PrivacyTipSharp';
 
 import { AppContext } from "./AppContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import img_avatar from '../assets/images/avatar.jpg'
 
-const Sidebar = () => {
+const Sidebar = () => {    
+
   const [state, setState] = useState({
     // top: false,
     left: false,
@@ -75,33 +77,38 @@ const Sidebar = () => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
+
+      <Stack direction="row" spacing={2} marginY={2} justifyContent='center'>        
+        <Avatar
+          alt="Remy Sharp"
+          src={img_avatar}
+          sx={{ width: 66, height: 66 }}          
+        />        
+      </Stack>      
+      <Typography textAlign='center' marginBottom={1}>{objLogin.user}</Typography>
+
+      <Divider />
+
+      {/* Iconos en el sidebar */}
       <List>
-        {["Home", "Set Up Profile"].map((text, index) => (
+        {['Home', 'Set Up Profile', 'Advanced tool', 'Change Password', 'Help'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>              
-              {index % 2 === 0 ? <HomeRoundedIcon /> : <SettingsApplicationsSharpIcon />}
+              {index === 0 && <HomeRoundedIcon />}
+              {index === 1 && <SettingsApplicationsSharpIcon />}
+              {index === 2 && <ConstructionRoundedIcon />}
+              {index === 3 && <LockResetRoundedIcon />}
+              {index === 4 && <PrivacyTipSharpIcon />}              
             </ListItemIcon>            
             <ListItemText primary={text} />
           </ListItem>
         ))}
-      </List>
-
-      <Divider />
-      <List>
-        {["Advanced tool", "Change Password"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <ConstructionRoundedIcon /> : <LockResetRoundedIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      </List>  
       
       <Divider />
       <List>
         <ListItem button onClick={() => handleOpen()}>
-          <ListItemIcon>
+          <ListItemIcon>            
             <PowerSettingsNewIcon />
           </ListItemIcon>
           <ListItemText primary={"Sign off"} />
