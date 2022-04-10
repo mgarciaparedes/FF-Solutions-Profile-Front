@@ -12,6 +12,7 @@ import { Login } from "./views/Login/index";
 import { CreateProfile } from "./views/CreateProfile/index";
 import { Error404 } from "./views/Error404";
 import { Dashboard } from "./views/Dashboard/index";
+import { ForgotPassword } from "./views/ForgotPassword";
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
 // import { EditProfile } from "./views/EditProfile/index";
@@ -32,13 +33,24 @@ const RouteApp = () => {
       >
         <AppProvider>
           <Switch>
-            <Route exact path="/login" component={() => <Login />} />
+            <Route exact 
+            path="/login" 
+            component={() => <Login />} />
+
             <Route
               exact
               path="/create-profile"
               component={() => <CreateProfile />}
             />
-            <Route exact path="/dashboard" component={() => <Dashboard />} />
+            <Route 
+            exact 
+            path="/dashboard" 
+            component={() => <Dashboard />} />            
+            <Route 
+            exact 
+            path='/forgot-password' 
+            component={ () => <ForgotPassword /> }/>
+            
             {/*<Route exact path="/edit-profile" component={() => <EditProfile />} />
           <Route
             exact

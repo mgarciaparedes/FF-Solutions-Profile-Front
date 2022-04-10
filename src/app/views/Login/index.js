@@ -364,7 +364,11 @@ export const Login = () => {
                 {/* Grilla nueva en donde se muestran opciones de crear profile y cambio de contraseña */}
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link 
+                    variant="body2"
+                    onClick={ ()=>{ history.push('/forgot-password') } }
+                    sx={{ cursor: "pointer" }}
+                    >
                       Forgot password?
                     </Link>
                   </Grid>
