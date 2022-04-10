@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   Box,
   Grid,
@@ -7,6 +7,7 @@ import {
   Modal,
   Drawer,
   List,
+  LinearProgress,
   Divider,
   ListItem,
   ListItemIcon,
@@ -15,37 +16,47 @@ import {
   Backdrop,
   Fade,
   Zoom,
-  Fab
+  Fab,
 } from "@mui/material";
 // Importaciones de iconos
 import MenuIcon from "@mui/icons-material/Menu";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import SettingsApplicationsSharpIcon from '@mui/icons-material/SettingsApplicationsSharp';
-import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
-import LockResetRoundedIcon from '@mui/icons-material/LockResetRounded';
-import PrivacyTipSharpIcon from '@mui/icons-material/PrivacyTipSharp';
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import SettingsApplicationsSharpIcon from "@mui/icons-material/SettingsApplicationsSharp";
+import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
+import LockResetRoundedIcon from "@mui/icons-material/LockResetRounded";
+import PrivacyTipSharpIcon from "@mui/icons-material/PrivacyTipSharp";
+import HandshakeIcon from "@mui/icons-material/HandshakeTwoTone";
 
 import { AppContext } from "./AppContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import img_avatar from '../assets/images/avatar.jpg'
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import img_avatar from "../assets/images/avatar.jpg";
 
-const Sidebar = () => {    
-
+const Sidebar = () => {
   const [state, setState] = useState({
-    // top: false,
     left: false,
-    // bottom: false,
-    // right: false,
   });
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [openProgressBar, setOpenProgressBar] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const style = {
+  //Función que abre último modal que muestra progress bar y mensae de cerrando sesión
+  const handleOpenProgressBar = () => {
+    setOpenProgressBar(true);
+    setTimeout(() => {
+      logoutContext();
+      handleCloseProgressBar();
+    }, 2000);
+  };
+
+  const handleCloseProgressBar = () => setOpenProgressBar(false);
+
+  //Estilo modal ventana de confirmación
+  const styleModal = {
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -53,6 +64,19 @@ const Sidebar = () => {
     width: 300,
     bgcolor: "background.paper",
     borderRadius: "2px",
+    boxShadow: 24,
+    p: 3,
+  };
+
+  //Estilo modal cierre de sesión
+  const styleModalProgressBar = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100%",
+    height: "100%",
+    bgcolor: "background.paper",
     boxShadow: 24,
     p: 3,
   };
@@ -77,8 +101,7 @@ const Sidebar = () => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-
-      <Stack direction="row" spacing={2} marginY={2} justifyContent='center'>        
+      <Stack direction="row" spacing={2} marginY={2} justifyContent="center">
         <Avatar
           alt="Remy Sharp"
           src={
@@ -88,33 +111,41 @@ const Sidebar = () => {
               ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
               : img_avatar
           }
-          sx={{ width: 66, height: 66 }}          
-        />        
-      </Stack>      
-      <Typography variant="h6" textAlign='center' marginBottom={1}>{objLogin.user}</Typography>
+          sx={{ width: 66, height: 66 }}
+        />
+      </Stack>
+      <Typography variant="h6" textAlign="center" marginBottom={1}>
+        {objLogin.user}
+      </Typography>
 
       <Divider />
 
       {/* Iconos en el sidebar */}
       <List>
-        {['Home', 'Set Up Profile', 'Advanced tool', 'Change Password', 'Help'].map((text, index) => (
+        {[
+          "Home",
+          "Set Up Profile",
+          "Advanced tool",
+          "Change Password",
+          "Help",
+        ].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>              
+            <ListItemIcon>
               {index === 0 && <HomeRoundedIcon />}
               {index === 1 && <SettingsApplicationsSharpIcon />}
               {index === 2 && <ConstructionRoundedIcon />}
               {index === 3 && <LockResetRoundedIcon />}
-              {index === 4 && <PrivacyTipSharpIcon />}              
-            </ListItemIcon>            
+              {index === 4 && <PrivacyTipSharpIcon />}
+            </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
-      </List>  
-      
+      </List>
+
       <Divider />
       <List>
         <ListItem button onClick={() => handleOpen()}>
-          <ListItemIcon>            
+          <ListItemIcon>
             <PowerSettingsNewIcon />
           </ListItemIcon>
           <ListItemText primary={"Sign off"} />
@@ -160,7 +191,7 @@ const Sidebar = () => {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box sx={styleModal}>
             <Typography sx={{ textAlign: "center" }}>
               <InfoOutlinedIcon color="info" sx={{ fontSize: 70 }} />
             </Typography>
@@ -189,7 +220,7 @@ const Sidebar = () => {
                     variant="contained"
                     onClick={() => {
                       handleClose();
-                      logoutContext();
+                      handleOpenProgressBar();
                     }}
                   >
                     Yes
@@ -207,6 +238,49 @@ const Sidebar = () => {
                 </Grid>
               </Grid>
             </Box>
+          </Box>
+        </Fade>
+      </Modal>
+
+      {/*Modal de Progress Bar cierre de sesión */}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openProgressBar}
+        onClose={handleCloseProgressBar}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openProgressBar}>
+          <Box sx={styleModalProgressBar}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                mt: 25
+              }}
+            >
+              <HandshakeIcon color="info" sx={{ fontSize: 70 }} />
+            </Typography>
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              component="h2"
+              sx={{ mt: 1, textAlign: "center" }}
+            >
+              See u next time
+            </Typography>
+            <LinearProgress sx={{ mt: 2 }} />
+            <Typography
+              variant="caption"
+              display="block"
+              sx={{ textAlign: "center" }}
+              gutterBottom
+            >
+              Signing off...
+            </Typography>
           </Box>
         </Fade>
       </Modal>
