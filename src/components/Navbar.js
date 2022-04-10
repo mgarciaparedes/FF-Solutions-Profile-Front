@@ -45,7 +45,7 @@ const Navbar = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+              sx={{ pl: 4, display: { xs: "none", md: "flex" } }}
             >
               LOGO
             </Typography>
@@ -54,7 +54,7 @@ const Navbar = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+              sx={{ pl: 4, flexGrow: 1, display: { xs: "flex", md: "none" } }}
             >
               LOGO
             </Typography>

@@ -81,7 +81,13 @@ const Sidebar = () => {
       <Stack direction="row" spacing={2} marginY={2} justifyContent='center'>        
         <Avatar
           alt="Remy Sharp"
-          src={img_avatar}
+          src={
+            objLogin.profileData &&
+            (objLogin.profileData.base64ProfilePhoto !== null ||
+              objLogin.profileData.base64ProfilePhoto === "")
+              ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
+              : img_avatar
+          }
           sx={{ width: 66, height: 66 }}          
         />        
       </Stack>      
