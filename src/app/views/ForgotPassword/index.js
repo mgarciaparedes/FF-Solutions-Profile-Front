@@ -13,7 +13,9 @@ import LockResetIcon from '@mui/icons-material/LockReset';
 import history from '../../../components/History.js'
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
+import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
+import { useSnackbar } from "notistack";
 
 // const { swalOffBackend } = helpers;
 
@@ -31,6 +33,8 @@ const schema = Yup.object({
 });
 
 export const ForgotPassword = () => {
+
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const formik = useFormik({
         initialValues: {
@@ -58,16 +62,39 @@ export const ForgotPassword = () => {
                 const { msg, ok } = resp.data;
 
                 if (ok && msg === 'Password was sent to your email, please follow the steps to login again.') {
-                    <Alert severity="success" color="info">
-                        Holaaaaa
-                    </Alert>
-                    alert('Holaaaa')
-                    history.push('/login')
                     
+                  enqueueSnackbar(msg, {
+                    variant: "success",
+                    autoHideDuration: 2500
+                  });
+                  setTimeout(() => {
+                    history.push('/login')
+                  }, 2500);   
                 }
 
                 
             })
+            .catch( (err) => {
+
+              const { ok, msg } = err.response.data
+
+              if (err.value === undefined) {
+                enqueueSnackbar(msg, {
+                  variant: "error",
+                  autoHideDuration: 2500
+                });
+              } else if (!ok){
+                enqueueSnackbar('Error, try again.', {
+                  variant: "error",
+                  autoHideDuration: 2500
+                });
+              }
+
+
+              // console.log(ok);
+              // console.log('Intenta de nuevo porque hubo error.');
+
+            } )
             
 
         
