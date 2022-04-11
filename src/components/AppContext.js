@@ -47,12 +47,9 @@ const AppProvider = ({ children }) => {
               usernameLinked: objStorage.usernameLinked,
             };
             setObjLogin(json);
-            //axios.defaults.headers.common["Authorization"] = objStorage.token;
             axios.defaults.headers.common["x-token"] = objStorage.token;
-            //history.push("/edit-profile");
+            history.push('/dashboard');
           } else {
-
-            //TODO: validar que si está iniciada la sesión deba redirigir hacia el dashboard
             history.push("/login");
           }
         }
