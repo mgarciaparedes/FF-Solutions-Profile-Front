@@ -33,6 +33,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import img_avatar from "../assets/images/avatar.jpg";
+import history from './History.js'
 
 const Sidebar = () => {
   const [state, setState] = useState({
@@ -132,7 +133,7 @@ const Sidebar = () => {
           <ListItem button key={text}>
             <ListItemIcon>
               {index === 0 && <HomeRoundedIcon />}
-              {index === 1 && <SettingsApplicationsSharpIcon />}
+              {index === 1 && <SettingsApplicationsSharpIcon onClick={ ()=>{ history.push('/edit-profile') } }/>}
               {index === 2 && <ConstructionRoundedIcon />}
               {index === 3 && <LockResetRoundedIcon />}
               {index === 4 && <PrivacyTipSharpIcon />}
