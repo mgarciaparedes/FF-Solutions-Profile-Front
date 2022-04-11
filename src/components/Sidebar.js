@@ -124,21 +124,21 @@ const Sidebar = () => {
       {/* Iconos en el sidebar */}
       <List>
         {[
-          "Home",
-          "Set Up Profile",
-          "Advanced tools",
-          "Change Password",
-          "Help",
+          {name: "Home", url: "/dashboard"},
+          {name: "Setup Profile", url: "/setup-profile"},
+          {name: "Advanced Tools", url: "/advanced-tools"},
+          {name: "Change Password", url: "/change-password"},
+          {name: "Help", url: "/help"}
         ].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={text} onClick={ ()=>{ history.push(text.url) } }>
             <ListItemIcon>
-              {index === 0 && <HomeRoundedIcon onClick={ ()=>{ history.push('/dashboard') } }/>}
-              {index === 1 && <SettingsApplicationsSharpIcon onClick={ ()=>{ history.push('/setup-profile') } }/>}
+              {index === 0 && <HomeRoundedIcon />}
+              {index === 1 && <SettingsApplicationsSharpIcon />}
               {index === 2 && <ConstructionRoundedIcon />}
               {index === 3 && <LockResetRoundedIcon />}
               {index === 4 && <PrivacyTipSharpIcon />}
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={text.name} />
           </ListItem>
         ))}
       </List>
