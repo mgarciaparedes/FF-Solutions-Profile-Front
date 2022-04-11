@@ -13,7 +13,7 @@ import { CreateProfile } from "./views/CreateProfile/index";
 import { Error404 } from "./views/Error404";
 import { Dashboard } from "./views/Dashboard/index";
 import { ForgotPassword } from "./views/ForgotPassword";
-import { EditProfile } from './views/EditProfile'
+import { SetupProfile } from "./views/SetupProfile";
 
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
@@ -28,15 +28,14 @@ const RouteApp = () => {
       <SnackbarProvider
         maxSnack={3}
         anchorOrigin={{
-          vertical: 'bottom',
+          vertical: "bottom",
           horizontal: "right",
         }}
       >
         <AppProvider>
           <Switch>
-            <Route exact 
-            path="/login" 
-            component={() => <Login />} />
+            {/* Inicio de componentes que no necesitan sesión para iniciar*/}
+            <Route exact path="/login" component={() => <Login />} />
 
             <Route
               exact
@@ -44,23 +43,23 @@ const RouteApp = () => {
               component={() => <CreateProfile />}
             />
 
-            <Route 
-              exact 
-              path="/dashboard" 
-              component={() => <Dashboard />} />
+            <Route
+              exact
+              path="/forgot-password"
+              component={() => <ForgotPassword />}
+            />
 
-            <Route 
-              exact 
-              path='/forgot-password' 
-              component={ () => <ForgotPassword /> }/>
-            
-            <Route 
-              exact 
-              path="/edit-profile" 
-              component={ ()=> { <EditProfile /> } } />
+            {/* Inicio de componentes que necesitan sesión para iniciar*/}
 
-          
-          {/* <Route exact path="/advanced-tools" component={() => <AdvancedTools />} /> */}
+            <Route exact path="/dashboard" component={() => <Dashboard />} />
+
+            <Route
+              exact
+              path="/setup-profile"
+              component={() => <SetupProfile />}
+            />
+
+            {/* <Route exact path="/advanced-tools" component={() => <AdvancedTools />} /> */}
             {/* <Route exact path="/help" component={() => <Help />} /> */}
 
             {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}

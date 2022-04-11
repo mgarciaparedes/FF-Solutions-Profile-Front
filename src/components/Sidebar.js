@@ -126,14 +126,14 @@ const Sidebar = () => {
         {[
           "Home",
           "Set Up Profile",
-          "Advanced tool",
+          "Advanced tools",
           "Change Password",
           "Help",
         ].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              {index === 0 && <HomeRoundedIcon />}
-              {index === 1 && <SettingsApplicationsSharpIcon onClick={ ()=>{ history.push('/edit-profile') } }/>}
+              {index === 0 && <HomeRoundedIcon onClick={ ()=>{ history.push('/dashboard') } }/>}
+              {index === 1 && <SettingsApplicationsSharpIcon onClick={ ()=>{ history.push('/setup-profile') } }/>}
               {index === 2 && <ConstructionRoundedIcon />}
               {index === 3 && <LockResetRoundedIcon />}
               {index === 4 && <PrivacyTipSharpIcon />}

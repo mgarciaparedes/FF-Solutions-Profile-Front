@@ -51,6 +51,8 @@ const AppProvider = ({ children }) => {
             axios.defaults.headers.common["x-token"] = objStorage.token;
             //history.push("/edit-profile");
           } else {
+
+            //TODO: validar que si está iniciada la sesión deba redirigir hacia el dashboard
             history.push("/login");
           }
         }
