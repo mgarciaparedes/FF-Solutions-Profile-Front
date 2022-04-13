@@ -9,6 +9,8 @@ import img_avatar from "../../../assets/images/avatar.jpg";
 
 
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -17,8 +19,15 @@ import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
+// Tema para input's
 const theme = createTheme();
+
+// Tema para icono de camara fotografica
+const Input = styled('input')({
+  display: 'none',
+});
 
 
 export const SetupProfile = () => {
@@ -76,22 +85,36 @@ export const SetupProfile = () => {
               autoComplete="fullname"
               autoFocus
             />
-            <Typography variant='overline'>Profile Photo</Typography>
             
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            {/* Input: Profile photo */}
+            <Typography variant='overline'>Profile Photo</Typography>
+            <Stack direction="row" alignItems="center" spacing={2}>      
+              <label htmlFor="icon-button-file">
+                <Input accept="image/*" id="icon-button-file" type="file" />
+                <IconButton color="primary" aria-label="upload picture" component="span">
+                  <Button>
+                    Choose file 
+                  <PhotoCamera marginLeft={1}/>
+                  </Button>
+                </IconButton>
+              </label>
+            </Stack>
+
+            {/* Input: Banner photo */}
+            <Typography variant='overline'>Banner Photo</Typography>
+            <Stack  spacing={2}>      
+              <label htmlFor="icon-button-file">
+                <Input accept="image/*" id="icon-button-file" type="file" />
+                <IconButton color="primary" aria-label="upload picture" component="span">
+                  <Button>
+                    Choose file 
+                  <PhotoCamera marginLeft={1}/>
+                  </Button>
+                </IconButton>
+              </label>
+            </Stack>
+
+            
             <Button
               type="submit"
               fullWidth
