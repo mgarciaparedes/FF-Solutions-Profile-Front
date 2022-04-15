@@ -63,11 +63,11 @@ export const SetupProfile = () => {
         <Container >
           <Grid container>
 
-            <Grid item xs={6} marginTop={15}>
+            <Grid item xs={12} marginTop={15}>
             {/* Inicio de formulario para editar información. */}
             <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
-          <CssBaseline />
+          {/* <CssBaseline />
           <Box
             sx={{
               marginTop: 0,
@@ -75,8 +75,8 @@ export const SetupProfile = () => {
               flexDirection: 'column',
               alignItems: 'center',
             }}
-          >          
-            <Box component="form"  noValidate sx={{ mt: 1 }}>
+          >           */}
+            {/* <Box component="form"  noValidate sx={{ mt: 1 }}> */}
               {/* Input: Profile Full Name */}
               <Typography variant='overline'>Profile Full Name</Typography>
               <TextField
@@ -88,40 +88,34 @@ export const SetupProfile = () => {
                 name="fullname"
                 autoComplete="fullname"
                 autoFocus
+                marginBottom={4}
               />
               
               {/* Input: Profile photo */}
-              <Typography variant='overline'>Profile Photo</Typography>
-              <Stack direction="row" alignItems="center" spacing={2}>      
-                <label htmlFor="icon-button-file">
-                  <Input accept="image/*" id="icon-button-file" type="file" />
-                  <IconButton color="primary" aria-label="upload picture" component="span">
-                    <Button>
-                      Choose file 
-                    <PhotoCamera marginLeft={1}/>
-                    </Button>
-                  </IconButton>
-                </label>
-              </Stack>
+              <Grid marginY={4}>
+                <Typography variant='overline' marginBottom={4}>Profile Photo</Typography>
+                <Stack direction="row" spacing={2} marginBottom={4}>                
+                  <Button variant="outlined" endIcon={<PhotoCamera />}>
+                    Send
+                  </Button>
+                </Stack>
+              </Grid>
 
               {/* Input: Banner photo */}
-              <Typography variant='overline'>Banner Photo</Typography>
-              <Stack  spacing={2}>      
-                <label htmlFor="icon-button-file">
-                  <Input accept="image/*" id="icon-button-file" type="file" />
-                  <IconButton color="primary" aria-label="upload picture" component="span">
-                    <Button>
-                      Choose file 
-                    <PhotoCamera marginLeft={1}/>
-                    </Button>
-                  </IconButton>
-                </label>
-              </Stack>
+              <Grid >
+                <Typography variant='overline' marginBottom={4}>Profile Photo</Typography>
+                <Stack direction="row" spacing={2} marginBottom={4}>                
+                  <Button variant="outlined" endIcon={<PhotoCamera />}>
+                    Send
+                  </Button>
+                </Stack>
+              </Grid>
 
               <Typography variant='overline'>Profile Bio</Typography><br />
               <TextField
                 id="standard-multiline-static"
                 label="Bio"
+                fullWidth
                 multiline
                 rows={4}              
                 variant="standard"
@@ -135,34 +129,39 @@ export const SetupProfile = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Save changes
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
+              <Button
+                type="submit"
+                fullWidth
+                color='warning'
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Clear Data
+              </Button>
+              
+            {/* </Box> */}
+          {/* </Box> */}
           
         </Container>
       </ThemeProvider>
-            </Grid>
+            </Grid>            
 
-            <Grid item xs={6} marginTop={15}>
+          </Grid>
+        </Container> 
+      </div>
+
+      <div style={ { backgroundColor: '#fff', width: '100%' } }>
+        <Container >
+          <Grid container>           
+
+            <Grid item xs={12} marginTop={15}>
               Holaaaa
             </Grid>
 
           </Grid>
-        </Container>     
-        
+        </Container> 
       </div>
       
       <Footer />
