@@ -6,6 +6,7 @@ import { Box, Container, Divider, Grid } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import img_avatar from "../../../assets/images/avatar.jpg";
+import banner from "../../../assets/images/banner.png"
 
 
 import Button from '@mui/material/Button';
@@ -20,6 +21,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
+import { maxWidth } from '@mui/system';
 
 // Tema para input's
 const theme = createTheme();
@@ -37,11 +39,13 @@ export const SetupProfile = () => {
     <>
       <Navbar />
 
-      {/* Header: Imagen de STDI */}
-      <Grid textAlign='center' marginTop={9} sx={{ height: 200, backgroundColor: 'primary.dark' }}> Aqui va la imagen de STDI </Grid>
+      {/* Header: Imagen de STDI */}      
+      <div>
+        <img src={banner} style={ { width: '100%', height: 500,  } }/>
+      </div>
       
       {/* Avatar */}
-      <Stack direction="row" spacing={2} marginY={-7.5} justifyContent="center">
+      <Stack direction="row" spacing={2} marginY={-11.5} justifyContent="center">
         <Avatar
           alt="Remy Sharp"
           src={
@@ -51,103 +55,115 @@ export const SetupProfile = () => {
               ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
               : img_avatar
           }
-          sx={{ width: 120, height: 120 }}
+          sx={{ width: 170, height: 170 }}
         />
       </Stack>
       
-      
-      <Container>
-        <Grid container marginTop={20}>
+      <div style={ { backgroundColor: '#F4F4F4', width: '100%' } }>
+        <Container >
+          <Grid container>
 
-          <Grid item xs={6} sx={{ backgroundColor: 'white' }}>
-          {/* Inicio de formulario para editar información. */}
-          <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >          
-          <Box component="form"  noValidate sx={{ mt: 1 }}>
-            {/* Input: Profile Full Name */}
-            <Typography variant='overline'>Profile Full Name</Typography>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="fullname"
-              label="Full Name"
-              name="fullname"
-              autoComplete="fullname"
-              autoFocus
-            />
-            
-            {/* Input: Profile photo */}
-            <Typography variant='overline'>Profile Photo</Typography>
-            <Stack direction="row" alignItems="center" spacing={2}>      
-              <label htmlFor="icon-button-file">
-                <Input accept="image/*" id="icon-button-file" type="file" />
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                  <Button>
-                    Choose file 
-                  <PhotoCamera marginLeft={1}/>
-                  </Button>
-                </IconButton>
-              </label>
-            </Stack>
+            <Grid item xs={6} marginTop={15}>
+            {/* Inicio de formulario para editar información. */}
+            <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >          
+            <Box component="form"  noValidate sx={{ mt: 1 }}>
+              {/* Input: Profile Full Name */}
+              <Typography variant='overline'>Profile Full Name</Typography>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="fullname"
+                label="Full Name"
+                name="fullname"
+                autoComplete="fullname"
+                autoFocus
+              />
+              
+              {/* Input: Profile photo */}
+              <Typography variant='overline'>Profile Photo</Typography>
+              <Stack direction="row" alignItems="center" spacing={2}>      
+                <label htmlFor="icon-button-file">
+                  <Input accept="image/*" id="icon-button-file" type="file" />
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                    <Button>
+                      Choose file 
+                    <PhotoCamera marginLeft={1}/>
+                    </Button>
+                  </IconButton>
+                </label>
+              </Stack>
 
-            {/* Input: Banner photo */}
-            <Typography variant='overline'>Banner Photo</Typography>
-            <Stack  spacing={2}>      
-              <label htmlFor="icon-button-file">
-                <Input accept="image/*" id="icon-button-file" type="file" />
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                  <Button>
-                    Choose file 
-                  <PhotoCamera marginLeft={1}/>
-                  </Button>
-                </IconButton>
-              </label>
-            </Stack>
+              {/* Input: Banner photo */}
+              <Typography variant='overline'>Banner Photo</Typography>
+              <Stack  spacing={2}>      
+                <label htmlFor="icon-button-file">
+                  <Input accept="image/*" id="icon-button-file" type="file" />
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                    <Button>
+                      Choose file 
+                    <PhotoCamera marginLeft={1}/>
+                    </Button>
+                  </IconButton>
+                </label>
+              </Stack>
 
-            
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              <Typography variant='overline'>Profile Bio</Typography><br />
+              <TextField
+                id="standard-multiline-static"
+                label="Bio"
+                multiline
+                rows={4}              
+                variant="standard"
+              /><br /><br />
+
+              <Typography variant='overline'>Social Media Channel</Typography><br />
+              
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
+          
+        </Container>
+      </ThemeProvider>
+            </Grid>
+
+            <Grid item xs={6} marginTop={15}>
+              Holaaaa
+            </Grid>
+
+          </Grid>
+        </Container>     
         
-      </Container>
-    </ThemeProvider>
-          </Grid>
-
-          <Grid item xs={6}>
-            Holaaaa
-          </Grid>
-
-        </Grid>
-      </Container>      
+      </div>
       
       <Footer />
     </>
