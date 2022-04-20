@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { AppContext } from "../../../components/AppContext";
-import { Box, Container, Divider, Grid } from '@mui/material';
+import { Box, Container, Divider, Grid, Paper } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import img_avatar from "../../../assets/images/avatar.jpg";
@@ -11,7 +11,7 @@ import banner from "../../../assets/images/banner.png"
 
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -29,7 +29,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
-import { SocialIcon } from 'react-social-icons';
+// Icons
+import ShareIcon from '@mui/icons-material/Share';
+import ImageIcon from '@mui/icons-material/Image';
+import AbcIcon from '@mui/icons-material/Abc';
+import {PhotoCamera} from '@mui/icons-material';
+
 // import { Carousel } from 'antd';
 
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
@@ -97,6 +102,15 @@ const names = [
 //   background: '#364d79',
 // };
 
+// Tema del paper, Hola mundo!!
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 export const SetupProfile = () => {
 
   const { objLogin } = useContext(AppContext);
@@ -138,14 +152,15 @@ export const SetupProfile = () => {
         />
       </Stack>
       
+      {/* Body part1 */}
       <div style={ { backgroundColor: '#F4F4F4', width: '100%' } }>
         <Container >
           <Grid container>
-
-            <Grid item xs={12} marginTop={15}>
+            {/* Body 1.1 */}
+            <Grid item xs={6} marginTop={15}>
 
             {/* Inicio de formulario para editar información. */}
-            <ThemeProvider theme={theme}>
+            {/* <ThemeProvider theme={theme}> */}
         <Container component="main" maxWidth="xs">
 
               {/* Input: Full name */}
@@ -248,9 +263,18 @@ export const SetupProfile = () => {
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
+              </Grid>            
+            
+          
+        </Container>
+      {/* </ThemeProvider> */}
+            </Grid>
+            {/* Body 1.2 */}
+            <Grid item xs={6} marginTop={15}>
 
-              <Divider />
+            {/* Inicio de formulario para editar información. */}
+            {/* <ThemeProvider theme={theme}> */}
+        <Container component="main" maxWidth="xs">             
               
               {/* Input: Custom text */}
               <Grid marginY={3}>
@@ -312,7 +336,16 @@ export const SetupProfile = () => {
                 />
               </Grid>  
               
-              <Button
+              
+              
+            
+          
+        </Container>
+      
+            </Grid>
+            {/* Body 1.3 - Buttons */}
+            <Grid item xs={12}>
+            <Button
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -323,18 +356,13 @@ export const SetupProfile = () => {
               <Button
                 type="submit"
                 fullWidth
-                color='warning'
+                color='inherit'
                 variant="contained"
                 sx={{ mt: 1, mb: 7 }}
               >
                 Clear Data
               </Button>
-              
-            
-          
-        </Container>
-      </ThemeProvider>
-            </Grid>            
+            </Grid>             
 
           </Grid>
         </Container> 
@@ -345,6 +373,41 @@ export const SetupProfile = () => {
           <Grid container>           
 
             <Grid item xs={12} marginTop={15}>
+
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={2}>
+
+                <Grid item xs={12}>
+                  <Item>
+                    <p>Miguel Garcia</p>
+                    <p>Hola mundo!</p>
+                    <Stack  spacing={2} justifyContent='center'>
+                      <Grid>                      
+                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<ShareIcon />}>
+                          Custom URL
+                        </Button>
+                      </Grid>
+                      <Grid>
+                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<ImageIcon />}>
+                          Marketing Test
+                        </Button>
+                      </Grid>
+                      <Grid>
+                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<AbcIcon />}>
+                          Custom Test
+                        </Button>
+                      </Grid>
+                      <Grid>
+                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<AbcIcon />}>
+                          Hola mundo
+                        </Button>
+                      </Grid>
+                    </Stack>
+                  </Item>
+                </Grid>
+                
+              </Grid>
+            </Box>
 
             {/* <Carousel autoplay>
               <div>
@@ -367,13 +430,10 @@ export const SetupProfile = () => {
         </Container> 
       </div>
       
-      {/* <div style={ { backgroundColor: '#F4F4F4', width: '100%', height: 50 } }>
-        <Grid>
-          <InstagramIcon color='blue'/>
-        </Grid>
-      </div> */}
+      
 
-<Box
+    {/* Footer */}
+    <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -393,20 +453,27 @@ export const SetupProfile = () => {
               : theme.palette.grey[800],
         }}
       >
-        <Container maxWidth="sm">
-          <Typography variant="body1">
-            <Container>
+        <Container maxWidth="sm" >
+          <Typography variant="body1" >
+            <Container >
               <Grid container>
-                <Grid item xs={12}>
-                  <FacebookShareButton url='https://profile.stdicompany.com/edit-profile'>
-                    <FacebookIcon round={true}></FacebookIcon>
-                  </FacebookShareButton>
-                  <TwitterShareButton>
-                    <TwitterIcon round={true}></TwitterIcon>
-                  </TwitterShareButton>
-                  <WhatsappShareButton>
-                    <WhatsappIcon round={true}></WhatsappIcon>
-                  </WhatsappShareButton>
+                <Grid item xs={12}> 
+                  <Grid textAlign='center'>                    
+                    
+                      <FacebookShareButton url='https://profile.stdicompany.com/edit-profile'>
+                        <FacebookIcon round={true}></FacebookIcon>
+                      </FacebookShareButton>
+                      
+                      <TwitterShareButton sx={{ marginX: 40 }}>
+                        <TwitterIcon round={true}></TwitterIcon>
+                      </TwitterShareButton>                    
+                    
+                      <WhatsappShareButton>
+                        <WhatsappIcon round={true}></WhatsappIcon>
+                      </WhatsappShareButton>                   
+                    
+                    
+                  </Grid>
                 </Grid>
               </Grid>
             </Container>
@@ -414,9 +481,7 @@ export const SetupProfile = () => {
           
         </Container>
       </Box>
-    </Box>
-
-      {/* <Footer /> */}
+    </Box>      
     </>
   );
 };
