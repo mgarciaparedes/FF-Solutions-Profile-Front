@@ -23,12 +23,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import { maxWidth } from '@mui/system';
 
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select from '@mui/material/Select';
 // Icons
 import ShareIcon from '@mui/icons-material/Share';
 import ImageIcon from '@mui/icons-material/Image';
@@ -40,6 +34,8 @@ import {PhotoCamera} from '@mui/icons-material';
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
 import { FacebookIcon, WhatsappIcon, TwitterIcon } from 'react-share';
 
+import Row from './ChildrenComponent/Row.js'
+
 
 // Tema para input's
 const theme = createTheme();
@@ -49,84 +45,10 @@ const Input = styled('input')({
   display: 'none',
 });
 
-// Inicio del dropdown
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const names = [
-  'Instagram',
-  'Whatsapp',
-  'Snapchat',
-  'Youtube',
-  'Facebook',
-  'Soundcloud',
-  'Linkedin',
-  'Telegram',
-  'TikTok',
-  'Twitter',
-  'Spotify',
-  'Apple Music',
-  'Venmo',
-  'CashApp',
-  'Phone Number',
-  'Paypal',
-  'GoFundMe',
-  'Twitch',
-  'Discord',
-  'HouseParty',
-  'OnlyFans',
-  'Address',
-  'Email',
-  'SMS',
-  'Website',
-  'CustomURL',
-  'CustomText',
-  'Embed Youtube Video',
-];
-//Fin de dropdown 
-
-// Carousel
-// const contentStyle = {
-//   height: '160px',
-//   color: '#fff',
-//   lineHeight: '160px',
-//   textAlign: 'center',
-//   background: '#364d79',
-// };
-
-// Tema del paper, Hola mundo!!
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 export const SetupProfile = () => {
 
-  const { objLogin } = useContext(AppContext);
-
-  // Inicio de funcion para dropdown
-  const [personName, setPersonName] = React.useState([]);
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
-   // Fin de funcion para dropdown
+  const { objLogin } = useContext(AppContext);  
 
   return (
     <>
@@ -138,9 +60,9 @@ export const SetupProfile = () => {
       </div>
       
       {/* Avatar */}
-      <Stack direction="row" spacing={2} marginY={-11.5} justifyContent="center">
-        <Avatar
-          alt="Remy Sharp"
+      <Stack direction="row" spacing={2} marginY={-11.5} justifyContent="center" overflow='inherit'>
+        <Avatar        
+          alt="Remy Sharp"          
           src={
             objLogin.profileData &&
             (objLogin.profileData.base64ProfilePhoto !== null ||
@@ -148,16 +70,62 @@ export const SetupProfile = () => {
               ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
               : img_avatar
           }
-          sx={{ width: 170, height: 170 }}
+          sx={{ width: 150, height: 150 }}
         />
       </Stack>
       
-      {/* Body part1 */}
-      <div style={ { backgroundColor: '#F4F4F4', width: '100%' } }>
+      
+      {/* Body 1 */}
+      <div style={ { backgroundColor: '#F4F4F4', width: '100%', maxWidth: '100%' } }>
+        <Container >
+          <Grid container>  
+            <Grid item xs={12} marginTop={14} marginBottom={8} textAlign='center'>                
+              <Grid>
+                {/* Username and description */}
+                <Grid>
+                  <Typography variant="h4" gutterBottom component="div">
+                    {objLogin.user}
+                  </Typography>
+                  <Typography variant="overline" display="block" gutterBottom>
+                    Hola mundo!
+                  </Typography>
+                </Grid>
+                {/* Buttons */}
+                <Stack  spacing={2} justifyContent='center'>
+                        
+                        <Grid>                      
+                          <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<ShareIcon />}>
+                            Custom URL
+                          </Button>
+                        </Grid>
+                        <Grid>
+                          <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<ImageIcon />}>
+                            Marketing Test
+                          </Button>
+                        </Grid>
+                        <Grid>
+                          <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<AbcIcon />}>
+                            Custom Test
+                          </Button>
+                        </Grid>
+                        <Grid>
+                          <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<AbcIcon />}>
+                            Hola mundo
+                          </Button>
+                        </Grid>
+                </Stack>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Container> 
+      </div>
+
+      {/* Body 2 */}
+      <div style={ { backgroundColor: '#fff', width: '100%' } }>
         <Container >
           <Grid container>
             {/* Body 1.1 */}
-            <Grid item xs={6} marginTop={15}>
+            <Grid item xs={6} marginY={8}>
 
             {/* Inicio de formulario para editar información. */}
             {/* <ThemeProvider theme={theme}> */}
@@ -239,45 +207,22 @@ export const SetupProfile = () => {
               </Grid>
 
               {/* Social media selector */}
-              <Grid marginY={3}>
-                <Grid marginBottom={2}>
-                  <Typography variant='overline'>Social Media Channel</Typography>
-                </Grid>
-                <FormControl sx={{  width: '100%' }}>
-                  <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    multiple
-                    value={personName}
-                    onChange={handleChange}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected.join(', ')}
-                    MenuProps={MenuProps}
-                  >
-                    {names.map((name) => (
-                      <MenuItem key={name} value={name}>
-                        <Checkbox checked={personName.indexOf(name) > -1} />
-                        <ListItemText primary={name} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>            
+              <Row />            
             
           
         </Container>
       {/* </ThemeProvider> */}
             </Grid>
+
             {/* Body 1.2 */}
-            <Grid item xs={6} marginTop={15}>
+            <Grid item xs={6} marginY={8}>
 
             {/* Inicio de formulario para editar información. */}
             {/* <ThemeProvider theme={theme}> */}
         <Container component="main" maxWidth="xs">             
               
               {/* Input: Custom text */}
-              <Grid marginY={3}>
+              <Grid >
                 <Grid marginBottom={2}>
                   <Typography variant='overline'>Custom text</Typography>
                 </Grid>
@@ -343,6 +288,7 @@ export const SetupProfile = () => {
         </Container>
       
             </Grid>
+
             {/* Body 1.3 - Buttons */}
             <Grid item xs={12}>
             <Button
@@ -358,7 +304,7 @@ export const SetupProfile = () => {
                 fullWidth
                 color='inherit'
                 variant="contained"
-                sx={{ mt: 1, mb: 7 }}
+                sx={{ mt: 1, mb: 2 }}
               >
                 Clear Data
               </Button>
@@ -366,70 +312,7 @@ export const SetupProfile = () => {
 
           </Grid>
         </Container> 
-      </div>
-
-      <div style={ { backgroundColor: '#fff', width: '100%', maxWidth: '100%' } }>
-        <Container >
-          <Grid container>           
-
-            <Grid item xs={12} marginTop={15}>
-
-            <Box sx={{ flexGrow: 1 }}>
-              <Grid container spacing={2}>
-
-                <Grid item xs={12}>
-                  <Item>
-                    <p>Miguel Garcia</p>
-                    <p>Hola mundo!</p>
-                    <Stack  spacing={2} justifyContent='center'>
-                      <Grid>                      
-                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<ShareIcon />}>
-                          Custom URL
-                        </Button>
-                      </Grid>
-                      <Grid>
-                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<ImageIcon />}>
-                          Marketing Test
-                        </Button>
-                      </Grid>
-                      <Grid>
-                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<AbcIcon />}>
-                          Custom Test
-                        </Button>
-                      </Grid>
-                      <Grid>
-                        <Button fullWidth sx={ { width: 250 } } variant="outlined" color='inherit' startIcon={<AbcIcon />}>
-                          Hola mundo
-                        </Button>
-                      </Grid>
-                    </Stack>
-                  </Item>
-                </Grid>
-                
-              </Grid>
-            </Box>
-
-            {/* <Carousel autoplay>
-              <div>
-                <h3 style={contentStyle}>1</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>2</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>3</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>4</h3>
-              </div>
-            </Carousel> */}
-
-            </Grid>
-
-          </Grid>
-        </Container> 
-      </div>
-      
+      </div>     
       
 
     {/* Footer */}
