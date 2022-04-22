@@ -33,7 +33,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import img_avatar from "../assets/images/avatar.jpg";
-import history from './History.js'
+import history from "./History.js";
 
 const Sidebar = () => {
   const [state, setState] = useState({
@@ -96,13 +96,28 @@ const Sidebar = () => {
   };
 
   const list = (anchor) => (
+    <>
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Stack direction="row" spacing={2} marginY={2} justifyContent="center">
+      
+      <Stack
+        direction="row"
+        spacing={2}
+        marginY={2}
+        justifyContent="center"
+        sx={{
+          "&::before": {
+            marginTop: '5px',
+            position:"absolute",
+            fontSize: "10px",
+            content: '"Loading..."',
+          },
+        }}
+      >
         <Avatar
           alt="Remy Sharp"
           src={
@@ -112,7 +127,10 @@ const Sidebar = () => {
               ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
               : img_avatar
           }
-          sx={{ width: 66, height: 66 }}
+          sx={{
+            width: 66,
+            height: 66
+          }}
         />
       </Stack>
       <Typography variant="h6" textAlign="center" marginBottom={1}>
@@ -124,13 +142,19 @@ const Sidebar = () => {
       {/* Iconos en el sidebar */}
       <List>
         {[
-          {name: "Home", url: "/dashboard"},
-          {name: "Setup Profile", url: "/setup-profile"},
-          {name: "Advanced Tools", url: "/advanced-tools"},
-          {name: "Change Password", url: "/change-password"},
-          {name: "Help", url: "/help"}
+          { name: "Home", url: "/dashboard" },
+          { name: "Setup Profile", url: "/setup-profile" },
+          { name: "Advanced Tools", url: "/advanced-tools" },
+          { name: "Change Password", url: "/change-password" },
+          { name: "Help", url: "/help" },
         ].map((text, index) => (
-          <ListItem button key={text} onClick={ ()=>{ history.push(text.url) } }>
+          <ListItem
+            button
+            key={index}
+            onClick={() => {
+              history.push(text.url);
+            }}
+          >
             <ListItemIcon>
               {index === 0 && <HomeRoundedIcon />}
               {index === 1 && <SettingsApplicationsSharpIcon />}
@@ -153,6 +177,7 @@ const Sidebar = () => {
         </ListItem>
       </List>
     </Box>
+    </>
   );
 
   return (
@@ -260,7 +285,7 @@ const Sidebar = () => {
             <Typography
               sx={{
                 textAlign: "center",
-                mt: 25
+                mt: 25,
               }}
             >
               <HandshakeIcon color="info" sx={{ fontSize: 70 }} />
