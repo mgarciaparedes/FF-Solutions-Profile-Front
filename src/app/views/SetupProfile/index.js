@@ -39,6 +39,7 @@ import BannerImage from "../../../assets/images/default-user-banner.jpg";
 // Icons
 import { PhotoCamera } from "@mui/icons-material";
 import DangerousTwoToneIcon from "@mui/icons-material/DangerousTwoTone";
+import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // import RemoveRedEyeTwoToneIcon from "@mui/icons-material/RemoveRedEyeTwoTone";
 
@@ -75,6 +76,9 @@ const styleModal = {
 };
 
 export const SetupProfile = () => {
+  //Obtenemos variables de sesión
+  const { objLogin, logoutContext } = useContext(AppContext);
+
   const [existentProfile, setExistentProfile] = useState(true);
   const [nameState, setNameState] = useState("");
   const [bioState, setBioState] = useState("");
@@ -87,6 +91,9 @@ export const SetupProfile = () => {
   const [isLinked, setIsLinked] = useState(false);
   const [usernameLinked, setUsernameLinked] = useState("");
 
+  //Declaro el estado del arreglo inicial que va a guardar las RRSS seleccionadas
+  const [rows, setRows] = useState([]);
+
   //Con estas variables valido el tamaño de las imágenes
   const [imgProfileSize, setImgProfileSize] = useState(0);
   const [imgBannerSize, setImgBannerSize] = useState(0);
@@ -96,7 +103,7 @@ export const SetupProfile = () => {
    *la ruta de la imagen*/
   const [base64ImgProfile, setBase64ImgProfile] = useState("");
   const [base64ImgBanner, setBase64ImgBanner] = useState("");
-  const [gallery, setGallery] = useState("");
+  const [gallery, setGallery] = useState({});
 
   // const [sendNotifications, setSendNotifications] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
@@ -105,7 +112,7 @@ export const SetupProfile = () => {
 
   //para enviar al módulo de changePassword
   const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(objLogin.username);
   const [serialNumber, setSerialNumber] = useState("");
   const [email, setEmail] = useState("");
 
@@ -119,89 +126,55 @@ export const SetupProfile = () => {
   const [openLivePreview, setOpenLivePreview] = useState(false);
   const handleCloseLivePreview = () => setOpenLivePreview(false);
 
-  const { objLogin, logoutContext } = useContext(AppContext);
+  //constante para abrir y cerrar bienvenida
+  const [welcome, setWelcome] = useState(false);
+  const handleCloseWelcome = () => setWelcome(false);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/users/getProfileUserData")
-  //     .then((res) => {
-  //       const { ok, msg, username } = res.data;
-  //       if (
-  //         ok === true &&
-  //         msg === "User is registered but doesn't have any profile saved."
-  //       ) {
-  //         setExistentProfile(false); //Diferenciar si se le pega al servicio save
-  //         handleCloseLoading();
-  //         //Esto pasa en caso de que exista el usuario registrado pero no tenga ningún perfil asociado
-  //         //tiene que guardar el username para wue al momento de revisar su QR, copiar el link o al terminar
-  //         //de hacer su primer registro se pueda redirigir hacia su username
-  //         setUsername(username);
-  //         // Swal.fire({
-  //         //   title: "Hi, welcome to STDI profiles",
-  //         //   text: "Save your data to see your profile ;)",
-  //         //   icon: "info",
-  //         //   confirmButtonText: "OK",
-  //         // });
+  useEffect(() => {
+    console.log(objLogin);
+    if (!objLogin.existentProfile) {
+      setWelcome(true);
+      setBase64ImgProfile(userImage);
+      setBase64ImgBanner(BannerImage);
+    } else {
+      const { galleryActive, galleryImages } = objLogin;
+      setNameState(objLogin.profileData.profileFullName);
+      setBioState(objLogin.profileData.profileBio);
+      setProfileData(objLogin.profileData.socialMedia);
+      setIsLinked(objLogin.profileData.isLinked);
+      setUsernameLinked(objLogin.profileData.usernameLinked);
+      setGallery({ galleryActive, galleryImages });
+      setCustomImage(objLogin.customImage);
 
-  //         alert("Bienvenido");
+      /*De no estar guardada la ruta de la imagen, mostramos un icono en fondo gris*/
+      if (objLogin.profileData.base64ProfilePhoto === "") {
+        setBase64ImgProfile(userImage);
+      } else {
+        /*Sí el registro viene con algo, lo pintamos con la key de s3 de amazon*/
+        setBase64ImgProfile(
+          `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
+        );
+      }
 
-  //         setBase64ImgProfile(userImage);
-  //         setBase64ImgBanner(BannerImage);
-  //       } else {
-  //         setExistentProfile(true); //Diferenciar si se le pega al servicio update
-  //         setNameState(res.data.data.profileFullName);
-  //         setBioState(res.data.data.profileBio);
-  //         setUsername(res.data.username);
-  //         setProfileData(res.data.data.socialMedia);
-  //         setIsLinked(res.data.data.isLinked);
-  //         setUsernameLinked(res.data.data.usernameLinked);
-  //         setGallery(res.data.gallery);
-  //         setCustomImage(res.data.customImage);
+      /*Aplicamos la misma validación, verificamos que haya sido guarda la ruta del banner en S3.*/
+      if (objLogin.profileData.base64BannerPhoto === "") {
+        setBase64ImgBanner(BannerImage);
+      } else {
+        /*Sí ya hay una key, pintamos el banner adjuntado y guardado en DB*/
+        setBase64ImgBanner(
+          `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64BannerPhoto}`
+        );
+      }
 
-  //         /*De no estar guardada la ruta de la imagen, mostramos un icono en fondo gris*/
-  //         if (res.data.data.base64ProfilePhoto === "") {
-  //           setBase64ImgProfile(userImage);
-  //         } else {
-  //           /*Sí el registro viene con algo, lo pintamos con la key de s3 de amazon*/
-  //           setBase64ImgProfile(
-  //             `${process.env.REACT_APP_API_URL}/render/image/${res.data.data.base64ProfilePhoto}`
-  //           );
-  //         }
+      //Aquí guardo si es que el profile tiene alguna red social
+      setRows(objLogin.profileData.socialMedia);
 
-  //         /*Aplicamos la misma validación, verificamos que haya sido guarda la ruta del banner en S3.*/
-  //         if (res.data.data.base64BannerPhoto === "") {
-  //           setBase64ImgBanner(BannerImage);
-  //         } else {
-  //           /*Sí ya hay una key, pintamos el banner adjuntado y guardado en DB*/
-  //           setBase64ImgBanner(
-  //             `${process.env.REACT_APP_API_URL}/render/image/${res.data.data.base64BannerPhoto}`
-  //           );
-  //         }
-
-  //         setRows(res.data.data.socialMedia); //Aquí guardo si es que el profile tiene alguna red social
-  //         handleCloseLoading();
-  //         //setSendNotifications(res.data.data.sendNotifications);
-
-  //         //para enviar al ChangePassword
-  //         setName(res.data.name);
-  //         setEmail(res.data.email);
-  //         setSerialNumber(res.data.serialNumber);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       setExistentProfile(false);
-  //       handleCloseLoading();
-
-  //       //Si hay un error entonces indicamos que debe activarse el modal de error
-  //       setSessionOver(true);
-
-  //       //Al cabo de dos segundos cerramos la sesión y el modal
-  //       setTimeout(() => {
-  //         logoutContext();
-  //         handleCloseSessionOver();
-  //       }, 2000);
-  //     });
-  // }, []);
+      //Guardo data para enviar al change password
+      setName(objLogin.user);
+      setEmail(objLogin.email);
+      setSerialNumber(objLogin.serialNumber);
+    }
+  }, []);
 
   //Esta función va a guardar cada vez que se cambie algo en los campos de RRSS
   const handleOnChange = (index, name, value) => {
@@ -212,9 +185,6 @@ export const SetupProfile = () => {
     };
     setRows(copyRows);
   };
-
-  //Declaro el estado del arreglo inicial que va a guardar las RRSS seleccionadas
-  const [rows, setRows] = useState([]);
 
   //Función que guarda una fila nueva cada vez que se seleccione una opción nueva de RRSS
   const handleOnAdd = (e) => {
@@ -321,6 +291,7 @@ export const SetupProfile = () => {
                   color="inherit"
                   variant="contained"
                   sx={{ mt: 1, mb: 2 }}
+                  // onClick={()=> console.log(rows)}
                 >
                   Clear Data
                 </Button>
@@ -403,6 +374,59 @@ export const SetupProfile = () => {
               >
                 shooting down...
               </Typography>
+            </Box>
+          </Fade>
+        </Modal>
+
+        {/*Modal Inicio de Sesión Primer Perfil */}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={welcome}
+          onClose={handleCloseWelcome}
+          // closeAfterTransition
+          // BackdropComponent={Backdrop}
+          // BackdropProps={{
+          //   timeout: 500,
+          // }}
+        >
+          <Fade in={welcome}>
+            <Box sx={styleModal}>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 25,
+                }}
+              >
+                <GroupAddTwoToneIcon color="info" sx={{ fontSize: 70 }} />
+              </Typography>
+              <Typography
+                id="modal-modal-title"
+                variant="h5"
+                component="h2"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                Hi, welcome to FF Profile!
+              </Typography>
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ mt: 1, textAlign: "center" }}
+                gutterBottom
+              >
+                Here you can setup your name, bio, social networks and many more
+                featurettes, enjoy the FF Experience ;)
+              </Typography>
+              <Grid sx={{ mt: 2, textAlign: "center" }}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    handleCloseWelcome();
+                  }}
+                >
+                  Go to setup
+                </Button>
+              </Grid>
             </Box>
           </Fade>
         </Modal>
