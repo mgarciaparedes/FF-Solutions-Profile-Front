@@ -27,6 +27,7 @@ import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import LockResetRoundedIcon from "@mui/icons-material/LockResetRounded";
 import PrivacyTipSharpIcon from "@mui/icons-material/PrivacyTipSharp";
 import HandshakeIcon from "@mui/icons-material/HandshakeTwoTone";
+import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 
 import { AppContext } from "./AppContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -42,8 +43,10 @@ const Sidebar = () => {
 
   const [open, setOpen] = useState(false);
   const [openProgressBar, setOpenProgressBar] = useState(false);
+  const [openLoading, setOpenLoading] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleCloseLoading = () => setOpenLoading(false);
 
   //Función que abre último modal que muestra progress bar y mensae de cerrando sesión
   const handleOpenProgressBar = () => {
@@ -51,6 +54,14 @@ const Sidebar = () => {
     setTimeout(() => {
       logoutContext();
       handleCloseProgressBar();
+    }, 2000);
+  };
+
+  const handleOpenLoading = () => {
+    setOpenLoading(true);
+    setTimeout(() => {
+      handleCloseProgressBar();
+      history.push("/setup-profile");
     }, 2000);
   };
 
@@ -97,86 +108,106 @@ const Sidebar = () => {
 
   const list = (anchor) => (
     <>
-    <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      
-      <Stack
-        direction="row"
-        spacing={2}
-        marginY={2}
-        justifyContent="center"
-        sx={{
-          "&::before": {
-            marginTop: '5px',
-            position:"absolute",
-            fontSize: "10px",
-            content: '"Loading..."',
-          },
-        }}
+      <Box
+        sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+        role="presentation"
+        onClick={toggleDrawer(anchor, false)}
+        onKeyDown={toggleDrawer(anchor, false)}
       >
-        <Avatar
-          alt="Remy Sharp"
-          src={
-            objLogin.profileData &&
-            (objLogin.profileData.base64ProfilePhoto !== null ||
-              objLogin.profileData.base64ProfilePhoto === "")
-              ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
-              : img_avatar
-          }
+        <Stack
+          direction="row"
+          spacing={2}
+          marginY={2}
+          justifyContent="center"
           sx={{
-            width: 66,
-            height: 66
+            "&::before": {
+              marginTop: "5px",
+              position: "absolute",
+              fontSize: "10px",
+              content: '"Loading..."',
+            },
           }}
-        />
-      </Stack>
-      <Typography variant="h6" textAlign="center" marginBottom={1}>
-        {objLogin.user}
-      </Typography>
-
-      <Divider />
-
-      {/* Iconos en el sidebar */}
-      <List>
-        {[
-          { name: "Home", url: "/dashboard" },
-          { name: "Setup Profile", url: "/setup-profile" },
-          { name: "Advanced Tools", url: "/advanced-tools" },
-          { name: "Change Password", url: "/change-password" },
-          { name: "Help", url: "/help" },
-        ].map((text, index) => (
-          <ListItem
-            button
-            key={index}
-            onClick={() => {
-              history.push(text.url);
+        >
+          <Avatar
+            alt="Remy Sharp"
+            src={
+              objLogin.profileData &&
+              (objLogin.profileData.base64ProfilePhoto !== null ||
+                objLogin.profileData.base64ProfilePhoto === "")
+                ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
+                : img_avatar
+            }
+            sx={{
+              width: 66,
+              height: 66,
             }}
-          >
-            <ListItemIcon>
-              {index === 0 && <HomeRoundedIcon />}
-              {index === 1 && <SettingsApplicationsSharpIcon />}
-              {index === 2 && <ConstructionRoundedIcon />}
-              {index === 3 && <LockResetRoundedIcon />}
-              {index === 4 && <PrivacyTipSharpIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text.name} />
-          </ListItem>
-        ))}
-      </List>
+          />
+        </Stack>
+        <Typography variant="h6" textAlign="center" marginBottom={1}>
+          {objLogin.user}
+        </Typography>
 
-      <Divider />
-      <List>
-        <ListItem button onClick={() => handleOpen()}>
-          <ListItemIcon>
-            <PowerSettingsNewIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Sign off"} />
-        </ListItem>
-      </List>
-    </Box>
+        <Divider />
+
+        {/* Iconos en el sidebar */}
+        <List>
+          {[{ name: "Home", url: "/dashboard" }].map((text, index) => (
+            <ListItem
+              button
+              key={index}
+              onClick={() => {
+                history.push(text.url);
+              }}
+            >
+              <ListItemIcon>
+                {index === 0 && <HomeRoundedIcon />}
+                {index === 1 && <SettingsApplicationsSharpIcon />}
+                {index === 2 && <ConstructionRoundedIcon />}
+                {index === 3 && <LockResetRoundedIcon />}
+                {index === 4 && <PrivacyTipSharpIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text.name} />
+            </ListItem>
+          ))}
+          <ListItem button onClick={() => handleOpenLoading()}>
+            <ListItemIcon>
+              <SettingsApplicationsSharpIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Setup Profile"} />
+          </ListItem>
+          {[
+            { name: "Advanced Tools", url: "/advanced-tools" },
+            { name: "Change Password", url: "/change-password" },
+            { name: "Help", url: "/help" },
+          ].map((text, index) => (
+            <ListItem
+              button
+              key={index}
+              onClick={() => {
+                history.push(text.url);
+              }}
+            >
+              <ListItemIcon>
+                {index === 0 && <HomeRoundedIcon />}
+                {index === 1 && <SettingsApplicationsSharpIcon />}
+                {index === 2 && <ConstructionRoundedIcon />}
+                {index === 3 && <LockResetRoundedIcon />}
+                {index === 4 && <PrivacyTipSharpIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text.name} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          <ListItem button onClick={() => handleOpen()}>
+            <ListItemIcon>
+              <PowerSettingsNewIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Sign off"} />
+          </ListItem>
+        </List>
+      </Box>
     </>
   );
 
@@ -306,6 +337,41 @@ const Sidebar = () => {
               gutterBottom
             >
               Signing off...
+            </Typography>
+          </Box>
+        </Fade>
+      </Modal>
+
+      {/*Modal de Progress Bar cargando info perfil */}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openLoading}
+        onClose={handleCloseLoading}
+        // closeAfterTransition
+        // BackdropComponent={Backdrop}
+        // BackdropProps={{
+        //   timeout: 500,
+        // }}
+      >
+        <Fade in={openLoading}>
+          <Box sx={styleModalProgressBar}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                mt: 30,
+              }}
+            >
+              <AccountCircleTwoToneIcon color="info" sx={{ fontSize: 70 }} />
+            </Typography>
+            <LinearProgress sx={{ mt: 2 }} />
+            <Typography
+              variant="caption"
+              display="block"
+              sx={{ textAlign: "center" }}
+              gutterBottom
+            >
+              Loading your info...
             </Typography>
           </Box>
         </Fade>

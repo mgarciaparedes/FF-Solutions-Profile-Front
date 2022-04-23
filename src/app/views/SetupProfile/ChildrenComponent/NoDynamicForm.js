@@ -6,7 +6,8 @@ import {
   Alert,
   Input,
   Button,
-  Container
+  Container,
+  IconButton,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CameraAltTwoToneIcon from "@mui/icons-material/CameraAltTwoTone";
@@ -17,7 +18,7 @@ const NoDynamicForm = () => {
       {/* Input: Full name */}
       <Grid marginBottom={1}>
         <Alert variant="outlined" severity="info">
-          <b>*</b> is for mandatory info.
+            * is for mandatory inputs.
         </Alert>
       </Grid>
       <Grid>
@@ -45,18 +46,13 @@ const NoDynamicForm = () => {
           <Grid textAlign="center">
             <Typography variant="overline">Profile Photo</Typography>
           </Grid>
-          <label htmlFor="contained-button-file">
-            <Input
-              accept="image/*"
-              id="contained-button-file"
-              multiple
-              type="file"
-            />
-            <Button variant="outlined" component="span">
-              Choose File &nbsp;&nbsp;
+
+          {/* Comienzo del campo upload Profile Photo */}
+          <Button variant="outlined" component="label">
+            Upload File &nbsp;&nbsp;
               <CameraAltTwoToneIcon />
-            </Button>
-          </label>
+            <input type="file" hidden />
+          </Button>
           <Grid textAlign="center">
             <Typography variant="overline" color="InactiveCaptionText">
               No file selected.
@@ -70,18 +66,12 @@ const NoDynamicForm = () => {
               Banner Photo
             </Typography>
           </Grid>
-          <label htmlFor="contained-button-file">
-            <Input
-              accept="image/*"
-              id="contained-button-file"
-              multiple
-              type="file"
-            />
-            <Button variant="outlined" component="span">
-              Choose File &nbsp;&nbsp;
+          {/* Comienzo del campo upload Banner Photo */}
+          <Button variant="outlined" component="label">
+            Upload File &nbsp;&nbsp;
               <CameraAltTwoToneIcon />
-            </Button>
-          </label>
+            <input type="file" hidden />
+          </Button>
           <Grid textAlign="center">
             <Typography variant="overline" color="InactiveCaptionText">
               No file selected.

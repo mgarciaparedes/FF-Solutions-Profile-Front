@@ -36,6 +36,7 @@ const AppProvider = ({ children }) => {
               user: objStorage.user,
               token: objStorage.token,
               email: objStorage.email,
+              existentProfile: objStorage.existentProfile,
               serialNumber: objStorage.serialNumber,
               username: objStorage.username,
               profileData: objStorage.profileData,

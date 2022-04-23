@@ -24,7 +24,7 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link
+  Link,
 } from "@mui/material";
 import img_avatar from "../../../assets/images/avatar.jpg";
 import banner from "../../../assets/images/banner.png";
@@ -38,7 +38,7 @@ import BannerImage from "../../../assets/images/default-user-banner.jpg";
 
 // Icons
 import { PhotoCamera } from "@mui/icons-material";
-import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
+import DangerousTwoToneIcon from "@mui/icons-material/DangerousTwoTone";
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // import RemoveRedEyeTwoToneIcon from "@mui/icons-material/RemoveRedEyeTwoTone";
 
@@ -79,7 +79,9 @@ export const SetupProfile = () => {
   const [nameState, setNameState] = useState("");
   const [bioState, setBioState] = useState("");
   const [loadingProfileData, setLoadingProfileData] = useState(true); //Animación cargando datos de perfil
+  const handleCloseLoading = () => setLoadingProfileData(false);
   const [sessionOver, setSessionOver] = useState(false);
+  const handleCloseSessionOver = () => setSessionOver(false);
   const [profileData, setProfileData] = useState([]); //Este de momento no se usa
   const [customImage, setCustomImage] = useState([]);
   const [isLinked, setIsLinked] = useState(false);
@@ -115,84 +117,91 @@ export const SetupProfile = () => {
 
   //constante para abrir y cerrar modal live preview
   const [openLivePreview, setOpenLivePreview] = useState(false);
+  const handleCloseLivePreview = () => setOpenLivePreview(false);
 
   const { objLogin, logoutContext } = useContext(AppContext);
 
-  useEffect(() => {
-    axios
-      .get("/users/getProfileUserData")
-      .then((res) => {
-        const { ok, msg, username } = res.data;
-        if (
-          ok === true &&
-          msg === "User is registered but doesn't have any profile saved."
-        ) {
-          setExistentProfile(false); //Diferenciar si se le pega al servicio save
-          setLoadingProfileData(false);
-          //Esto pasa en caso de que exista el usuario registrado pero no tenga ningún perfil asociado
-          //tiene que guardar el username para wue al momento de revisar su QR, copiar el link o al terminar
-          //de hacer su primer registro se pueda redirigir hacia su username
-          setUsername(username);
-          // Swal.fire({
-          //   title: "Hi, welcome to STDI profiles",
-          //   text: "Save your data to see your profile ;)",
-          //   icon: "info",
-          //   confirmButtonText: "OK",
-          // });
+  // useEffect(() => {
+  //   axios
+  //     .get("/users/getProfileUserData")
+  //     .then((res) => {
+  //       const { ok, msg, username } = res.data;
+  //       if (
+  //         ok === true &&
+  //         msg === "User is registered but doesn't have any profile saved."
+  //       ) {
+  //         setExistentProfile(false); //Diferenciar si se le pega al servicio save
+  //         handleCloseLoading();
+  //         //Esto pasa en caso de que exista el usuario registrado pero no tenga ningún perfil asociado
+  //         //tiene que guardar el username para wue al momento de revisar su QR, copiar el link o al terminar
+  //         //de hacer su primer registro se pueda redirigir hacia su username
+  //         setUsername(username);
+  //         // Swal.fire({
+  //         //   title: "Hi, welcome to STDI profiles",
+  //         //   text: "Save your data to see your profile ;)",
+  //         //   icon: "info",
+  //         //   confirmButtonText: "OK",
+  //         // });
 
-          alert("Bienvenido");
+  //         alert("Bienvenido");
 
-          setBase64ImgProfile(userImage);
-          setBase64ImgBanner(BannerImage);
-        } else {
-          setExistentProfile(true); //Diferenciar si se le pega al servicio update
-          setNameState(res.data.data.profileFullName);
-          setBioState(res.data.data.profileBio);
-          setUsername(res.data.username);
-          setProfileData(res.data.data.socialMedia);
-          setIsLinked(res.data.data.isLinked);
-          setUsernameLinked(res.data.data.usernameLinked);
-          setGallery(res.data.gallery);
-          setCustomImage(res.data.customImage);
+  //         setBase64ImgProfile(userImage);
+  //         setBase64ImgBanner(BannerImage);
+  //       } else {
+  //         setExistentProfile(true); //Diferenciar si se le pega al servicio update
+  //         setNameState(res.data.data.profileFullName);
+  //         setBioState(res.data.data.profileBio);
+  //         setUsername(res.data.username);
+  //         setProfileData(res.data.data.socialMedia);
+  //         setIsLinked(res.data.data.isLinked);
+  //         setUsernameLinked(res.data.data.usernameLinked);
+  //         setGallery(res.data.gallery);
+  //         setCustomImage(res.data.customImage);
 
-          /*De no estar guardada la ruta de la imagen, mostramos un icono en fondo gris*/
-          if (res.data.data.base64ProfilePhoto === "") {
-            setBase64ImgProfile(userImage);
-          } else {
-            /*Sí el registro viene con algo, lo pintamos con la key de s3 de amazon*/
-            setBase64ImgProfile(
-              `${process.env.REACT_APP_API_URL}/render/image/${res.data.data.base64ProfilePhoto}`
-            );
-          }
+  //         /*De no estar guardada la ruta de la imagen, mostramos un icono en fondo gris*/
+  //         if (res.data.data.base64ProfilePhoto === "") {
+  //           setBase64ImgProfile(userImage);
+  //         } else {
+  //           /*Sí el registro viene con algo, lo pintamos con la key de s3 de amazon*/
+  //           setBase64ImgProfile(
+  //             `${process.env.REACT_APP_API_URL}/render/image/${res.data.data.base64ProfilePhoto}`
+  //           );
+  //         }
 
-          /*Aplicamos la misma validación, verificamos que haya sido guarda la ruta del banner en S3.*/
-          if (res.data.data.base64BannerPhoto === "") {
-            setBase64ImgBanner(BannerImage);
-          } else {
-            /*Sí ya hay una key, pintamos el banner adjuntado y guardado en DB*/
-            setBase64ImgBanner(
-              `${process.env.REACT_APP_API_URL}/render/image/${res.data.data.base64BannerPhoto}`
-            );
-          }
+  //         /*Aplicamos la misma validación, verificamos que haya sido guarda la ruta del banner en S3.*/
+  //         if (res.data.data.base64BannerPhoto === "") {
+  //           setBase64ImgBanner(BannerImage);
+  //         } else {
+  //           /*Sí ya hay una key, pintamos el banner adjuntado y guardado en DB*/
+  //           setBase64ImgBanner(
+  //             `${process.env.REACT_APP_API_URL}/render/image/${res.data.data.base64BannerPhoto}`
+  //           );
+  //         }
 
-          setRows(res.data.data.socialMedia); //Aquí guardo si es que el profile tiene alguna red social
-          setLoadingProfileData(false);
-          //setSendNotifications(res.data.data.sendNotifications);
+  //         setRows(res.data.data.socialMedia); //Aquí guardo si es que el profile tiene alguna red social
+  //         handleCloseLoading();
+  //         //setSendNotifications(res.data.data.sendNotifications);
 
-          //para enviar al ChangePassword
-          setName(res.data.name);
-          setEmail(res.data.email);
-          setSerialNumber(res.data.serialNumber);
-        }
-      })
-      .catch((error) => {
-        setExistentProfile(false);
-        setLoadingProfileData(false);
-        setSessionOver(true);
+  //         //para enviar al ChangePassword
+  //         setName(res.data.name);
+  //         setEmail(res.data.email);
+  //         setSerialNumber(res.data.serialNumber);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setExistentProfile(false);
+  //       handleCloseLoading();
 
-        alert("Error");
-      });
-  }, []);
+  //       //Si hay un error entonces indicamos que debe activarse el modal de error
+  //       setSessionOver(true);
+
+  //       //Al cabo de dos segundos cerramos la sesión y el modal
+  //       setTimeout(() => {
+  //         logoutContext();
+  //         handleCloseSessionOver();
+  //       }, 2000);
+  //     });
+  // }, []);
 
   //Esta función va a guardar cada vez que se cambie algo en los campos de RRSS
   const handleOnChange = (index, name, value) => {
@@ -269,139 +278,135 @@ export const SetupProfile = () => {
   return (
     <>
       <Navbar />
-      {/* Body 2 */}
-      <div style={{ backgroundColor: "#fff", width: "100%" }}>
-        <Container>
-          <Grid container>
-            {/* Body 1.1 */}
-            <Grid item xs={12} marginTop={8}>
-              {/* Inicio de formulario para editar información. */}
-              {/* <ThemeProvider theme={theme}> */}
-              
+      <ThemeProvider theme={theme}>
+        {/* Body 2 */}
+        <div style={{ backgroundColor: "#fff", width: "100%" }}>
+          <Container>
+            <Grid container>
+              {/* Body 1.1 */}
+              <Grid item xs={12} marginTop={8}>
+                {/* Inicio de formulario para editar información. */}
                 <NoDynamicForm />
-
                 {/* Social media selector */}
-                
-              
-              <Container>
-              <Row />
-              </Container>
-              {/* </ThemeProvider> */}
-            </Grid>
+                <Container>
+                  <Row />
+                </Container>
+                {/* </ThemeProvider> */}
+              </Grid>
 
-            {/* Body 1.2 - Buttons */}
-            <Grid item xs={12} marginBottom={1}>
-              <Button type="submit" fullWidth variant="contained">
-                Save changes
-              </Button>
+              {/* Body 1.2 - Buttons */}
+              <Grid item xs={12} marginBottom={1}>
+                <Button type="submit" fullWidth variant="contained">
+                  Save changes
+                </Button>
+              </Grid>
+              <Grid item xs={5.5}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  color="success"
+                  variant="contained"
+                  sx={{ mt: 1, mb: 2 }}
+                  onClick={() => setOpenLivePreview(true)}
+                >
+                  {/* <RemoveRedEyeTwoToneIcon sx={{ fontSize: 15 }} /> */}
+                  Live Preview
+                </Button>
+              </Grid>
+              <Grid item xs={1}></Grid>
+              <Grid item xs={5.5}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  color="inherit"
+                  variant="contained"
+                  sx={{ mt: 1, mb: 2 }}
+                >
+                  Clear Data
+                </Button>
+              </Grid>
             </Grid>
-            <Grid xs={5.5}>
-              <Button
-                type="submit"
-                fullWidth
-                color="success"
-                variant="contained"
-                sx={{ mt: 1, mb: 2 }}
-                onClick={()=> setOpenLivePreview(true)}
-              >
-                {/* <RemoveRedEyeTwoToneIcon sx={{ fontSize: 15 }} /> */}
-                Live Preview 
-              </Button>
-            </Grid>
-            <Grid xs={1}></Grid>
-            <Grid xs={5.5}>
-              <Button
-                type="submit"
-                fullWidth
-                color="inherit"
-                variant="contained"
-                sx={{ mt: 1, mb: 2 }}
-              >
-                Clear Data
-              </Button>
-            </Grid>
-          </Grid>
-        </Container>
-      </div>
+          </Container>
+        </div>
 
-      {/*Modal de Progress Bar cargando mientras consume el servicio getProfile */}
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={loadingProfileData || sessionOver}
-        onClose={!loadingProfileData}
-        // closeAfterTransition
-        // BackdropComponent={Backdrop}
-        // BackdropProps={{
-        //   timeout: 500,
-        // }}
-      >
-        <Fade in={loadingProfileData}>
-          <Box sx={styleModal}>
-            <Typography
-              sx={{
-                textAlign: "center",
-                mt: 30,
-              }}
-            >
-              <AccountCircleTwoToneIcon color="info" sx={{ fontSize: 70 }} />
-            </Typography>
-            {/* <Typography
-              id="modal-modal-title"
-              variant="h5"
-              component="h2"
-              sx={{ mt: 1, textAlign: "center" }}
-            >
-              Plase wait ;)
-            </Typography> */}
-            <LinearProgress sx={{ mt: 2 }} />
-            <Typography
-              variant="caption"
-              display="block"
-              sx={{ textAlign: "center" }}
-              gutterBottom
-            >
-              Loading your info...
-            </Typography>
-          </Box>
-        </Fade>
-      </Modal>
-
-      {/*Modal de Live Preview de Profile */}
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openLivePreview}
-        onClose={!openLivePreview}
-        // closeAfterTransition
-        // BackdropComponent={Backdrop}
-        // BackdropProps={{
-        //   timeout: 500,
-        // }}
-      >
-        <Fade in={openLivePreview}>
-          <Box sx={styleModal}>
-            <Typography
-              sx={{
-                textAlign: "center",
-                mt: 30,
-              }}
-            >
-              <Button
-                type="button"
-                fullWidth
-                color="inherit"
-                variant="contained"
-                sx={{ mt: 1, mb: 2 }}
-                onClick={()=>setOpenLivePreview(false)}
+        {/*Modal de Live Preview de Profile */}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={openLivePreview}
+          onClose={handleCloseLivePreview}
+          // closeAfterTransition
+          // BackdropComponent={Backdrop}
+          // BackdropProps={{
+          //   timeout: 500,
+          // }}
+        >
+          <Fade in={openLivePreview}>
+            <Box sx={styleModal}>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 30,
+                }}
               >
-                Close Live Preview
-              </Button>
-            </Typography>
-            
-          </Box>
-        </Fade>
-      </Modal>
+                <Button
+                  type="button"
+                  fullWidth
+                  color="inherit"
+                  variant="contained"
+                  sx={{ mt: 1, mb: 2 }}
+                  onClick={() => setOpenLivePreview(false)}
+                >
+                  Close Live Preview
+                </Button>
+              </Typography>
+            </Box>
+          </Fade>
+        </Modal>
+
+        {/*Modal de Session Over */}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={sessionOver}
+          onClose={handleCloseSessionOver}
+          // closeAfterTransition
+          // BackdropComponent={Backdrop}
+          // BackdropProps={{
+          //   timeout: 500,
+          // }}
+        >
+          <Fade in={sessionOver}>
+            <Box sx={styleModal}>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 30,
+                }}
+              >
+                <DangerousTwoToneIcon color="error" sx={{ fontSize: 70 }} />
+              </Typography>
+              <Typography
+                id="modal-modal-title"
+                variant="h5"
+                component="h2"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                An error occurred :(
+              </Typography>
+              <LinearProgress sx={{ mt: 2 }} />
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ textAlign: "center" }}
+                gutterBottom
+              >
+                shooting down...
+              </Typography>
+            </Box>
+          </Fade>
+        </Modal>
+      </ThemeProvider>
     </>
   );
 };

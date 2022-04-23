@@ -163,6 +163,11 @@ export const Login = () => {
               user: name,
               token: token,
               email: email,
+              existentProfile:
+                ok === true &&
+                msg === "User is registered but doesn't have any profile saved."
+                  ? false
+                  : true,
               serialNumber: serialNumber,
               username: username,
               profileData: data,
@@ -364,10 +369,12 @@ export const Login = () => {
                 {/* Grilla nueva en donde se muestran opciones de crear profile y cambio de contraseña */}
                 <Grid container>
                   <Grid item xs>
-                    <Link 
-                    variant="body2"
-                    onClick={ ()=>{ history.push('/forgot-password') } }
-                    sx={{ cursor: "pointer" }}
+                    <Link
+                      variant="body2"
+                      onClick={() => {
+                        history.push("/forgot-password");
+                      }}
+                      sx={{ cursor: "pointer" }}
                     >
                       Forgot password?
                     </Link>
