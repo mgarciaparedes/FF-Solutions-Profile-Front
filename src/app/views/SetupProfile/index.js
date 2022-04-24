@@ -1,54 +1,37 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import axios from "axios";
+// import axios from "axios";
 import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+// import Footer from "../../../components/Footer";
 import helpers from "../../../components/Helpers";
 import { AppContext } from "../../../components/AppContext";
-import history from "../../../components/History";
+// import history from "../../../components/History";
 import {
-  Avatar,
-  Stack,
-  Box,
-  Container,
   Divider,
   Chip,
   Grid,
-  Paper,
-  Modal,
-  Backdrop,
-  Fade,
-  LinearProgress,
-  Typography,
-  Button,
-  IconButton,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
+  Button
 } from "@mui/material";
-import img_avatar from "../../../assets/images/avatar.jpg";
-import banner from "../../../assets/images/banner.png";
+// import img_avatar from "../../../assets/images/avatar.jpg";
+// import banner from "../../../assets/images/banner.png";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { styled } from "@mui/material/styles";
-import { maxWidth } from "@mui/system";
+// import { styled } from "@mui/material/styles";
+// import { maxWidth } from "@mui/system";
 
 //Imágenes por default si el cliente no tiene imágenes guardadas
 import userImage from "../../../assets/images/default-user-image.png";
 import BannerImage from "../../../assets/images/default-user-banner.jpg";
 
 // Icons
-import { PhotoCamera } from "@mui/icons-material";
-import DangerousTwoToneIcon from "@mui/icons-material/DangerousTwoTone";
-import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-// import RemoveRedEyeTwoToneIcon from "@mui/icons-material/RemoveRedEyeTwoTone";
+// import { PhotoCamera } from "@mui/icons-material";
 
 // import { Carousel } from 'antd';
 
 //Importaciones de Componentes Hijos
 import Row from "./ChildrenComponent/Row.js";
 import NoDynamicForm from "./ChildrenComponent/NoDynamicForm";
+import ModalLivePreview from "./ChildrenComponent/ModalLivePreview";
+import ModalSessionOver from "./ChildrenComponent/ModalSessionOver";
+import ModalWelcomeFirstSetup from "./ChildrenComponent/ModalWelcomeFirstSetup";
 
 //Importación de la librería QR
 const QRCode = require("qrcode.react");
@@ -132,7 +115,6 @@ export const SetupProfile = () => {
   const handleCloseWelcome = () => setWelcome(false);
 
   useEffect(() => {
-    console.log(objLogin);
     if (!objLogin.existentProfile) {
       setWelcome(true);
       setImgProfile(userImage);
@@ -340,7 +322,7 @@ export const SetupProfile = () => {
                 color="inherit"
                 variant="contained"
                 sx={{ mt: 1, mb: 2 }}
-                onClick={() => console.log(imgBanner)}
+                // onClick={() => console.log(imgBanner)}
               >
                 Clear Data
               </Button>
@@ -349,135 +331,23 @@ export const SetupProfile = () => {
         </div>
 
         {/*Modal de Live Preview de Profile */}
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={openLivePreview}
-          onClose={handleCloseLivePreview}
-          // closeAfterTransition
-          // BackdropComponent={Backdrop}
-          // BackdropProps={{
-          //   timeout: 500,
-          // }}
-        >
-          <Fade in={openLivePreview}>
-            <Box sx={styleModal}>
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  mt: 30,
-                }}
-              >
-                <Button
-                  type="button"
-                  fullWidth
-                  color="inherit"
-                  variant="contained"
-                  sx={{ mt: 1, mb: 2 }}
-                  onClick={() => setOpenLivePreview(false)}
-                >
-                  Close Live Preview
-                </Button>
-              </Typography>
-            </Box>
-          </Fade>
-        </Modal>
+        <ModalLivePreview 
+        openLivePreview={openLivePreview}
+        setOpenLivePreview={setOpenLivePreview}
+        handleCloseLivePreview={handleCloseLivePreview}
+        />
 
         {/*Modal de Session Over */}
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={sessionOver}
-          onClose={handleCloseSessionOver}
-          // closeAfterTransition
-          // BackdropComponent={Backdrop}
-          // BackdropProps={{
-          //   timeout: 500,
-          // }}
-        >
-          <Fade in={sessionOver}>
-            <Box sx={styleModal}>
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  mt: 30,
-                }}
-              >
-                <DangerousTwoToneIcon color="error" sx={{ fontSize: 70 }} />
-              </Typography>
-              <Typography
-                id="modal-modal-title"
-                variant="h5"
-                component="h2"
-                sx={{ mt: 1, textAlign: "center" }}
-              >
-                An error occurred :(
-              </Typography>
-              <LinearProgress sx={{ mt: 2 }} />
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ textAlign: "center" }}
-                gutterBottom
-              >
-                shooting down...
-              </Typography>
-            </Box>
-          </Fade>
-        </Modal>
+        <ModalSessionOver 
+        sessionOver={sessionOver}
+        handleCloseSessionOver={handleCloseSessionOver}
+        />
 
         {/*Modal Inicio de Sesión Primer Perfil */}
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={welcome}
-          onClose={handleCloseWelcome}
-          // closeAfterTransition
-          // BackdropComponent={Backdrop}
-          // BackdropProps={{
-          //   timeout: 500,
-          // }}
-        >
-          <Fade in={welcome}>
-            <Box sx={styleModal}>
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  mt: 25,
-                }}
-              >
-                <GroupAddTwoToneIcon color="info" sx={{ fontSize: 70 }} />
-              </Typography>
-              <Typography
-                id="modal-modal-title"
-                variant="h5"
-                component="h2"
-                sx={{ mt: 1, textAlign: "center" }}
-              >
-                Hi, welcome to FF Profile!
-              </Typography>
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ mt: 1, textAlign: "center" }}
-                gutterBottom
-              >
-                Here you can setup your name, bio, social networks and many more
-                featurettes, enjoy the FF Experience ;)
-              </Typography>
-              <Grid sx={{ mt: 2, textAlign: "center" }}>
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    handleCloseWelcome();
-                  }}
-                >
-                  Go to setup
-                </Button>
-              </Grid>
-            </Box>
-          </Fade>
-        </Modal>
+        <ModalWelcomeFirstSetup
+        welcome={welcome}
+        handleCloseWelcome={handleCloseWelcome}
+        />
       </ThemeProvider>
     </>
   );

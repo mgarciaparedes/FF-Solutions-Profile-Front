@@ -112,19 +112,6 @@ const Row = ({
                   onChange={(e) => onChange("linkName", e.target.value)}
                   fullWidth
                   variant="outlined"
-                  // InputProps={{
-                  //   endAdornment: (
-                  //     <InputAdornment position="end">
-                  //       <IconButton
-                  //         // aria-label="toggle password visibility"
-                  //         onClick={onRemove}
-                  //         edge="end"
-                  //       >
-                  //         <BackspaceTwoToneIcon color="info" />
-                  //       </IconButton>
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -168,19 +155,6 @@ const Row = ({
                   onChange={(e) => onChange("linkName", e.target.value)}
                   fullWidth
                   variant="outlined"
-                  // InputProps={{
-                  //   endAdornment: (
-                  //     <InputAdornment position="end">
-                  //       <IconButton
-                  //         // aria-label="toggle password visibility"
-                  //         onClick={onRemove}
-                  //         edge="end"
-                  //       >
-                  //         <BackspaceTwoToneIcon color="info" />
-                  //       </IconButton>
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
                   InputLabelProps={{
                     shrink: true,
                   }}

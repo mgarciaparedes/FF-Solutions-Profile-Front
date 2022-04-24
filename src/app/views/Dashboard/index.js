@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
+import history from "../../../components/History";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
@@ -103,13 +104,6 @@ const ImageMarked = styled("span")(({ theme }) => ({
 
 export const Dashboard = () => {
   const { objLogin } = useContext(AppContext);
-  //   const [show, setShow] = useState(true);
-  //   const [index, setIndex] = useState(0);
-
-  //   const handleSelect = (selectedIndex, e) => {
-  //     setIndex(selectedIndex);
-  //   };
-
   return (
     <>
       <Navbar />

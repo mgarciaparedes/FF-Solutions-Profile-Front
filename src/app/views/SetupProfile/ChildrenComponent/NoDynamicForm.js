@@ -263,8 +263,8 @@ const NoDynamicForm = ({
                 />
               }
             >
-              {socialNetworks.map((element) => (
-                <MenuItem value={element}>{element}</MenuItem>
+              {socialNetworks.map((element,index) => (
+                <MenuItem value={element} key={index}>{element}</MenuItem>
               ))}
             </Select>
           </FormControl>
