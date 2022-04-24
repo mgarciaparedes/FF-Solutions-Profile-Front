@@ -5,12 +5,7 @@ import Navbar from "../../../components/Navbar";
 import helpers from "../../../components/Helpers";
 import { AppContext } from "../../../components/AppContext";
 // import history from "../../../components/History";
-import {
-  Divider,
-  Chip,
-  Grid,
-  Button
-} from "@mui/material";
+import { Divider, Chip, Grid, Button } from "@mui/material";
 // import img_avatar from "../../../assets/images/avatar.jpg";
 // import banner from "../../../assets/images/banner.png";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -32,6 +27,7 @@ import NoDynamicForm from "./ChildrenComponent/NoDynamicForm";
 import ModalLivePreview from "./ChildrenComponent/ModalLivePreview";
 import ModalSessionOver from "./ChildrenComponent/ModalSessionOver";
 import ModalWelcomeFirstSetup from "./ChildrenComponent/ModalWelcomeFirstSetup";
+import ModalConfirmClearData from "./ChildrenComponent/ModalConfirmClearData";
 
 //Importación de la librería QR
 const QRCode = require("qrcode.react");
@@ -110,9 +106,14 @@ export const SetupProfile = () => {
   const [openLivePreview, setOpenLivePreview] = useState(false);
   const handleCloseLivePreview = () => setOpenLivePreview(false);
 
-  //constante para abrir y cerrar bienvenida
+  //constante para abrir y cerrar modal bienvenida
   const [welcome, setWelcome] = useState(false);
   const handleCloseWelcome = () => setWelcome(false);
+
+  //constante para abrir y cerrar modal confirmar clear Data
+  const [confirmModalClearData, setConfirmModalClearData] = useState(false);
+  const handleCloseConfirmModalClearData = () =>
+    setConfirmModalClearData(false);
 
   useEffect(() => {
     if (!objLogin.existentProfile) {
@@ -228,9 +229,19 @@ export const SetupProfile = () => {
     setImgBanner(`data:image/jpeg;base64,${base64String2}`);
   };
 
+  //Función que borra todas las rrss del perfil
+  const clearData = () => {
+    setRows([]);
+    setNameState("");
+    setBioState("");
+    setImgProfile(userImage);
+    setImgBanner(BannerImage);
+    setImgProfileToUpload("");
+    setImgBannerToUpload("");
+  };
+
   //Función submit para guardar/modificar el profile según se requiera
   const onSubmit = () => {
-
     const payload = {
       profileFullName: nameState,
       base64ProfilePhoto: imgProfileToUpload,
@@ -243,7 +254,7 @@ export const SetupProfile = () => {
     };
 
     console.log(payload);
-  }
+  };
   return (
     <>
       <Navbar />
@@ -322,7 +333,7 @@ export const SetupProfile = () => {
                 color="inherit"
                 variant="contained"
                 sx={{ mt: 1, mb: 2 }}
-                // onClick={() => console.log(imgBanner)}
+                onClick={() => setConfirmModalClearData(true)}
               >
                 Clear Data
               </Button>
@@ -331,23 +342,31 @@ export const SetupProfile = () => {
         </div>
 
         {/*Modal de Live Preview de Profile */}
-        <ModalLivePreview 
-        openLivePreview={openLivePreview}
-        setOpenLivePreview={setOpenLivePreview}
-        handleCloseLivePreview={handleCloseLivePreview}
+        <ModalLivePreview
+          openLivePreview={openLivePreview}
+          setOpenLivePreview={setOpenLivePreview}
+          handleCloseLivePreview={handleCloseLivePreview}
         />
 
         {/*Modal de Session Over */}
-        <ModalSessionOver 
-        sessionOver={sessionOver}
-        handleCloseSessionOver={handleCloseSessionOver}
+        <ModalSessionOver
+          sessionOver={sessionOver}
+          handleCloseSessionOver={handleCloseSessionOver}
         />
 
         {/*Modal Inicio de Sesión Primer Perfil */}
         <ModalWelcomeFirstSetup
-        welcome={welcome}
-        handleCloseWelcome={handleCloseWelcome}
+          welcome={welcome}
+          handleCloseWelcome={handleCloseWelcome}
         />
+
+        {/*Modal Inicio de Sesión Primer Perfil */}
+        <ModalConfirmClearData
+          confirmModalClearData={confirmModalClearData}
+          handleCloseConfirmModalClearData={handleCloseConfirmModalClearData}
+          clearData={clearData}
+        />
+
       </ThemeProvider>
     </>
   );
