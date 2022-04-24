@@ -257,9 +257,9 @@ export const SetupProfile = () => {
       base64BannerPhoto: imgBannerToUpload,
       profileBio: bioState,
       socialMedia: rows,
-      // sendNotifications: sendNotifications,
-      // isLinked: isLinked,
-      // usernameLinked: usernameLinked,
+      sendNotifications: objLogin.sendNotifications,
+      isLinked: objLogin.isLinked,
+      usernameLinked: objLogin.usernameLinked,
     };
 
     console.log(payload);

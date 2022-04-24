@@ -13,10 +13,11 @@ import {
   MenuItem,
   Select,
   OutlinedInput,
+  Divider
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CameraAltTwoToneIcon from "@mui/icons-material/CameraAltTwoTone";
-import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { useSnackbar } from "notistack";
 
 const NoDynamicForm = ({
@@ -269,9 +270,9 @@ const NoDynamicForm = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={2} marginTop={3} sx={{ textAlign: "center" }}>
+        <Grid item xs={2} marginTop={3} sx={{ textAlign: "right" }}>
           <IconButton color="primary" onClick={() => handleOnAdd(socialMediaState)}>
-            <AddCircleSharpIcon sx={{ fontSize: 35 }} />
+            <AddBoxOutlinedIcon sx={{ fontSize: 40 }} />
           </IconButton>
         </Grid>
       </Grid>
