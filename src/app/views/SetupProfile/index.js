@@ -9,6 +9,7 @@ import { Divider, Chip, Grid, Button } from "@mui/material";
 // import img_avatar from "../../../assets/images/avatar.jpg";
 // import banner from "../../../assets/images/banner.png";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useSnackbar } from "notistack";
 // import { styled } from "@mui/material/styles";
 // import { maxWidth } from "@mui/system";
 
@@ -58,6 +59,7 @@ const styleModal = {
 export const SetupProfile = () => {
   //Obtenemos variables de sesión
   const { objLogin, logoutContext } = useContext(AppContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [existentProfile, setExistentProfile] = useState(true);
   const [nameState, setNameState] = useState("");
@@ -238,6 +240,13 @@ export const SetupProfile = () => {
     setImgBanner(BannerImage);
     setImgProfileToUpload("");
     setImgBannerToUpload("");
+
+    //Notificación data borrada exitosamente
+    enqueueSnackbar("Data was cleared succesfully!", {
+      variant: "success",
+      autoHideDuration: 2000
+    });
+
   };
 
   //Función submit para guardar/modificar el profile según se requiera
