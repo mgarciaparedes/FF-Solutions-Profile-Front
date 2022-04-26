@@ -9,17 +9,43 @@ import {
   Avatar,
   Grid,
   Paper,
-  Container
+  Container,
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import { AppContext } from "../../../../components/AppContext";
-import Image from "material-ui-image";
+
+//Importación de íconos redes sociales
+import YoutubeIcon from "../../../../assets/svg/youtube.svg";
+import InstagramIcon from "../../../../assets/svg/instagram.svg";
+import TwitterIcon from "../../../../assets/svg/twitter.svg";
+import FacebookIcon from "../../../../assets/svg/facebook.svg";
+import LinkedinIcon from "../../../../assets/svg/linkedin.svg";
+import SnapchatIcon from "../../../../assets/svg/snapchat.svg";
+import AppleMusicIcon from "../../../../assets/svg/apple-music.svg";
+import CashappIcon from "../../../../assets/svg/cashapp.svg";
+// import SoundcloudIcon from "../../../../assets/svg/soundcloud.svg";
+import SpotifyIcon from "../../../../assets/svg/spotify.svg";
+import TiktokIcon from "../../../../assets/svg/tiktok.svg";
+import VenmoIcon from "../../../../assets/svg/venmo.svg";
+import PaypalIcon from "../../../../assets/svg/paypal.svg";
+import MapPinIcon from "../../../../assets/svg/locationmap.svg";
+import EmailIcon from "../../../../assets/svg/mail.svg";
+import PhoneIcon from "../../../../assets/svg/phone.svg";
+import WhatsappIcon from "../../../../assets/svg/whatsapp.svg";
+import TelegramIcon from "../../../../assets/svg/telegram.svg";
+import GoFundMeIcon from "../../../../assets/svg/gofundme.svg";
+import TwitchIcon from "../../../../assets/svg/twitch.svg";
+import OnlyFansIcon from "../../../../assets/svg/onlyfans.svg";
+import DiscordIcon from "../../../../assets/svg/discord.svg";
+import HousePartyIcon from "../../../../assets/svg/houseparty.svg";
+import SmsIcon from "../../../../assets/svg/sms.svg";
+import WebsiteIcon from "../../../../assets/svg/website.svg";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
+  padding: theme.spacing(2.5),
+  textAlign: "center",
   color: theme.palette.text.secondary,
 }));
 
@@ -124,20 +150,35 @@ const ModalLivePreview = ({
           </Typography>
 
           {/*Botones Redes Sociales*/}
-          <Container>
-          <Box sx={{ flexGrow: 1, mt: 3 }}>
-            <Grid container spacing={1}>
-              <Grid item xs={4}>
-              <Item>xs=6 md=8</Item>
+          <Container sx={{ mt: 3 }}>
+            <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Item>
+                    <a
+                      // sx={{
+                      //   outline: "none !important",
+                      //   boxShadow: "none",
+                      // }}
+                      target="_blank"
+                      component="a"
+                      href="http://www.google.com/"
+                    >
+                      <img src={InstagramIcon} alt="test" />
+                    </a>
+                  </Item>
+                </Grid>
+                <Grid item xs={4}>
+                  <Item>xs=6 md=8</Item>
+                </Grid>
+                <Grid item xs={4}>
+                  <Item>xs=6 md=8</Item>
+                </Grid>
+                <Grid item xs={4}>
+                  <Item>xs=6 md=8</Item>
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-              <Item>xs=6 md=8</Item>
-              </Grid>
-              <Grid item xs={4}>
-              <Item>xs=6 md=8</Item>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
           </Container>
 
           {/*Botón Cerrar Live Preview*/}
