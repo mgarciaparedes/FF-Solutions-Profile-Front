@@ -15,7 +15,7 @@ import { useSnackbar } from "notistack";
 
 //Imágenes por default si el cliente no tiene imágenes guardadas
 import userImage from "../../../assets/images/default-user-image.png";
-import BannerImage from "../../../assets/images/default-user-banner.jpg";
+import bannerImage from "../../../assets/images/default-user-banner.jpg";
 
 // Icons
 // import { PhotoCamera } from "@mui/icons-material";
@@ -121,7 +121,7 @@ export const SetupProfile = () => {
     if (!objLogin.existentProfile) {
       setWelcome(true);
       setImgProfile(userImage);
-      setImgBanner(BannerImage);
+      setImgBanner(bannerImage);
     } else {
       const { galleryActive, galleryImages } = objLogin;
       setNameState(objLogin.profileData.profileFullName);
@@ -144,7 +144,7 @@ export const SetupProfile = () => {
 
       /*Aplicamos la misma validación, verificamos que haya sido guarda la ruta del banner en S3.*/
       if (objLogin.profileData.base64BannerPhoto === "") {
-        setImgBanner(BannerImage);
+        setImgBanner(bannerImage);
       } else {
         /*Sí ya hay una key, pintamos el banner adjuntado y guardado en DB*/
         setImgBanner(
@@ -237,16 +237,15 @@ export const SetupProfile = () => {
     setNameState("");
     setBioState("");
     setImgProfile(userImage);
-    setImgBanner(BannerImage);
+    setImgBanner(bannerImage);
     setImgProfileToUpload("");
     setImgBannerToUpload("");
 
     //Notificación data borrada exitosamente
     enqueueSnackbar("Data was cleared succesfully!", {
       variant: "success",
-      autoHideDuration: 2000
+      autoHideDuration: 2000,
     });
-
   };
 
   //Función submit para guardar/modificar el profile según se requiera
@@ -355,6 +354,12 @@ export const SetupProfile = () => {
           openLivePreview={openLivePreview}
           setOpenLivePreview={setOpenLivePreview}
           handleCloseLivePreview={handleCloseLivePreview}
+          imgProfile={imgProfile}
+          imgBanner={imgBanner}
+          // imgBannerToUpload={imgBannerToUpload}
+          // imgProfileToUpload={imgProfileToUpload}
+          nameState={nameState}
+          bioState={bioState}
         />
 
         {/*Modal de Session Over */}
@@ -375,7 +380,6 @@ export const SetupProfile = () => {
           handleCloseConfirmModalClearData={handleCloseConfirmModalClearData}
           clearData={clearData}
         />
-
       </ThemeProvider>
     </>
   );
