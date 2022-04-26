@@ -188,11 +188,9 @@ const Sidebar = () => {
               }}
             >
               <ListItemIcon>
-                {index === 0 && <HomeRoundedIcon />}
-                {index === 1 && <SettingsApplicationsSharpIcon />}
-                {index === 2 && <ConstructionRoundedIcon />}
-                {index === 3 && <LockResetRoundedIcon />}
-                {index === 4 && <PrivacyTipSharpIcon />}
+                {index === 0 && <ConstructionRoundedIcon />}
+                {index === 1 && <LockResetRoundedIcon />}
+                {index === 2 && <PrivacyTipSharpIcon />}
               </ListItemIcon>
               <ListItemText primary={text.name} />
             </ListItem>
