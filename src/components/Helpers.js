@@ -35,12 +35,8 @@ const helpers = {
 
   //Función para copiar la url
   copyTextToClipboard(text) {
-    var inputc = document.body.appendChild(document.createElement("input"));
-    inputc.value = text;
-    inputc.focus();
-    inputc.select();
-    document.execCommand("copy");
-    inputc.parentNode.removeChild(inputc);
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(text);
   },
 
   // shareLink(profileUsername) {
@@ -79,18 +75,18 @@ const helpers = {
   //       usernameURL +
   //       '&ui=2&tf=1&pli=1" title="Share by Gmail"><img width="50" height="50" src=' +
   //       GmailIcon +
-  //       " /></a> " + 
+  //       " /></a> " +
   //       '</div>',
   //     // icon: "info",
   //     confirmButtonText: "Close",
   //   });
-    // .then((result) => {
-    //   if (result.isConfirmed) {
-    //     history.push("/login");
-    //   } else {
-    //     history.push("/login");
-    //   }
-    // });
+  // .then((result) => {
+  //   if (result.isConfirmed) {
+  //     history.push("/login");
+  //   } else {
+  //     history.push("/login");
+  //   }
+  // });
   // },
 };
 

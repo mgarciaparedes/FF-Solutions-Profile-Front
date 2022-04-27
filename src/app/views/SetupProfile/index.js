@@ -362,6 +362,8 @@ export const SetupProfile = () => {
           bioState={bioState}
           rows={rows}
           convertStringWithPlus={convertStringWithPlus}
+          copyTextToClipboard={copyTextToClipboard}
+          enqueueSnackbar={enqueueSnackbar}
         />
 
         {/*Modal de Session Over */}

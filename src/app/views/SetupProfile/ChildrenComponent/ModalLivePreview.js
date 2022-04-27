@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Modal,
   Fade,
@@ -42,10 +42,18 @@ import SmsIcon from "../../../../assets/svg/sms.svg";
 import WebsiteIcon from "../../../../assets/svg/website.svg";
 import { Facebook, Telegram } from "@mui/icons-material";
 
-const Item = styled(Paper)(({ theme }) => ({
+const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2.5),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+const ItemCustomButton = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
@@ -64,6 +72,19 @@ const styleModal = {
   margin: "auto",
 };
 
+//Estilo modal CustomText
+const styleModalCustomText = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  bgcolor: "background.paper",
+  borderRadius: "2px",
+  boxShadow: 24,
+  p: 3,
+};
+
 const ModalLivePreview = ({
   openLivePreview,
   setOpenLivePreview,
@@ -76,238 +97,358 @@ const ModalLivePreview = ({
   bioState,
   rows,
   convertStringWithPlus,
+  copyTextToClipboard,
+  enqueueSnackbar,
 }) => {
-  const { objLogin, logoutContext } = useContext(AppContext);
-  useEffect(() => {
-    console.log(rows);
-  }, []);
+  const [openModalCustomText, setOpenModalCustomText] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalBody, setModalBody] = useState("");
+
+  //Función al seleccionar Custom Text abrir el modal
+  //y pasarle al modal el título y el texto a desplegar
+  const handleOpenModalCustomText = (title, body) => {
+    setModalTitle(title);
+    setModalBody(body);
+    setOpenModalCustomText(true);
+  };
+
+  //Función cerrar Modal Custom Text
+  const handleCloseModalCustomText = () => {
+    setOpenModalCustomText(false);
+  };
 
   return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      open={openLivePreview}
-      onClose={handleCloseLivePreview}
-      // closeAfterTransition
-      // BackdropComponent={Backdrop}
-      // BackdropProps={{
-      //   timeout: 500,
-      // }}
-    >
-      <Fade in={openLivePreview}>
-        <Box sx={styleModal}>
-          <Box
-            component="img"
-            sx={{
-              height: 200,
-              width: 1
-            }}
-            alt="banner image"
-            src={imgBanner}
-          />
-          <Stack
-            direction="row"
-            spacing={2}
-            marginY={2}
-            justifyContent="center"
-            sx={{
-              marginTop: "-60px",
-              "&::before": {
-                marginTop: "5px",
-                position: "absolute",
-                fontSize: "10px",
-                content: '"Loading..."',
-              },
-            }}
-          >
-            <Avatar
-              alt="Remy Sharp"
-              src={imgProfile}
+    <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openLivePreview}
+        onClose={handleCloseLivePreview}
+        // closeAfterTransition
+        // BackdropComponent={Backdrop}
+        // BackdropProps={{
+        //   timeout: 500,
+        // }}
+      >
+        <Fade in={openLivePreview}>
+          <Box sx={styleModal}>
+            <Box
+              component="img"
               sx={{
-                width: 100,
-                height: 100,
+                height: 200,
+                width: 1,
               }}
+              alt="banner image"
+              src={imgBanner}
             />
-          </Stack>
-          <Typography
-            variant="overline"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mt: 1,
-              fontWeight: "bold",
-            }}
-          >
-            {nameState}
-          </Typography>
-          <Typography
-            variant="overline"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mt: 1,
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            {bioState}
-          </Typography>
-
-          {/*Botones Redes Sociales*/}
-          <Container sx={{ mt: 3 }}>
-            <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
-              <Grid container spacing={2}>
-                {rows.map((row, index) =>
-                  row.socialNetwork !== "CustomURL" &&
-                  row.socialNetwork !== "CustomText" &&
-                  row.socialNetwork !== "Embed Youtube Video" ? (
-                    <Grid item key={index} xs={4}>
-                      <Item>
-                        <a
-                          // sx={{
-                          //   outline: "none !important",
-                          //   boxShadow: "none",
-                          // }}
-                          target="_blank"
-                          component="a"
-                          href={
-                            row.socialNetwork === "Instagram"
-                              ? "https://www.instagram.com/" + row.profile
-                              : row.socialNetwork === "Snapchat"
-                              ? "https://www.snapchat.com/add/" + row.profile
-                              : row.socialNetwork === "Whatsapp"
-                              ? "https://wa.me/" + row.profile
-                              : row.socialNetwork === "Youtube"
-                              ? row.profile
-                              : row.socialNetwork === "Facebook"
-                              ? row.profile
-                              : row.socialNetwork === "Soundcloud"
-                              ? "https://www.soundcloud.com/add/" + row.profile
-                              : row.socialNetwork === "Linkedin"
-                              ? row.profile
-                              : row.socialNetwork === "TikTok"
-                              ? row.profile
-                              : row.socialNetwork === "Twitter"
-                              ? "https://www.twitter.com/" + row.profile
-                              : row.socialNetwork === "Spotify"
-                              ? "https://www.spotify.com/" + row.profile
-                              : row.socialNetwork === "Apple Music"
-                              ? "https://music.apple.com/" + row.profile
-                              : row.socialNetwork === "Venmo"
-                              ? "https://www.venmo.com/" + row.profile
-                              : row.socialNetwork === "CashApp"
-                              ? "https://cash.app/$" + row.profile
-                              : row.socialNetwork === "Address"
-                              ? "https://www.google.com/maps/search/" +
-                                convertStringWithPlus(row.profile)
-                              : row.socialNetwork === "Phone Number"
-                              ? "tel:" + row.profile
-                              : row.socialNetwork === "Email"
-                              ? "mailto:" + row.profile
-                              : row.socialNetwork === "SMS"
-                              ? "sms:" + row.profile
-                              : row.socialNetwork === "Paypal"
-                              ? "https://paypal.com/" + row.profile
-                              : row.socialNetwork === "Telegram"
-                              ? "https://t.me/" + row.profile
-                              : row.socialNetwork === "OnlyFans"
-                              ? "https://onlyfans.com/" + row.profile
-                              : row.socialNetwork === "GoFundMe"
-                              ? row.profile
-                              : row.socialNetwork === "Twitch"
-                              ? "https://twitch.tv/" + row.profile
-                              : row.socialNetwork === "Discord"
-                              ? row.profile
-                              : row.socialNetwork === "HouseParty"
-                              ? "https://houseparty.com/add/" + row.profile
-                              : row.profile
-                          }
-                        >
-                          <img
-                            src={
-                              row.socialNetwork === "Instagram"
-                                ? InstagramIcon
-                                : row.socialNetwork === "Snapchat"
-                                ? SnapchatIcon
-                                : row.socialNetwork === "Whatsapp"
-                                ? WhatsappIcon
-                                : row.socialNetwork === "Youtube"
-                                ? YoutubeIcon
-                                : row.socialNetwork === "Facebook"
-                                ? FacebookIcon
-                                : row.socialNetwork === "Soundcloud"
-                                ? SoundcloudIcon
-                                : row.socialNetwork === "Linkedin"
-                                ? LinkedinIcon
-                                : row.socialNetwork === "TikTok"
-                                ? TiktokIcon
-                                : row.socialNetwork === "Twitter"
-                                ? TwitterIcon
-                                : row.socialNetwork === "Spotify"
-                                ? SpotifyIcon
-                                : row.socialNetwork === "Apple Music"
-                                ? AppleMusicIcon
-                                : row.socialNetwork === "Venmo"
-                                ? VenmoIcon
-                                : row.socialNetwork === "CashApp"
-                                ? CashappIcon
-                                : row.socialNetwork === "Address"
-                                ? MapPinIcon
-                                : row.socialNetwork === "Phone Number"
-                                ? PhoneIcon
-                                : row.socialNetwork === "Email"
-                                ? EmailIcon
-                                : row.socialNetwork === "SMS"
-                                ? SmsIcon
-                                : row.socialNetwork === "Paypal"
-                                ? PaypalIcon
-                                : row.socialNetwork === "Telegram"
-                                ? TelegramIcon
-                                : row.socialNetwork === "OnlyFans"
-                                ? OnlyFansIcon
-                                : row.socialNetwork === "GoFundMe"
-                                ? GoFundMeIcon
-                                : row.socialNetwork === "Twitch"
-                                ? TwitchIcon
-                                : row.socialNetwork === "Discord"
-                                ? DiscordIcon
-                                : row.socialNetwork === "HouseParty"
-                                ? HousePartyIcon
-                                : row.socialNetwork === "Website"
-                                ? WebsiteIcon
-                                : null
-                            }
-                            alt={row.socialNetwork}
-                          />
-                        </a>
-                      </Item>
-                    </Grid>
-                  ) : null
-                )}
-              </Grid>
-            </Box>
-
-            {/*Botón Cerrar Live Preview*/}
-            <Typography
+            <Stack
+              direction="row"
+              spacing={2}
+              marginY={2}
+              justifyContent="center"
               sx={{
-                textAlign: "center",
-                mt: 10,
+                marginTop: "-60px",
+                "&::before": {
+                  marginTop: "5px",
+                  position: "absolute",
+                  fontSize: "10px",
+                  content: '"Loading..."',
+                },
               }}
             >
-              <Button
-                type="button"
-                fullWidth
-                color="info"
-                variant="contained"
-                sx={{ mt: 1, mb: 2 }}
-                onClick={() => setOpenLivePreview(false)}
-              >
-                Close Live Preview
-              </Button>
+              <Avatar
+                alt="Remy Sharp"
+                src={imgProfile}
+                sx={{
+                  width: 100,
+                  height: 100,
+                }}
+              />
+            </Stack>
+            <Typography
+              variant="overline"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mt: 1,
+                fontWeight: "bold",
+              }}
+            >
+              {nameState}
             </Typography>
-          </Container>
-        </Box>
-      </Fade>
-    </Modal>
+            <Typography
+              variant="overline"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mt: 1,
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {bioState}
+            </Typography>
+
+            {/*Botones Redes Sociales*/}
+            <Container sx={{ mt: 3 }}>
+              <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
+                <Grid container spacing={2}>
+                  {rows.map((row, index) =>
+                    row.socialNetwork !== "CustomURL" &&
+                    row.socialNetwork !== "CustomText" &&
+                    row.socialNetwork !== "Embed Youtube Video" ? (
+                      <Grid item key={index} xs={4}>
+                        <ItemSocialNetwork>
+                          <a
+                            // sx={{
+                            //   outline: "none !important",
+                            //   boxShadow: "none",
+                            // }}
+                            target="_blank"
+                            component="a"
+                            href={
+                              row.socialNetwork === "Instagram"
+                                ? "https://www.instagram.com/" + row.profile
+                                : row.socialNetwork === "Snapchat"
+                                ? "https://www.snapchat.com/add/" + row.profile
+                                : row.socialNetwork === "Whatsapp"
+                                ? "https://wa.me/" + row.profile
+                                : row.socialNetwork === "Youtube"
+                                ? row.profile
+                                : row.socialNetwork === "Facebook"
+                                ? row.profile
+                                : row.socialNetwork === "Soundcloud"
+                                ? "https://www.soundcloud.com/add/" +
+                                  row.profile
+                                : row.socialNetwork === "Linkedin"
+                                ? row.profile
+                                : row.socialNetwork === "TikTok"
+                                ? row.profile
+                                : row.socialNetwork === "Twitter"
+                                ? "https://www.twitter.com/" + row.profile
+                                : row.socialNetwork === "Spotify"
+                                ? "https://www.spotify.com/" + row.profile
+                                : row.socialNetwork === "Apple Music"
+                                ? "https://music.apple.com/" + row.profile
+                                : row.socialNetwork === "Venmo"
+                                ? "https://www.venmo.com/" + row.profile
+                                : row.socialNetwork === "CashApp"
+                                ? "https://cash.app/$" + row.profile
+                                : row.socialNetwork === "Address"
+                                ? "https://www.google.com/maps/search/" +
+                                  convertStringWithPlus(row.profile)
+                                : row.socialNetwork === "Phone Number"
+                                ? "tel:" + row.profile
+                                : row.socialNetwork === "Email"
+                                ? "mailto:" + row.profile
+                                : row.socialNetwork === "SMS"
+                                ? "sms:" + row.profile
+                                : row.socialNetwork === "Paypal"
+                                ? "https://paypal.com/" + row.profile
+                                : row.socialNetwork === "Telegram"
+                                ? "https://t.me/" + row.profile
+                                : row.socialNetwork === "OnlyFans"
+                                ? "https://onlyfans.com/" + row.profile
+                                : row.socialNetwork === "GoFundMe"
+                                ? row.profile
+                                : row.socialNetwork === "Twitch"
+                                ? "https://twitch.tv/" + row.profile
+                                : row.socialNetwork === "Discord"
+                                ? row.profile
+                                : row.socialNetwork === "HouseParty"
+                                ? "https://houseparty.com/add/" + row.profile
+                                : row.profile
+                            }
+                          >
+                            <img
+                              src={
+                                row.socialNetwork === "Instagram"
+                                  ? InstagramIcon
+                                  : row.socialNetwork === "Snapchat"
+                                  ? SnapchatIcon
+                                  : row.socialNetwork === "Whatsapp"
+                                  ? WhatsappIcon
+                                  : row.socialNetwork === "Youtube"
+                                  ? YoutubeIcon
+                                  : row.socialNetwork === "Facebook"
+                                  ? FacebookIcon
+                                  : row.socialNetwork === "Soundcloud"
+                                  ? SoundcloudIcon
+                                  : row.socialNetwork === "Linkedin"
+                                  ? LinkedinIcon
+                                  : row.socialNetwork === "TikTok"
+                                  ? TiktokIcon
+                                  : row.socialNetwork === "Twitter"
+                                  ? TwitterIcon
+                                  : row.socialNetwork === "Spotify"
+                                  ? SpotifyIcon
+                                  : row.socialNetwork === "Apple Music"
+                                  ? AppleMusicIcon
+                                  : row.socialNetwork === "Venmo"
+                                  ? VenmoIcon
+                                  : row.socialNetwork === "CashApp"
+                                  ? CashappIcon
+                                  : row.socialNetwork === "Address"
+                                  ? MapPinIcon
+                                  : row.socialNetwork === "Phone Number"
+                                  ? PhoneIcon
+                                  : row.socialNetwork === "Email"
+                                  ? EmailIcon
+                                  : row.socialNetwork === "SMS"
+                                  ? SmsIcon
+                                  : row.socialNetwork === "Paypal"
+                                  ? PaypalIcon
+                                  : row.socialNetwork === "Telegram"
+                                  ? TelegramIcon
+                                  : row.socialNetwork === "OnlyFans"
+                                  ? OnlyFansIcon
+                                  : row.socialNetwork === "GoFundMe"
+                                  ? GoFundMeIcon
+                                  : row.socialNetwork === "Twitch"
+                                  ? TwitchIcon
+                                  : row.socialNetwork === "Discord"
+                                  ? DiscordIcon
+                                  : row.socialNetwork === "HouseParty"
+                                  ? HousePartyIcon
+                                  : row.socialNetwork === "Website"
+                                  ? WebsiteIcon
+                                  : null
+                              }
+                              alt={row.socialNetwork}
+                            />
+                          </a>
+                        </ItemSocialNetwork>
+                      </Grid>
+                    ) : null
+                  )}
+                </Grid>
+              </Box>
+
+              {/*Botón CUSTOM URL ---------------------------*/}
+              <Box sx={{ flexGrow: 1 }} mt={3} mr={2} ml={2}>
+                <Grid container spacing={0}>
+                  {rows.map((row, index) =>
+                    row.socialNetwork === "CustomURL" ? (
+                      <Grid item key={index} xs={12}>
+                        <ItemCustomButton>
+                          <Button target="_blank" href={row.profile}>
+                            {row.linkName}
+                          </Button>
+                        </ItemCustomButton>
+                      </Grid>
+                    ) : null
+                  )}
+                </Grid>
+              </Box>
+
+              {/*Botón CUSTOM TEXT ---------------------------*/}
+              <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
+                <Grid container spacing={0}>
+                  {rows.map((row, index) =>
+                    row.socialNetwork === "CustomText" ? (
+                      <Grid item key={index} xs={12}>
+                        <ItemCustomButton>
+                          <Button
+                            onClick={() =>
+                              handleOpenModalCustomText(
+                                row.linkName,
+                                row.profile
+                              )
+                            }
+                          >
+                            {row.linkName}
+                          </Button>
+                        </ItemCustomButton>
+                      </Grid>
+                    ) : null
+                  )}
+                </Grid>
+              </Box>
+
+              {/*Botón Cerrar Live Preview ------------------*/}
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 10,
+                }}
+              >
+                <Button
+                  type="button"
+                  fullWidth
+                  color="info"
+                  variant="contained"
+                  sx={{ mt: 1, mb: 2 }}
+                  onClick={() => setOpenLivePreview(false)}
+                >
+                  Close Live Preview
+                </Button>
+              </Typography>
+            </Container>
+          </Box>
+        </Fade>
+      </Modal>
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModalCustomText}
+        onClose={handleCloseModalCustomText}
+      >
+        <Fade in={openModalCustomText}>
+          <Box sx={styleModalCustomText}>
+            {/* <Typography sx={{ textAlign: "center" }}>
+              <InfoOutlinedIcon color="info" sx={{ fontSize: 70 }} />
+            </Typography> */}
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              component="h2"
+              sx={{ mt: 1, textAlign: "center" }}
+            >
+              {modalTitle}
+            </Typography>
+            <Typography
+              id="modal-modal-description"
+              variant="subtitle1"
+              gutterBottom
+              component="div"
+              sx={{ mt: 2, textAlign: "center" }}
+            >
+              {modalBody}
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{ textAlign: "center" }}>
+                  {" "}
+                  <Button
+                    sx={{ mr: 3 }}
+                    variant="contained"
+                    onClick={() => {
+                      copyTextToClipboard(modalBody);
+                      handleCloseModalCustomText();
+                      //Notificación data borrada exitosamente
+                      enqueueSnackbar("Data was copied to clipboard!", {
+                        variant: "success",
+                        autoHideDuration: 2000,
+                      });
+                    }}
+                  >
+                    Copy Text
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      handleCloseModalCustomText();
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Fade>
+      </Modal>
+    </>
   );
 };
 

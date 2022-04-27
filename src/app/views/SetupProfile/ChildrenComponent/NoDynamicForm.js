@@ -68,7 +68,7 @@ const NoDynamicForm = ({
     "Website",
     "CustomURL",
     "CustomText",
-    "Embed Youtube Video",
+    // "Embed Youtube Video",
   ];
 
   return (
