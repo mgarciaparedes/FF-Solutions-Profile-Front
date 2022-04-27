@@ -9,15 +9,17 @@ import {
   Avatar,
   Grid,
   Paper,
-  Container
+  Container,
 } from "@mui/material";
 // import { TreeView, TreeItem } from "@mui/lab";
 import { styled } from "@mui/material/styles";
 import { AppContext } from "../../../../components/AppContext";
-import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
-import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
-import LinkIcon from '@mui/icons-material/Link';
-import AbcIcon from '@mui/icons-material/Abc';
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone";
+import ContentCopyTwoToneIcon from "@mui/icons-material/ContentCopyTwoTone";
+import LinkIcon from "@mui/icons-material/Link";
+import AbcIcon from "@mui/icons-material/Abc";
 
 //Importación de íconos redes sociales
 import YoutubeIcon from "../../../../assets/svg/youtube.svg";
@@ -89,6 +91,59 @@ const styleModalCustomText = {
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
+};
+
+//Cantidad de íconos a mostrar según tamaño de dispositivo
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+    paritialVisibilityGutter: 60,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+    paritialVisibilityGutter: 50,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 4,
+    paritialVisibilityGutter: 10,
+  },
+};
+
+//Botones customizados de carousel
+const ButtonGroup = ({ next, previous, ...rest }) => {
+  const {
+    carouselState: { currentSlide, totalItems, slidesToShow },
+  } = rest;
+
+  return (
+    <div className="carousel-button-group" style={{ marginTop: "-15px" }}>
+      {currentSlide === 0 ? null : (
+        <button
+          aria-label="Go to previous slide"
+          className={
+            currentSlide === 0
+              ? "disable"
+              : "react-multiple-carousel__arrow react-multiple-carousel__arrow--left"
+          }
+          onClick={() => previous()}
+        ></button>
+      )}
+      {currentSlide !== totalItems - slidesToShow ? (
+        <button
+          aria-label="Go to next slide"
+          className={
+            currentSlide === totalItems - slidesToShow
+              ? "disable"
+              : "react-multiple-carousel__arrow react-multiple-carousel__arrow--right"
+          }
+          onClick={() => next()}
+        ></button>
+      ) : null}
+    </div>
+  );
 };
 
 const ModalLivePreview = ({
@@ -347,7 +402,7 @@ const ModalLivePreview = ({
                       <Grid item key={index} xs={12}>
                         <ItemCustomButton>
                           <Button target="_blank" href={row.profile}>
-                            <LinkIcon sx={{mr: 2}} /> {row.linkName}
+                            <LinkIcon sx={{ mr: 2 }} /> {row.linkName}
                           </Button>
                         </ItemCustomButton>
                       </Grid>
@@ -371,7 +426,7 @@ const ModalLivePreview = ({
                               )
                             }
                           >
-                            <AbcIcon sx={{mr: 2}} /> {row.linkName}
+                            <AbcIcon sx={{ mr: 2 }} /> {row.linkName}
                           </Button>
                         </ItemCustomButton>
                       </Grid>
@@ -405,10 +460,18 @@ const ModalLivePreview = ({
                         });
                       }}
                     >
-                      <ContentCopyTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1}} /> Copy Link
+                      <ContentCopyTwoToneIcon
+                        color="info"
+                        sx={{ fontSize: 20, mr: 1 }}
+                      />{" "}
+                      Copy Link
                     </Button>
                     <Button onClick={() => setOpenModalShareLink(true)}>
-                    <ShareTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1}}/> Share Link
+                      <ShareTwoToneIcon
+                        color="info"
+                        sx={{ fontSize: 20, mr: 1 }}
+                      />{" "}
+                      Share Link
                     </Button>
                   </Grid>
                 </Grid>
@@ -515,7 +578,7 @@ const ModalLivePreview = ({
               component="h2"
               sx={{ mt: 1, textAlign: "center" }}
             >
-              <ShareTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1}}/>
+              <ShareTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1 }} />
               Share Link
             </Typography>
             <Typography
@@ -523,68 +586,82 @@ const ModalLivePreview = ({
               variant="subtitle1"
               gutterBottom
               component="div"
-              sx={{ mt: 2, textAlign: "center" }}
+              sx={{ mt: 3, textAlign: "center" }}
             >
-              {/* Botón Whatsapp */}
-              <Button
-                target="_blank"
-                href={
-                  "https://api.whatsapp.com/send/?phone&text=" +
-                  usernameURL +
-                  "&app_absent=0"
-                }
-                data-action="share/whatsapp/share"
+              <Carousel
+                ssr
+                arrows={false}
+                // deviceType={deviceType}
+                // centerMode={true}
+                itemClass="image-item"
+                responsive={responsive}
+                infinite={false}
+                autoPlay={false}
+                shouldResetAutoplay={false}
+                renderButtonGroupOutside={true}
+                customButtonGroup={<ButtonGroup />}
               >
-                <img width="50" height="50" src={WhatsappIcon} />
-              </Button>
-              {/* Botón Facebook */}
-              <Button
-                target="_blank"
-                href={"https://www.facebook.com/sharer.php?u='" + usernameURL}
-              >
-                <img width="50" height="50" src={FacebookIcon} />
-              </Button>
-              {/* Botón Twitter */}
-              <Button
-                target="_blank"
-                href={"https://twitter.com/intent/tweet?url='" + usernameURL}
-              >
-                <img width="50" height="50" src={TwitterIcon} />
-              </Button>
-              {/* Botón Telegram */}
-              <Button
-                target="_blank"
-                href={"https://telegram.me/share/url?url='" + usernameURL}
-              >
-                <img width="50" height="50" src={TelegramIcon} />
-              </Button>
+                {/* Botón Whatsapp */}
+                <Button
+                  target="_blank"
+                  href={
+                    "https://api.whatsapp.com/send/?phone&text=" +
+                    usernameURL +
+                    "&app_absent=0"
+                  }
+                  data-action="share/whatsapp/share"
+                >
+                  <img width="50" height="50" src={WhatsappIcon} />
+                </Button>
+                {/* Botón Facebook */}
+                <Button
+                  target="_blank"
+                  href={"https://www.facebook.com/sharer.php?u='" + usernameURL}
+                >
+                  <img width="50" height="50" src={FacebookIcon} />
+                </Button>
+                {/* Botón Twitter */}
+                <Button
+                  target="_blank"
+                  href={"https://twitter.com/intent/tweet?url='" + usernameURL}
+                >
+                  <img width="50" height="50" src={TwitterIcon} />
+                </Button>
+                {/* Botón Telegram */}
+                <Button
+                  target="_blank"
+                  href={"https://telegram.me/share/url?url='" + usernameURL}
+                >
+                  <img width="50" height="50" src={TelegramIcon} />
+                </Button>
 
-              {/* Botón Mail */}
-              <Button
-                target="_blank"
-                href={
-                  "mailto:?subject=Watch my brand new FF Profile&body=Check out this site '" +
-                  usernameURL
-                }
-                title="Share by Email"
-              >
-                <img width="50" height="50" src={EmailIcon} />
-              </Button>
+                {/* Botón Mail */}
+                <Button
+                  target="_blank"
+                  href={
+                    "mailto:?subject=Watch my brand new FF Profile&body=Check out this site '" +
+                    usernameURL
+                  }
+                  title="Share by Email"
+                >
+                  <img width="50" height="50" src={EmailIcon} />
+                </Button>
 
-              {/* Botón Gmail */}
-              <Button
-                target="_blank"
-                href={
-                  "https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Watch my brand new FF Profile&body=Check out this site " +
-                  usernameURL +
-                  "&ui=2&tf=1&pli=1"
-                }
-                title="Share by Gmail"
-              >
-                <img width="50" height="50" src={GmailIcon} />
-              </Button>
+                {/* Botón Gmail */}
+                <Button
+                  target="_blank"
+                  href={
+                    "https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Watch my brand new FF Profile&body=Check out this site " +
+                    usernameURL +
+                    "&ui=2&tf=1&pli=1"
+                  }
+                  title="Share by Gmail"
+                >
+                  <img width="50" height="50" src={GmailIcon} />
+                </Button>
+              </Carousel>
             </Typography>
-            <Box sx={{ mt: 3 }}>
+            <Box sx={{ mt: 5 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
                   <Button
