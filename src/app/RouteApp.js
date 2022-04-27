@@ -14,6 +14,7 @@ import { Error404 } from "./views/Error404";
 import { Dashboard } from "./views/Dashboard/index";
 import { ForgotPassword } from "./views/ForgotPassword";
 import { SetupProfile } from "./views/SetupProfile";
+import ChangePassword from "../components/ChangePassword";
 
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
@@ -57,6 +58,12 @@ const RouteApp = () => {
               exact
               path="/setup-profile"
               component={() => <SetupProfile />}
+            />
+
+            <Route
+              exact
+              path="/change-password"
+              component={() => <ChangePassword />}
             />
 
             {/* <Route exact path="/advanced-tools" component={() => <AdvancedTools />} /> */}
