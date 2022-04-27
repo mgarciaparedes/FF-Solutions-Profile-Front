@@ -23,7 +23,7 @@ import LinkedinIcon from "../../../../assets/svg/linkedin.svg";
 import SnapchatIcon from "../../../../assets/svg/snapchat.svg";
 import AppleMusicIcon from "../../../../assets/svg/apple-music.svg";
 import CashappIcon from "../../../../assets/svg/cashapp.svg";
-// import SoundcloudIcon from "../../../../assets/svg/soundcloud.svg";
+import SoundcloudIcon from "../../../../assets/svg/soundcloud.svg";
 import SpotifyIcon from "../../../../assets/svg/spotify.svg";
 import TiktokIcon from "../../../../assets/svg/tiktok.svg";
 import VenmoIcon from "../../../../assets/svg/venmo.svg";
@@ -100,7 +100,7 @@ const ModalLivePreview = ({
             component="img"
             sx={{
               height: 200,
-              width: 1,
+              width: 1
             }}
             alt="banner image"
             src={imgBanner}
@@ -235,7 +235,7 @@ const ModalLivePreview = ({
                                 : row.socialNetwork === "Facebook"
                                 ? FacebookIcon
                                 : row.socialNetwork === "Soundcloud"
-                                ? FacebookIcon
+                                ? SoundcloudIcon
                                 : row.socialNetwork === "Linkedin"
                                 ? LinkedinIcon
                                 : row.socialNetwork === "TikTok"
@@ -272,6 +272,8 @@ const ModalLivePreview = ({
                                 ? DiscordIcon
                                 : row.socialNetwork === "HouseParty"
                                 ? HousePartyIcon
+                                : row.socialNetwork === "Website"
+                                ? WebsiteIcon
                                 : null
                             }
                             alt={row.socialNetwork}
@@ -283,26 +285,26 @@ const ModalLivePreview = ({
                 )}
               </Grid>
             </Box>
-          </Container>
 
-          {/*Botón Cerrar Live Preview*/}
-          <Typography
-            sx={{
-              textAlign: "center",
-              mt: 10,
-            }}
-          >
-            <Button
-              type="button"
-              fullWidth
-              color="info"
-              variant="contained"
-              sx={{ mt: 1, mb: 2 }}
-              onClick={() => setOpenLivePreview(false)}
+            {/*Botón Cerrar Live Preview*/}
+            <Typography
+              sx={{
+                textAlign: "center",
+                mt: 10,
+              }}
             >
-              Close Live Preview
-            </Button>
-          </Typography>
+              <Button
+                type="button"
+                fullWidth
+                color="info"
+                variant="contained"
+                sx={{ mt: 1, mb: 2 }}
+                onClick={() => setOpenLivePreview(false)}
+              >
+                Close Live Preview
+              </Button>
+            </Typography>
+          </Container>
         </Box>
       </Fade>
     </Modal>
