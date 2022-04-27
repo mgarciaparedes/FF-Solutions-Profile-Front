@@ -11,6 +11,7 @@ import {
   Paper,
   Container,
 } from "@mui/material";
+import { TreeView, TreeItem } from "@mui/lab";
 import { styled } from "@mui/material/styles";
 import { AppContext } from "../../../../components/AppContext";
 
@@ -30,6 +31,7 @@ import VenmoIcon from "../../../../assets/svg/venmo.svg";
 import PaypalIcon from "../../../../assets/svg/paypal.svg";
 import MapPinIcon from "../../../../assets/svg/locationmap.svg";
 import EmailIcon from "../../../../assets/svg/mail.svg";
+import GmailIcon from "../../../../assets/svg/gmail.svg";
 import PhoneIcon from "../../../../assets/svg/phone.svg";
 import WhatsappIcon from "../../../../assets/svg/whatsapp.svg";
 import TelegramIcon from "../../../../assets/svg/telegram.svg";
@@ -40,7 +42,7 @@ import DiscordIcon from "../../../../assets/svg/discord.svg";
 import HousePartyIcon from "../../../../assets/svg/houseparty.svg";
 import SmsIcon from "../../../../assets/svg/sms.svg";
 import WebsiteIcon from "../../../../assets/svg/website.svg";
-import { Facebook, Telegram } from "@mui/icons-material";
+import QRCode from "qrcode.react";
 
 const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -86,6 +88,7 @@ const styleModalCustomText = {
 };
 
 const ModalLivePreview = ({
+  username,
   openLivePreview,
   setOpenLivePreview,
   handleCloseLivePreview,
@@ -98,11 +101,20 @@ const ModalLivePreview = ({
   rows,
   convertStringWithPlus,
   copyTextToClipboard,
+  copyToClipboard,
   enqueueSnackbar,
 }) => {
+  //Hooks modal customText
   const [openModalCustomText, setOpenModalCustomText] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalBody, setModalBody] = useState("");
+
+  //Hooks modal share Link
+  const [openModalShareLink, setOpenModalShareLink] = useState(false);
+  const handleCloseModalShareLink = () => setOpenModalShareLink(false);
+
+  //Constante que guarda la url completa del perfil
+  const usernameURL = "https://profile.stdicompany.com/" + username;
 
   //Función al seleccionar Custom Text abrir el modal
   //y pasarle al modal el título y el texto a desplegar
@@ -364,6 +376,40 @@ const ModalLivePreview = ({
                 </Grid>
               </Box>
 
+              {/*Grid de Código QR y Botones Copy Link y Share Link --------------------*/}
+              <Box
+                sx={{ flexGrow: 1, textAlign: "center" }}
+                mt={3}
+                mr={2}
+                ml={2}
+              >
+                <Grid container spacing={0}>
+                  <Grid item xs={6}>
+                    <QRCode
+                      id="QR"
+                      value={"https://profile.stdicompany.com/" + username}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      onClick={() => {
+                        copyToClipboard(username);
+                        //Notificación data copiada
+                        enqueueSnackbar("Data was copied to clipboard!", {
+                          variant: "success",
+                          autoHideDuration: 2000,
+                        });
+                      }}
+                    >
+                      Copy Link
+                    </Button>
+                    <Button onClick={() => setOpenModalShareLink(true)}>
+                      Share Link
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+
               {/*Botón Cerrar Live Preview ------------------*/}
               <Typography
                 sx={{
@@ -387,6 +433,7 @@ const ModalLivePreview = ({
         </Fade>
       </Modal>
 
+      {/*Modal Custom Text */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -425,7 +472,7 @@ const ModalLivePreview = ({
                     onClick={() => {
                       copyTextToClipboard(modalBody);
                       handleCloseModalCustomText();
-                      //Notificación data borrada exitosamente
+                      //Notificación data copiada
                       enqueueSnackbar("Data was copied to clipboard!", {
                         variant: "success",
                         autoHideDuration: 2000,
@@ -438,6 +485,123 @@ const ModalLivePreview = ({
                     variant="outlined"
                     onClick={() => {
                       handleCloseModalCustomText();
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Fade>
+      </Modal>
+
+      {/*Modal Share Link */}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModalShareLink}
+        onClose={handleCloseModalShareLink}
+      >
+        <Fade in={openModalShareLink}>
+          <Box sx={styleModalCustomText}>
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              component="h2"
+              sx={{ mt: 1, textAlign: "center" }}
+            >
+              Share Link
+            </Typography>
+            <Typography
+              id="modal-modal-description"
+              variant="subtitle1"
+              gutterBottom
+              component="div"
+              sx={{ mt: 2, textAlign: "center" }}
+            >
+              {/* Botón Whatsapp */}
+              <Button
+                target="_blank"
+                href={
+                  "https://api.whatsapp.com/send/?phone&text=" +
+                  usernameURL +
+                  "&app_absent=0"
+                }
+                data-action="share/whatsapp/share"
+              >
+                <img width="50" height="50" src={WhatsappIcon} />
+              </Button>
+              {/* Botón Facebook */}
+              <Button
+                target="_blank"
+                href={"https://www.facebook.com/sharer.php?u='" + usernameURL}
+              >
+                <img width="50" height="50" src={FacebookIcon} />
+              </Button>
+              {/* Botón Twitter */}
+              <Button
+                target="_blank"
+                href={"https://twitter.com/intent/tweet?url='" + usernameURL}
+              >
+                <img width="50" height="50" src={TwitterIcon} />
+              </Button>
+              {/* Botón Telegram */}
+              <Button
+                target="_blank"
+                href={"https://telegram.me/share/url?url='" + usernameURL}
+              >
+                <img width="50" height="50" src={TelegramIcon} />
+              </Button>
+
+              {/* Botón Mail */}
+              <Button
+                target="_blank"
+                href={
+                  "mailto:?subject=Watch my brand new FF Profile&body=Check out this site '" +
+                  usernameURL
+                }
+                title="Share by Email"
+              >
+                <img width="50" height="50" src={EmailIcon} />
+              </Button>
+
+              {/* Botón Gmail */}
+              <Button
+                target="_blank"
+                href={
+                  "https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=&su=Watch my brand new FF Profile&body=Check out this site " +
+                  usernameURL +
+                  "&ui=2&tf=1&pli=1"
+                }
+                title="Share by Gmail"
+              >
+                <img width="50" height="50" src={GmailIcon} />
+              </Button>
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{ textAlign: "center" }}>
+                  {" "}
+                  <Button
+                    sx={{ mr: 3 }}
+                    variant="contained"
+                    onClick={() => {
+                      // copyTextToClipboard(modalBody);
+                      handleCloseModalShareLink();
+                      //Notificación data copiada
+                      // enqueueSnackbar("Data was copied to clipboard!", {
+                      //   variant: "success",
+                      //   autoHideDuration: 2000,
+                      // });
+                    }}
+                  >
+                    Copy Text
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      handleCloseModalShareLink();
                     }}
                   >
                     Close

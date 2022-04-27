@@ -30,9 +30,6 @@ import ModalSessionOver from "./ChildrenComponent/ModalSessionOver";
 import ModalWelcomeFirstSetup from "./ChildrenComponent/ModalWelcomeFirstSetup";
 import ModalConfirmClearData from "./ChildrenComponent/ModalConfirmClearData";
 
-//Importación de la librería QR
-const QRCode = require("qrcode.react");
-
 // Tema para input's
 const theme = createTheme();
 
@@ -351,6 +348,7 @@ export const SetupProfile = () => {
 
         {/*Modal de Live Preview de Profile */}
         <ModalLivePreview
+          username={username}
           openLivePreview={openLivePreview}
           setOpenLivePreview={setOpenLivePreview}
           handleCloseLivePreview={handleCloseLivePreview}
@@ -363,6 +361,7 @@ export const SetupProfile = () => {
           rows={rows}
           convertStringWithPlus={convertStringWithPlus}
           copyTextToClipboard={copyTextToClipboard}
+          copyToClipboard={copyToClipboard}
           enqueueSnackbar={enqueueSnackbar}
         />
 
