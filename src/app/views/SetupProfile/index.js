@@ -360,6 +360,8 @@ export const SetupProfile = () => {
           // imgProfileToUpload={imgProfileToUpload}
           nameState={nameState}
           bioState={bioState}
+          rows={rows}
+          convertStringWithPlus={convertStringWithPlus}
         />
 
         {/*Modal de Session Over */}

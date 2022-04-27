@@ -40,6 +40,7 @@ import DiscordIcon from "../../../../assets/svg/discord.svg";
 import HousePartyIcon from "../../../../assets/svg/houseparty.svg";
 import SmsIcon from "../../../../assets/svg/sms.svg";
 import WebsiteIcon from "../../../../assets/svg/website.svg";
+import { Facebook, Telegram } from "@mui/icons-material";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -73,11 +74,13 @@ const ModalLivePreview = ({
   // imgProfileToUpload,
   nameState,
   bioState,
+  rows,
+  convertStringWithPlus,
 }) => {
   const { objLogin, logoutContext } = useContext(AppContext);
-  // useEffect(() => {
-  //   console.log(imgProfile);
-  // }, []);
+  useEffect(() => {
+    console.log(rows);
+  }, []);
 
   return (
     <Modal
@@ -153,30 +156,131 @@ const ModalLivePreview = ({
           <Container sx={{ mt: 3 }}>
             <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
               <Grid container spacing={2}>
-                <Grid item xs={4}>
-                  <Item>
-                    <a
-                      // sx={{
-                      //   outline: "none !important",
-                      //   boxShadow: "none",
-                      // }}
-                      target="_blank"
-                      component="a"
-                      href="http://www.google.com/"
-                    >
-                      <img src={InstagramIcon} alt="test" />
-                    </a>
-                  </Item>
-                </Grid>
-                <Grid item xs={4}>
-                  <Item>xs=6 md=8</Item>
-                </Grid>
-                <Grid item xs={4}>
-                  <Item>xs=6 md=8</Item>
-                </Grid>
-                <Grid item xs={4}>
-                  <Item>xs=6 md=8</Item>
-                </Grid>
+                {rows.map((row, index) =>
+                  row.socialNetwork !== "CustomURL" &&
+                  row.socialNetwork !== "CustomText" &&
+                  row.socialNetwork !== "Embed Youtube Video" ? (
+                    <Grid item key={index} xs={4}>
+                      <Item>
+                        <a
+                          // sx={{
+                          //   outline: "none !important",
+                          //   boxShadow: "none",
+                          // }}
+                          target="_blank"
+                          component="a"
+                          href={
+                            row.socialNetwork === "Instagram"
+                              ? "https://www.instagram.com/" + row.profile
+                              : row.socialNetwork === "Snapchat"
+                              ? "https://www.snapchat.com/add/" + row.profile
+                              : row.socialNetwork === "Whatsapp"
+                              ? "https://wa.me/" + row.profile
+                              : row.socialNetwork === "Youtube"
+                              ? row.profile
+                              : row.socialNetwork === "Facebook"
+                              ? row.profile
+                              : row.socialNetwork === "Soundcloud"
+                              ? "https://www.soundcloud.com/add/" + row.profile
+                              : row.socialNetwork === "Linkedin"
+                              ? row.profile
+                              : row.socialNetwork === "TikTok"
+                              ? row.profile
+                              : row.socialNetwork === "Twitter"
+                              ? "https://www.twitter.com/" + row.profile
+                              : row.socialNetwork === "Spotify"
+                              ? "https://www.spotify.com/" + row.profile
+                              : row.socialNetwork === "Apple Music"
+                              ? "https://music.apple.com/" + row.profile
+                              : row.socialNetwork === "Venmo"
+                              ? "https://www.venmo.com/" + row.profile
+                              : row.socialNetwork === "CashApp"
+                              ? "https://cash.app/$" + row.profile
+                              : row.socialNetwork === "Address"
+                              ? "https://www.google.com/maps/search/" +
+                                convertStringWithPlus(row.profile)
+                              : row.socialNetwork === "Phone Number"
+                              ? "tel:" + row.profile
+                              : row.socialNetwork === "Email"
+                              ? "mailto:" + row.profile
+                              : row.socialNetwork === "SMS"
+                              ? "sms:" + row.profile
+                              : row.socialNetwork === "Paypal"
+                              ? "https://paypal.com/" + row.profile
+                              : row.socialNetwork === "Telegram"
+                              ? "https://t.me/" + row.profile
+                              : row.socialNetwork === "OnlyFans"
+                              ? "https://onlyfans.com/" + row.profile
+                              : row.socialNetwork === "GoFundMe"
+                              ? row.profile
+                              : row.socialNetwork === "Twitch"
+                              ? "https://twitch.tv/" + row.profile
+                              : row.socialNetwork === "Discord"
+                              ? row.profile
+                              : row.socialNetwork === "HouseParty"
+                              ? "https://houseparty.com/add/" + row.profile
+                              : row.profile
+                          }
+                        >
+                          <img
+                            src={
+                              row.socialNetwork === "Instagram"
+                                ? InstagramIcon
+                                : row.socialNetwork === "Snapchat"
+                                ? SnapchatIcon
+                                : row.socialNetwork === "Whatsapp"
+                                ? WhatsappIcon
+                                : row.socialNetwork === "Youtube"
+                                ? YoutubeIcon
+                                : row.socialNetwork === "Facebook"
+                                ? FacebookIcon
+                                : row.socialNetwork === "Soundcloud"
+                                ? FacebookIcon
+                                : row.socialNetwork === "Linkedin"
+                                ? LinkedinIcon
+                                : row.socialNetwork === "TikTok"
+                                ? TiktokIcon
+                                : row.socialNetwork === "Twitter"
+                                ? TwitterIcon
+                                : row.socialNetwork === "Spotify"
+                                ? SpotifyIcon
+                                : row.socialNetwork === "Apple Music"
+                                ? AppleMusicIcon
+                                : row.socialNetwork === "Venmo"
+                                ? VenmoIcon
+                                : row.socialNetwork === "CashApp"
+                                ? CashappIcon
+                                : row.socialNetwork === "Address"
+                                ? MapPinIcon
+                                : row.socialNetwork === "Phone Number"
+                                ? PhoneIcon
+                                : row.socialNetwork === "Email"
+                                ? EmailIcon
+                                : row.socialNetwork === "SMS"
+                                ? SmsIcon
+                                : row.socialNetwork === "Paypal"
+                                ? PaypalIcon
+                                : row.socialNetwork === "Telegram"
+                                ? TelegramIcon
+                                : row.socialNetwork === "OnlyFans"
+                                ? OnlyFansIcon
+                                : row.socialNetwork === "GoFundMe"
+                                ? GoFundMeIcon
+                                : row.socialNetwork === "Twitch"
+                                ? TwitchIcon
+                                : row.socialNetwork === "Discord"
+                                ? DiscordIcon
+                                : row.socialNetwork === "HouseParty"
+                                ? HousePartyIcon
+                                : null
+                            }
+                            alt={row.socialNetwork}
+                          />
+                        </a>
+                      </Item>
+                    </Grid>
+                  ) : null
+                )}
               </Grid>
             </Box>
           </Container>
