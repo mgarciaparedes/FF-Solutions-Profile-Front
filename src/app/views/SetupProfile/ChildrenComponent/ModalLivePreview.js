@@ -9,11 +9,15 @@ import {
   Avatar,
   Grid,
   Paper,
-  Container,
+  Container
 } from "@mui/material";
-import { TreeView, TreeItem } from "@mui/lab";
+// import { TreeView, TreeItem } from "@mui/lab";
 import { styled } from "@mui/material/styles";
 import { AppContext } from "../../../../components/AppContext";
+import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
+import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
+import LinkIcon from '@mui/icons-material/Link';
+import AbcIcon from '@mui/icons-material/Abc';
 
 //Importación de íconos redes sociales
 import YoutubeIcon from "../../../../assets/svg/youtube.svg";
@@ -343,7 +347,7 @@ const ModalLivePreview = ({
                       <Grid item key={index} xs={12}>
                         <ItemCustomButton>
                           <Button target="_blank" href={row.profile}>
-                            {row.linkName}
+                            <LinkIcon sx={{mr: 2}} /> {row.linkName}
                           </Button>
                         </ItemCustomButton>
                       </Grid>
@@ -367,7 +371,7 @@ const ModalLivePreview = ({
                               )
                             }
                           >
-                            {row.linkName}
+                            <AbcIcon sx={{mr: 2}} /> {row.linkName}
                           </Button>
                         </ItemCustomButton>
                       </Grid>
@@ -401,10 +405,10 @@ const ModalLivePreview = ({
                         });
                       }}
                     >
-                      Copy Link
+                      <ContentCopyTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1}} /> Copy Link
                     </Button>
                     <Button onClick={() => setOpenModalShareLink(true)}>
-                      Share Link
+                    <ShareTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1}}/> Share Link
                     </Button>
                   </Grid>
                 </Grid>
@@ -511,6 +515,7 @@ const ModalLivePreview = ({
               component="h2"
               sx={{ mt: 1, textAlign: "center" }}
             >
+              <ShareTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1}}/>
               Share Link
             </Typography>
             <Typography
@@ -582,22 +587,6 @@ const ModalLivePreview = ({
             <Box sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
-                  {" "}
-                  <Button
-                    sx={{ mr: 3 }}
-                    variant="contained"
-                    onClick={() => {
-                      // copyTextToClipboard(modalBody);
-                      handleCloseModalShareLink();
-                      //Notificación data copiada
-                      // enqueueSnackbar("Data was copied to clipboard!", {
-                      //   variant: "success",
-                      //   autoHideDuration: 2000,
-                      // });
-                    }}
-                  >
-                    Copy Text
-                  </Button>
                   <Button
                     variant="outlined"
                     onClick={() => {
