@@ -10,6 +10,7 @@ import {
   Grid,
   Paper,
   Container,
+  Skeleton,
 } from "@mui/material";
 // import { TreeView, TreeItem } from "@mui/lab";
 import { styled } from "@mui/material/styles";
@@ -168,9 +169,20 @@ const ModalLivePreview = ({
   const [modalTitle, setModalTitle] = useState("");
   const [modalBody, setModalBody] = useState("");
 
+  //Hook lazy loading (Skeleton)
+  const [openSkeleton, setOpenSkeleton] = useState(false);
+
   //Hooks modal share Link
   const [openModalShareLink, setOpenModalShareLink] = useState(false);
   const handleCloseModalShareLink = () => setOpenModalShareLink(false);
+
+  useEffect(() => {
+    setOpenSkeleton(true);
+
+    setTimeout(function () {
+      setOpenSkeleton(false);
+    }, 3000);
+  }, []);
 
   //Constante que guarda la url completa del perfil
   const usernameURL = "https://profile.stdicompany.com/" + username;
@@ -203,15 +215,25 @@ const ModalLivePreview = ({
       >
         <Fade in={openLivePreview}>
           <Box sx={styleModal}>
-            <Box
-              component="img"
-              sx={{
-                height: 200,
-                width: 1,
-              }}
-              alt="banner image"
-              src={imgBanner}
-            />
+            {openSkeleton ? (
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                width={"100%"}
+                height={200}
+              />
+            ) : (
+              <Box
+                component="img"
+                sx={{
+                  height: 200,
+                  width: 1,
+                }}
+                alt="banner image"
+                src={imgBanner}
+              />
+            )}
+
             <Stack
               direction="row"
               spacing={2}

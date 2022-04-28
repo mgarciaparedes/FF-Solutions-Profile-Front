@@ -56,10 +56,12 @@ const Sidebar = () => {
     setOpenSkeleton(true);
 
     objLogin.profileData &&
-                (objLogin.profileData.base64ProfilePhoto !== null ||
-                  objLogin.profileData.base64ProfilePhoto === "")
-                  ? setUserProfilePhoto(`${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`)
-                  : setUserProfilePhoto(img_avatar)
+    (objLogin.profileData.base64ProfilePhoto !== null ||
+      objLogin.profileData.base64ProfilePhoto === "")
+      ? setUserProfilePhoto(
+          `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
+        )
+      : setUserProfilePhoto(img_avatar);
 
     setTimeout(function () {
       setOpenSkeleton(false);
@@ -147,7 +149,12 @@ const Sidebar = () => {
           // }}
         >
           {openSkeleton ? (
-            <Skeleton variant="circular" width={66} height={66} />
+            <Skeleton
+              animation="wave"
+              variant="circular"
+              width={66}
+              height={66}
+            />
           ) : (
             <Avatar
               alt="Remy Sharp"
