@@ -17,6 +17,7 @@ import {
   Fade,
   Zoom,
   Fab,
+  Skeleton,
 } from "@mui/material";
 // Importaciones de iconos
 import MenuIcon from "@mui/icons-material/Menu";
@@ -35,6 +36,7 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import img_avatar from "../assets/images/avatar.jpg";
 import history from "./History.js";
+import { set } from "lodash";
 
 const Sidebar = () => {
   const [state, setState] = useState({
@@ -44,9 +46,25 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const [openProgressBar, setOpenProgressBar] = useState(false);
   const [openLoading, setOpenLoading] = useState(false);
+  const [openSkeleton, setOpenSkeleton] = useState(false);
+  const [userProfilePhoto, setUserProfilePhoto] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleCloseLoading = () => setOpenLoading(false);
+
+  useEffect(() => {
+    setOpenSkeleton(true);
+
+    objLogin.profileData &&
+                (objLogin.profileData.base64ProfilePhoto !== null ||
+                  objLogin.profileData.base64ProfilePhoto === "")
+                  ? setUserProfilePhoto(`${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`)
+                  : setUserProfilePhoto(img_avatar)
+
+    setTimeout(function () {
+      setOpenSkeleton(false);
+    }, 3000);
+  }, []);
 
   //Función que abre último modal que muestra progress bar y mensae de cerrando sesión
   const handleOpenProgressBar = () => {
@@ -119,30 +137,29 @@ const Sidebar = () => {
           spacing={2}
           marginY={2}
           justifyContent="center"
-          sx={{
-            "&::before": {
-              marginTop: "5px",
-              position: "absolute",
-              fontSize: "10px",
-              content: '"Loading..."',
-            },
-          }}
+          // sx={{
+          //   "&::before": {
+          //     marginTop: "5px",
+          //     position: "absolute",
+          //     fontSize: "10px",
+          //     content: '"Loading..."',
+          //   },
+          // }}
         >
-          <Avatar
-            alt="Remy Sharp"
-            src={
-              objLogin.profileData &&
-              (objLogin.profileData.base64ProfilePhoto !== null ||
-                objLogin.profileData.base64ProfilePhoto === "")
-                ? `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
-                : img_avatar
-            }
-            sx={{
-              width: 66,
-              height: 66,
-            }}
-          />
+          {openSkeleton ? (
+            <Skeleton variant="circular" width={66} height={66} />
+          ) : (
+            <Avatar
+              alt="Remy Sharp"
+              src={userProfilePhoto}
+              sx={{
+                width: 66,
+                height: 66,
+              }}
+            />
+          )}
         </Stack>
+
         <Typography variant="h6" textAlign="center" marginBottom={1}>
           {objLogin.user}
         </Typography>
