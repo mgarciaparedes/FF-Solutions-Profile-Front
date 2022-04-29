@@ -113,6 +113,24 @@ const responsive = {
   },
 };
 
+const responsiveCarouselImageProfile = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 1,
+    paritialVisibilityGutter: 60,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 1,
+    paritialVisibilityGutter: 50,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    paritialVisibilityGutter: 10,
+  },
+};
+
 //Botones customizados de carousel
 const ButtonGroup = ({ next, previous, ...rest }) => {
   const {
@@ -164,6 +182,9 @@ const ModalLivePreview = ({
   copyToClipboard,
   enqueueSnackbar,
 }) => {
+  //Hook array variables de sesión
+  const { objLogin } = useContext(AppContext);
+
   //Hooks modal customText
   const [openModalCustomText, setOpenModalCustomText] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
@@ -178,7 +199,7 @@ const ModalLivePreview = ({
 
   useEffect(() => {
     setOpenSkeleton(true);
-
+    console.log(objLogin);
     setTimeout(function () {
       setOpenSkeleton(false);
     }, 3000);
@@ -198,6 +219,17 @@ const ModalLivePreview = ({
   //Función cerrar Modal Custom Text
   const handleCloseModalCustomText = () => {
     setOpenModalCustomText(false);
+  };
+
+  //Función que maneja los clicks del carousel
+  //Si tiene url entonces redirije en pestaña nueva
+  //Si no tiene url no pasa nada cuando hacen click
+  const handleCarouselClick = (url) => {
+    if (url === "" || url === undefined || url === false) {
+      return false;
+    } else {
+      window.open(url, "_blank").focus();
+    }
   };
 
   return (
@@ -241,22 +273,33 @@ const ModalLivePreview = ({
               justifyContent="center"
               sx={{
                 marginTop: "-60px",
-                "&::before": {
-                  marginTop: "5px",
-                  position: "absolute",
-                  fontSize: "10px",
-                  content: '"Loading..."',
-                },
+                // "&::before": {
+                //   marginTop: "5px",
+                //   position: "absolute",
+                //   fontSize: "10px",
+                //   content: '"Loading..."',
+                // },
               }}
             >
-              <Avatar
-                alt="Remy Sharp"
-                src={imgProfile}
-                sx={{
-                  width: 100,
-                  height: 100,
-                }}
-              />
+              {openSkeleton ? (
+                <Skeleton
+                  animation="wave"
+                  variant="circular"
+                  sx={{
+                    width: 100,
+                    height: 100,
+                  }}
+                />
+              ) : (
+                <Avatar
+                  alt="Remy Sharp"
+                  src={imgProfile}
+                  sx={{
+                    width: 100,
+                    height: 100,
+                  }}
+                />
+              )}
             </Stack>
             <Typography
               variant="overline"
@@ -456,6 +499,47 @@ const ModalLivePreview = ({
                   )}
                 </Grid>
               </Box>
+
+              {/*Carousel de imágenes ------------------------*/}
+              {objLogin.galleryActive && objLogin.galleryImages ? (
+                <Box
+                  sx={{ flexGrow: 1, textAlign: "center" }}
+                  mt={3}
+                  mr={2}
+                  ml={2}
+                >
+                  <Grid container spacing={0}>
+                    <Grid item xs={12}>
+                      <Carousel
+                        ssr
+                        arrows
+                        itemClass="image-item"
+                        responsive={responsiveCarouselImageProfile}
+                        infinite={false}
+                        autoPlay={false}
+                        shouldResetAutoplay={false}
+                      >
+                        {objLogin.galleryImages.map((element, index) => (
+                          <Button
+                            key={index}
+                            onClick={() => handleCarouselClick(element.url)}
+                          >
+                            <Box
+                              component="img"
+                              sx={{
+                                height: 200,
+                                width: 1,
+                              }}
+                              alt="banner image"
+                              src={`${process.env.REACT_APP_API_URL}/render/image/${element.image}`}
+                            />
+                          </Button>
+                        ))}
+                      </Carousel>
+                    </Grid>
+                  </Grid>
+                </Box>
+              ) : null}
 
               {/*Grid de Código QR y Botones Copy Link y Share Link --------------------*/}
               <Box
