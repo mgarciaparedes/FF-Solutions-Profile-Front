@@ -4,17 +4,19 @@ import DangerousTwoToneIcon from "@mui/icons-material/DangerousTwoTone";
 
 //Estilo modal Error
 const styleModal = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 300,
-  bgcolor: "background.paper",
-  borderRadius: "2px",
-  boxShadow: 24,
-  borderColor: "white",
-  p: 3,
-};
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100%",
+    height: "100%",
+    bgcolor: "background.paper",
+    overflow: "scroll", //para que funcione el scroll
+    boxShadow: 24,
+    p: 3,
+    margin: "auto",
+  };
+  
 
 const ModalError = ({ openModalError, errorMessage, history }) => {
   return (
@@ -27,7 +29,7 @@ const ModalError = ({ openModalError, errorMessage, history }) => {
     >
       <Fade in={openModalError}>
         <Box sx={styleModal}>
-          <Typography sx={{ textAlign: "center" }}>
+          <Typography sx={{ textAlign: "center", marginTop: 20 }}>
             <DangerousTwoToneIcon color="error" sx={{ fontSize: 70 }} />
           </Typography>
           <Typography
@@ -51,15 +53,33 @@ const ModalError = ({ openModalError, errorMessage, history }) => {
           </Typography>
 
           {errorMessage === "User does not exist." ? (
+              <>
             <Typography
               id="modal-modal-body"
               variant="subtitle2"
               component="div"
               sx={{ mt: 1, textAlign: "center" }}
             >
-              This may happen for the folowing reasons: user may not be
-              registered or you miss some character in url link.
+              This may happen for the folowing reasons:
             </Typography>
+            <Typography
+            id="modal-modal-body"
+            variant="subtitle2"
+            component="div"
+            sx={{ mt: 1, textAlign: "center" }}
+          >
+            * user may not be
+            registered.
+          </Typography>
+          <Typography
+            id="modal-modal-body"
+            variant="subtitle2"
+            component="div"
+            sx={{ mt: 1, textAlign: "center" }}
+          >
+            * you miss some character in url link.
+          </Typography>
+          </>
           ) : null}
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={2} sx={{ textAlign: "center" }}>
