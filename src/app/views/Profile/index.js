@@ -221,23 +221,40 @@ export const Profile = ({ location }) => {
               }}
             />
           </Stack>
-          <Grid container spacing={2} sx={{ mt: 3, textAlign: "center" }}>
-            <Grid item xs={12}>
-              <Skeleton variant="text" />
-            </Grid>
-            <Grid item xs={12} sx={{ mb: 3 }}>
-              <Skeleton variant="rectangular" height={50} />
-            </Grid>
-            <Grid item xs={4}>
-              <Skeleton variant="rectangular" height={70} />
-            </Grid>
-            <Grid item xs={4}>
-              <Skeleton variant="rectangular" height={70} />
-            </Grid>
-            <Grid item xs={4}>
-              <Skeleton variant="rectangular" height={70} />
-            </Grid>
-          </Grid>
+
+          {/*Aquí vienen las RRSS */}
+          <Container sx={{ mt: 3 }}>
+            <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
+              <Grid item xs={12}>
+                <Skeleton variant="text" />
+              </Grid>
+              <Grid item xs={12} sx={{ mb: 3 }}>
+                <Skeleton variant="rectangular" height={50} />
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Skeleton variant="rectangular" height={70} />
+                </Grid>
+                <Grid item xs={4}>
+                  <Skeleton variant="rectangular" height={70} />
+                </Grid>
+                <Grid item xs={4}>
+                  <Skeleton variant="rectangular" height={70} />
+                </Grid>
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 3, mb: 3 }}>
+                <Skeleton variant="rectangular" height={70} />
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Skeleton variant="rectangular" height={90} />
+                </Grid>
+                <Grid item xs={6}>
+                  <Skeleton variant="rectangular" height={90} />
+                </Grid>
+              </Grid>
+            </Box>
+          </Container>
         </>
       ) : !loadingProfileData && profileDataOK && profileActive ? (
         <>
@@ -315,7 +332,13 @@ export const Profile = ({ location }) => {
             {/* Galería de imágenes */}
             <Gallery gallery={gallery} />
 
-            <Box sx={{ flexGrow: 1, textAlign: "center" }} mt={3} mr={2} ml={2} mb={3}>
+            <Box
+              sx={{ flexGrow: 1, textAlign: "center" }}
+              mt={3}
+              mr={2}
+              ml={2}
+              mb={3}
+            >
               <Grid container spacing={0}>
                 <Grid item xs={6}>
                   <QRCode
@@ -370,11 +393,11 @@ export const Profile = ({ location }) => {
       />
 
       {/*Modal Share Link */}
-      <ModalShareLink 
-      styleModalCustomText={styleModalCustomText}
-      handleCloseModalShareLink={handleCloseModalShareLink}
-      openModalShareLink={openModalShareLink}
-      usernameURL={"https://profile.stdicompany.com/"+username}
+      <ModalShareLink
+        styleModalCustomText={styleModalCustomText}
+        handleCloseModalShareLink={handleCloseModalShareLink}
+        openModalShareLink={openModalShareLink}
+        usernameURL={"https://profile.stdicompany.com/" + username}
       />
     </>
   );
