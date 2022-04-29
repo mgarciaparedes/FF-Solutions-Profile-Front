@@ -21,6 +21,7 @@ import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone";
 import ContentCopyTwoToneIcon from "@mui/icons-material/ContentCopyTwoTone";
 import LinkIcon from "@mui/icons-material/Link";
 import AbcIcon from "@mui/icons-material/Abc";
+import ImageIcon from "@mui/icons-material/Image";
 
 //Importación de íconos redes sociales
 import YoutubeIcon from "../../../../assets/svg/youtube.svg";
@@ -197,9 +198,15 @@ const ModalLivePreview = ({
   const [openModalShareLink, setOpenModalShareLink] = useState(false);
   const handleCloseModalShareLink = () => setOpenModalShareLink(false);
 
+  //Hooks modal custom Image
+  const [openModalCustomImage, setOpenModalCustomImage] = useState(false);
+  const [modalCustomImageTitle, setModalCustomImagetitle] = useState("");
+  const [modalCustomImagePhotos, setModalCustomImagePhotos] = useState([]);
+  const handleCloseModalCustomImage = () => setOpenModalCustomImage(false);
+
   useEffect(() => {
     setOpenSkeleton(true);
-    console.log(objLogin);
+    // console.log(objLogin);
     setTimeout(function () {
       setOpenSkeleton(false);
     }, 3000);
@@ -219,6 +226,13 @@ const ModalLivePreview = ({
   //Función cerrar Modal Custom Text
   const handleCloseModalCustomText = () => {
     setOpenModalCustomText(false);
+  };
+
+  //función que maneja el open de modal custom image
+  const handleOpenModalCustomImage = (text, imagesArray) => {
+    setModalCustomImagetitle(text);
+    setModalCustomImagePhotos(imagesArray);
+    setOpenModalCustomImage(true);
   };
 
   //Función que maneja los clicks del carousel
@@ -476,6 +490,33 @@ const ModalLivePreview = ({
                 </Grid>
               </Box>
 
+              {/*Botón CUSTOM IMAGE ---------------------------*/}
+              {objLogin.customImage ? (
+                <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
+                  <Grid container spacing={0}>
+                    {objLogin.customImage.map((element, index) => (
+                      <Grid item key={index} xs={12}>
+                        {element.customImageActive === true ? (
+                          <ItemCustomButton>
+                            <Button
+                              onClick={() =>
+                                handleOpenModalCustomImage(
+                                  element.customImageButtonName,
+                                  element.arrayWithImagesURL
+                                )
+                              }
+                            >
+                              <ImageIcon color="info" sx={{ mr: 2 }} />{" "}
+                              {element.customImageButtonName}
+                            </Button>
+                          </ItemCustomButton>
+                        ) : null}
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              ) : null}
+
               {/*Botón CUSTOM TEXT ---------------------------*/}
               <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
                 <Grid container spacing={0}>
@@ -624,9 +665,9 @@ const ModalLivePreview = ({
               component="h2"
               sx={{ mt: 1, textAlign: "center" }}
             >
-              {modalTitle}
+              {modalCustomImageTitle}
             </Typography>
-            <Typography
+            {/* <Typography
               id="modal-modal-description"
               variant="subtitle1"
               gutterBottom
@@ -634,7 +675,7 @@ const ModalLivePreview = ({
               sx={{ mt: 2, textAlign: "center" }}
             >
               {modalBody}
-            </Typography>
+            </Typography> */}
             <Box sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
@@ -658,6 +699,77 @@ const ModalLivePreview = ({
                     variant="outlined"
                     onClick={() => {
                       handleCloseModalCustomText();
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Fade>
+      </Modal>
+
+      {/*Modal Custom Image */}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModalCustomImage}
+        onClose={handleCloseModalCustomImage}
+      >
+        <Fade in={openModalCustomImage}>
+          <Box sx={styleModalCustomText}>
+            {/* <Typography sx={{ textAlign: "center" }}>
+              <InfoOutlinedIcon color="info" sx={{ fontSize: 70 }} />
+            </Typography> */}
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              component="h2"
+              sx={{ mt: 1, mb: 3, textAlign: "center" }}
+            >
+              {modalCustomImageTitle}
+            </Typography>
+            <Carousel
+              ssr
+              arrows
+              itemClass="image-item"
+              responsive={responsiveCarouselImageProfile}
+              infinite={false}
+              autoPlay={false}
+              shouldResetAutoplay={false}
+            >
+              {modalCustomImagePhotos.map((element, index) => (
+                <Button
+                  key={index}
+                  onClick={() =>
+                    window
+                      .open(
+                        `${process.env.REACT_APP_API_URL}/render/image/${element.image}`,
+                        "_blank"
+                      )
+                      .focus()
+                  }
+                >
+                  <Box
+                    component="img"
+                    sx={{
+                      // height: 250,
+                      width: "100%",
+                    }}
+                    alt="banner image"
+                    src={`${process.env.REACT_APP_API_URL}/render/image/${element.image}`}
+                  />
+                </Button>
+              ))}
+            </Carousel>
+            <Box sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{ textAlign: "center" }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      handleCloseModalCustomImage();
                     }}
                   >
                     Close
