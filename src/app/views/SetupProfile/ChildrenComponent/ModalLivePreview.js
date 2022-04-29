@@ -665,9 +665,9 @@ const ModalLivePreview = ({
               component="h2"
               sx={{ mt: 1, textAlign: "center" }}
             >
-              {modalCustomImageTitle}
+              {modalTitle}
             </Typography>
-            {/* <Typography
+            <Typography
               id="modal-modal-description"
               variant="subtitle1"
               gutterBottom
@@ -675,7 +675,7 @@ const ModalLivePreview = ({
               sx={{ mt: 2, textAlign: "center" }}
             >
               {modalBody}
-            </Typography> */}
+            </Typography>
             <Box sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
