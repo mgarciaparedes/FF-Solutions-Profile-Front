@@ -47,7 +47,7 @@ const Sidebar = () => {
   const [openProgressBar, setOpenProgressBar] = useState(false);
   const [openLoading, setOpenLoading] = useState(false);
   const [openSkeleton, setOpenSkeleton] = useState(false);
-  const [userProfilePhoto, setUserProfilePhoto] = useState(false);
+  const [userProfilePhoto, setUserProfilePhoto] = useState(img_avatar);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleCloseLoading = () => setOpenLoading(false);

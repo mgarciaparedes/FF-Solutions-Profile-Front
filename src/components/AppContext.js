@@ -28,6 +28,13 @@ const AppProvider = ({ children }) => {
           //Aquí protegemos las vistas que necesiten tener una sesión iniciada
           //si no hay variables de sesión, redirige al login
           // history.push("/login");
+          if (
+            window.location.pathname === "/dashboard" ||
+            window.location.pathname === "/setup-profile" ||
+            window.location.pathname === "/change-password"
+          ) {
+            history.push("/login");
+          }
         } else {
           let objStorage = JSON.parse(value);
           if (JSON.parse(objStorage.authenticated) !== false) {
@@ -49,7 +56,7 @@ const AppProvider = ({ children }) => {
             };
             setObjLogin(json);
             axios.defaults.headers.common["x-token"] = objStorage.token;
-            history.push('/dashboard');
+            history.push("/dashboard");
           } else {
             history.push("/login");
           }
