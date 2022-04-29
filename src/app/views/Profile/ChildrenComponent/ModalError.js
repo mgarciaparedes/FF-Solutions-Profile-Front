@@ -1,0 +1,94 @@
+import React from "react";
+import { Modal, Fade, Box, Typography, Button, Grid } from "@mui/material";
+import DangerousTwoToneIcon from "@mui/icons-material/DangerousTwoTone";
+
+//Estilo modal Error
+const styleModal = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 300,
+  bgcolor: "background.paper",
+  borderRadius: "2px",
+  boxShadow: 24,
+  borderColor: "white",
+  p: 3,
+};
+
+const ModalError = ({ openModalError, errorMessage, history }) => {
+  return (
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      open={openModalError}
+      // onClose={handleCloseModalError}
+      disableEscapeKeyDown={true}
+    >
+      <Fade in={openModalError}>
+        <Box sx={styleModal}>
+          <Typography sx={{ textAlign: "center" }}>
+            <DangerousTwoToneIcon color="error" sx={{ fontSize: 70 }} />
+          </Typography>
+          <Typography
+            id="modal-modal-title"
+            variant="h5"
+            component="h2"
+            sx={{ mt: 1, textAlign: "center" }}
+          >
+            Error
+          </Typography>
+          <Typography
+            id="modal-modal-description"
+            variant="subtitle1"
+            gutterBottom
+            component="div"
+            sx={{ mt: 2, textAlign: "center" }}
+          >
+            {errorMessage !== ""
+              ? errorMessage
+              : "We're sorry, something went wrong. Please try again!"}
+          </Typography>
+
+          {errorMessage === "User does not exist." ? (
+            <Typography
+              id="modal-modal-body"
+              variant="subtitle2"
+              component="div"
+              sx={{ mt: 1, textAlign: "center" }}
+            >
+              This may happen for the folowing reasons: user may not be
+              registered or you miss some character in url link.
+            </Typography>
+          ) : null}
+          <Box sx={{ mt: 3 }}>
+            <Grid container spacing={2} sx={{ textAlign: "center" }}>
+              <Grid item xs={12}>
+                {" "}
+                <Button
+                  variant="contained"
+                  sx={{ mr: 2 }}
+                  onClick={() => {
+                    document.location.reload();
+                  }}
+                >
+                  Reload
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    history.push("/login");
+                  }}
+                >
+                  Go to login
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Fade>
+    </Modal>
+  );
+};
+
+export default ModalError;
