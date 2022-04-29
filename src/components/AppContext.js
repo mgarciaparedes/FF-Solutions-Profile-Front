@@ -27,7 +27,7 @@ const AppProvider = ({ children }) => {
         if (value === null) {
           //Aquí protegemos las vistas que necesiten tener una sesión iniciada
           //si no hay variables de sesión, redirige al login
-          history.push("/login");
+          // history.push("/login");
         } else {
           let objStorage = JSON.parse(value);
           if (JSON.parse(objStorage.authenticated) !== false) {

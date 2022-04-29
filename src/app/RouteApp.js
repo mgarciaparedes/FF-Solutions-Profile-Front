@@ -15,11 +15,12 @@ import { Dashboard } from "./views/Dashboard/index";
 import { ForgotPassword } from "./views/ForgotPassword";
 import { SetupProfile } from "./views/SetupProfile";
 import { ChangePassword } from "./views/ChangePassword";
+import { Profile } from "./views/Profile";
 
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
 // import { ForgotPassword } from "./views/ForgotPassword/index";
-// import { UserName } from "./views/UserName/index";
+
 // import { ActivateLinkedProfile } from "./views/ActivateLinkedProfile";
 
 /*Componente para el manejo de rutas de la app*/
@@ -71,16 +72,18 @@ const RouteApp = () => {
 
             {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}
 
-            {/* <Route
-            exact
-            path="/:params"
-            component={(params) => <UserName {...params} />}
-          />
+            {/* 
           <Route
             exact
             path="/activateLinkedProfile/:params"
             component={(params) => <ActivateLinkedProfile {...params} />}
           /> */}
+          
+          <Route
+            exact
+            path="/:params"
+            component={(params) => <Profile {...params} />}
+          />
             <Route exact path="/" render={() => <Redirect to="/login" />} />
             <Route path="*" component={() => <Error404 />} />
           </Switch>
