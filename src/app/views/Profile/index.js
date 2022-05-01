@@ -316,6 +316,21 @@ export const Profile = ({ location }) => {
             {bioState}
           </Typography>
 
+          {/*EMBED YOUTUBE VIDEO*/}
+          {rows.map((row, index) =>
+            row.socialNetwork === "Embed Youtube Video" ? (
+              <Container sx={{ mt: 3 }}>
+                <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
+                  <iframe
+                    width="100%"
+                    height="200"
+                    src={"https://www.youtube.com/embed/" + row.profile}
+                  ></iframe>
+                </Box>
+              </Container>
+            ) : null
+          )}
+
           {/*Botones Redes Sociales*/}
           <Container sx={{ mt: 3 }}>
             <SocialNetworkButtons
