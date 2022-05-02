@@ -32,7 +32,6 @@ const responsiveCarouselImageProfile = {
 };
 
 const Gallery = ({ gallery }) => {
-  const { galleryImages, galleryActive } = gallery;
   //Función que maneja los clicks del carousel
   //Si tiene url entonces redirije en pestaña nueva
   //Si no tiene url no pasa nada cuando hacen click
@@ -45,7 +44,7 @@ const Gallery = ({ gallery }) => {
   };
   return (
     <>
-      {galleryActive && galleryImages ? (
+      {gallery && gallery.galleryActive? (
         <Box sx={{ flexGrow: 1, textAlign: "center" }} mt={3} mr={2} ml={2}>
           <Grid container spacing={0}>
             <Grid item xs={12}>
@@ -58,7 +57,7 @@ const Gallery = ({ gallery }) => {
                 autoPlay={false}
                 shouldResetAutoplay={false}
               >
-                {galleryImages.map((element, index) => (
+                {gallery.galleryImages.map((element, index) => (
                   <Button
                     key={index}
                     onClick={() => handleCarouselClick(element.url)}

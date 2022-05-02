@@ -106,7 +106,11 @@ const SocialNetworkButtons = ({
   return (
     <>
       <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+        >
           {rows.map((row, index) =>
             row.socialNetwork !== "CustomURL" &&
             row.socialNetwork !== "CustomText" &&

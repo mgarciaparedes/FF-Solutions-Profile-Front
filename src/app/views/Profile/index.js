@@ -19,6 +19,7 @@ import {
 import { useSnackbar } from "notistack";
 import QRCode from "qrcode.react";
 import helpers from "../../../components/Helpers";
+import Footer from "../../../components/Footer";
 
 //Íconos
 import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone";
@@ -93,7 +94,7 @@ export const Profile = ({ location }) => {
    *la ruta de la imagen*/
   const [imgProfile, setImgProfile] = useState("");
   const [imgBanner, setImgBanner] = useState("");
-  const [gallery, setGallery] = useState({});
+  const [gallery, setGallery] = useState(null);
 
   //Hooks modal error al cargar
   const [openModalError, setOpenModalError] = useState(false);
@@ -112,23 +113,32 @@ export const Profile = ({ location }) => {
     axios
       .post("/users/usernameData", payload)
       .then((res) => {
-        console.log(res.data);
-        setLoadingProfileData(false);
+        
         const { ok, msg, data, email, gallery, customImage, active, username } =
-          res.data;
-        const { galleryActive, galleryImages } = gallery;
+          res.data; 
 
         if (ok && msg === "Username Profile Data found.") {
-          //   alert("Todo ok");
+          setLoadingProfileData(false);
           setProfileDataOk(true);
           setNameState(data.profileFullName);
           setBioState(data.profileBio);
           setProfileData(data.socialMedia);
+          setGallery(gallery);
           setIsLinked(data.isLinked);
           setUsernameLinked(data.usernameLinked);
-          setGallery({ galleryActive, galleryImages });
           setCustomImage(customImage);
           setProfileActive(active);
+          setErrorMessage("");
+
+          //Hacemos un if para ver si galería existe
+          // ya que puede venir en null si el uusario no tiene galería guardada
+          // if(gallery === null){
+          //   console.log
+          //   setGallery(null);
+          // }else{
+          //   const { galleryActive, galleryImages } = gallery;
+          //   setGallery({ galleryActive, galleryImages });
+          // }
 
           /*De no estar guardada la ruta de la imagen, mostramos un icono en fondo gris*/
           if (data.base64ProfilePhoto === "") {
@@ -158,6 +168,7 @@ export const Profile = ({ location }) => {
           //   setEmail(objLogin.email);
           //   setSerialNumber(objLogin.serialNumber);
         } else {
+          console.log("Estoy llegando acá");
           setOpenModalError(true);
         }
       })
@@ -183,12 +194,20 @@ export const Profile = ({ location }) => {
           setOpenModalError(true);
           return false;
         }
+
+        if (!ok && msg === "Error 404. User Profile wasn't found.") {
+            //   alert("Error2");
+            setProfileDataOk(false);
+            setErrorMessage(msg);
+            setOpenModalError(true);
+            return false;
+          }
       });
   }, []);
 
   return (
     <>
-      {loadingProfileData ? (
+      {loadingProfileData ? ( //Cargando Inicial
         <>
           <Skeleton
             animation="wave"
@@ -256,7 +275,11 @@ export const Profile = ({ location }) => {
             </Box>
           </Container>
         </>
-      ) : !loadingProfileData && profileDataOK && profileActive ? (
+      ) : !loadingProfileData && profileDataOK && profileActive ? ( 
+        //Mostrar perfil cumpliendo con condiciones
+        //loadingProfileData apagado
+        //profileDataOK si es que cargó bien la data del servicio
+        //profileActive que el perfil se encuentre activo
         <>
           <Box
             component="img"
@@ -301,7 +324,7 @@ export const Profile = ({ location }) => {
               fontWeight: "bold",
             }}
           >
-            {nameState}
+            {errorMessage === "Error 404. User Profile wasn't found."  ?  "test" : nameState}
           </Typography>
 
           <Typography
@@ -389,6 +412,7 @@ export const Profile = ({ location }) => {
               </Grid>
             </Box>
           </Container>
+          <Footer />
         </>
       ) : !profileActive ? (
         <Grid>
@@ -399,6 +423,8 @@ export const Profile = ({ location }) => {
           <Typography>Error 404</Typography>
         </Grid>
       )}
+
+      
 
       {/*Modal Error*/}
       <ModalError

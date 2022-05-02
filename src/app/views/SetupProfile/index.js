@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-// import axios from "axios";
+import axios from "axios";
 import Navbar from "../../../components/Navbar";
 // import Footer from "../../../components/Footer";
 import helpers from "../../../components/Helpers";
 import { AppContext } from "../../../components/AppContext";
 // import history from "../../../components/History";
-import { Divider, Chip, Grid, Button } from "@mui/material";
+import { Divider, Chip, Grid, Button, LinearProgress } from "@mui/material";
 // import img_avatar from "../../../assets/images/avatar.jpg";
 // import banner from "../../../assets/images/banner.png";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -16,6 +16,7 @@ import { useSnackbar } from "notistack";
 //Imágenes por default si el cliente no tiene imágenes guardadas
 import userImage from "../../../assets/images/default-user-image.png";
 import bannerImage from "../../../assets/images/default-user-banner.jpg";
+import FormData from "form-data";
 
 // Icons
 // import { PhotoCamera } from "@mui/icons-material";
@@ -55,10 +56,10 @@ const styleModal = {
 
 export const SetupProfile = () => {
   //Obtenemos variables de sesión
-  const { objLogin, logoutContext } = useContext(AppContext);
+  const { objLogin, logoutContext, setExistentProfile } =
+    useContext(AppContext);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [existentProfile, setExistentProfile] = useState(true);
   const [nameState, setNameState] = useState("");
   const [bioState, setBioState] = useState("");
   const [loadingProfileData, setLoadingProfileData] = useState(true); //Animación cargando datos de perfil
@@ -245,20 +246,147 @@ export const SetupProfile = () => {
     });
   };
 
+  //Esta función valida que no hayan redes sociales en blanco
+  const noBlankSpaces = () => {
+    return rows.some(function (el) {
+      return el.profile === "";
+    });
+  };
+
   //Función submit para guardar/modificar el profile según se requiera
   const onSubmit = () => {
-    const payload = {
-      profileFullName: nameState,
-      base64ProfilePhoto: imgProfileToUpload,
-      base64BannerPhoto: imgBannerToUpload,
-      profileBio: bioState,
-      socialMedia: rows,
-      sendNotifications: objLogin.sendNotifications,
-      isLinked: objLogin.isLinked,
-      usernameLinked: objLogin.usernameLinked,
-    };
+    setDisabledButton(true);
 
-    console.log(payload);
+    //Guardamos el payload con los valores que el backend necesita
+    // const payload = {
+    //   profileFullName: nameState,
+    //   base64ProfilePhoto: imgProfileToUpload,
+    //   base64BannerPhoto: imgBannerToUpload,
+    //   profileBio: bioState,
+    //   socialMedia: rows,
+    //   sendNotifications: objLogin.sendNotifications,
+    //   isLinked: objLogin.isLinked,
+    //   usernameLinked: objLogin.usernameLinked,
+    // };
+
+    //Revisamos que no hayan espacios en blanco en los campos de RRSS
+    const checkFields = noBlankSpaces();
+
+    /*Debemos mandar el arreglo de objetos de redes sociales
+     * como un string y en el backend, lo convertimos a JSON con JSON.parse()*/
+    const rowsSocialMedia = JSON.stringify(rows);
+
+    let formData = new FormData();
+    formData.append("profileFullName", nameState);
+    formData.append("base64ProfilePhoto", imgProfileToUpload);
+    formData.append("base64BannerPhoto", imgBannerToUpload);
+    formData.append("profileBio", bioState);
+    formData.append("socialMedia", rowsSocialMedia);
+    formData.append("sendNotifications", objLogin.sendNotifications);
+    formData.append("isLinked", objLogin.isLinked);
+    formData.append("usernameLinked", objLogin.usernameLinked);
+
+    if (checkFields === true) {
+      setDisabledButton(false);
+
+      //Enviar mensaje de error
+      enqueueSnackbar("Can't save a social network without profile", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
+    } else if (nameState === "") {
+      setDisabledButton(false);
+
+      //Enviar mensaje de error
+      enqueueSnackbar("Profile Fullname is required", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
+    } else if (!objLogin.existentProfile) {
+      //Si existentProfile es false, quiere decir que no existe un perfil guardado para este usuario
+      //Eso quiere decir que le pega al servicio de saveProfileUserData
+      axios
+        .post("/users/saveProfileUserData", formData)
+        .then((res) => {
+          const { ok, msg } = res.data;
+
+          if (ok === true) {
+            setDisabledButton(false);
+            //Activar al usuario para que pueda modificar luego de la primera inserción en la BBDD
+            setExistentProfile(true);
+
+            //Enviar mensaje de éxito
+            enqueueSnackbar("Profile saved succesfully", {
+              variant: "success",
+              autoHideDuration: 2000,
+            });
+          } else {
+            setDisabledButton(false);
+
+            //Enviar mensaje de error
+            enqueueSnackbar("An error occurred. Please try again!", {
+              variant: "error",
+              autoHideDuration: 2000,
+            });
+          }
+        })
+        .catch((error) => {
+          const { msg } = error.response.data;
+          setDisabledButton(false);
+
+          //Enviar mensaje de error
+          enqueueSnackbar(
+            msg ? msg : "Please close this session and login again.",
+            {
+              variant: "error",
+              autoHideDuration: 2000,
+            }
+          );
+        });
+    } else {
+      //Si existentProfile es true, quiere decir que no existe un perfil guardado para este usuario
+      //Eso quiere decir que le pega al servicio de updateProfileUserData
+      axios
+        .post("/users/updateProfileUserData", formData, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          const { ok, msg } = res.data;
+
+          if (ok === true) {
+            setDisabledButton(false);
+
+            //Enviar mensaje de éxito
+            enqueueSnackbar("Changes have been updated!", {
+              variant: "success",
+              autoHideDuration: 2000,
+            });
+          } else {
+            setDisabledButton(false);
+
+            //Enviar mensaje de error
+            enqueueSnackbar("An error occurred. Please try again!", {
+              variant: "error",
+              autoHideDuration: 2000,
+            });
+          }
+        })
+        .catch((error) => {
+          const { msg } = error.response.data;
+          setDisabledButton(false);
+
+          //Enviar mensaje de error
+          enqueueSnackbar(
+            msg ? msg : "Please close this session and login again.",
+            {
+              variant: "error",
+              autoHideDuration: 2000,
+            }
+          );
+        });
+    }
   };
   return (
     <>
@@ -313,7 +441,15 @@ export const SetupProfile = () => {
 
             {/* Body 1.2 - Buttons */}
             <Grid item xs={12} marginTop={3} marginBottom={1}>
-              <Button onClick={() => onSubmit()} fullWidth variant="contained">
+              {/*Loading progress bar */}
+              {disabledButton ? <LinearProgress sx={{ mb: 3 }} /> : <></>}
+
+              <Button
+                onClick={() => onSubmit()}
+                disabled={disabledButton}
+                fullWidth
+                variant="contained"
+              >
                 Save changes
               </Button>
             </Grid>

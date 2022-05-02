@@ -80,7 +80,24 @@ const ModalError = ({ openModalError, errorMessage, history }) => {
             * you miss some character in url link.
           </Typography>
           </>
-          ) : null}
+          ) : errorMessage === "Error 404. User Profile wasn't found." ? (<>
+            <Typography
+              id="modal-modal-body"
+              variant="subtitle2"
+              component="div"
+              sx={{ mt: 1, textAlign: "center" }}
+            >
+              This may happen for the folowing reasons:
+            </Typography>
+            <Typography
+            id="modal-modal-body"
+            variant="subtitle2"
+            component="div"
+            sx={{ mt: 1, textAlign: "center" }}
+          >
+            * user is registered but without first profile setup.
+          </Typography>
+          </>) : null}
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={2} sx={{ textAlign: "center" }}>
               <Grid item xs={12}>
