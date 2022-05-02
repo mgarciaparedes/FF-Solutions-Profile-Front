@@ -181,14 +181,12 @@ export const Profile = ({ location }) => {
         setImgBanner(bannerImage);
 
         if (e.response === undefined) {
-          //   alert("Error1");
           setProfileDataOk(false);
           setOpenModalError(true);
           return false;
         }
         const { msg, ok } = e.response.data;
         if (!ok && msg === "User does not exist.") {
-          //   alert("Error2");
           setProfileDataOk(false);
           setErrorMessage(msg);
           setOpenModalError(true);
@@ -196,9 +194,16 @@ export const Profile = ({ location }) => {
         }
 
         if (!ok && msg === "Error 404. User Profile wasn't found.") {
-            //   alert("Error2");
             setProfileDataOk(false);
             setErrorMessage(msg);
+            setOpenModalError(true);
+            return false;
+          }
+
+          if (!ok && msg === "User is not active") {
+            setProfileDataOk(false);
+            setErrorMessage(msg);
+            setProfileActive(false);
             setOpenModalError(true);
             return false;
           }

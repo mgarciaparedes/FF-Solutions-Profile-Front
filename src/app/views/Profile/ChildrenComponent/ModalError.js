@@ -4,19 +4,18 @@ import DangerousTwoToneIcon from "@mui/icons-material/DangerousTwoTone";
 
 //Estilo modal Error
 const styleModal = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100%",
-    height: "100%",
-    bgcolor: "background.paper",
-    overflow: "scroll", //para que funcione el scroll
-    boxShadow: 24,
-    p: 3,
-    margin: "auto",
-  };
-  
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "100%",
+  height: "100%",
+  bgcolor: "background.paper",
+  overflow: "scroll", //para que funcione el scroll
+  boxShadow: 24,
+  p: 3,
+  margin: "auto",
+};
 
 const ModalError = ({ openModalError, errorMessage, history }) => {
   return (
@@ -53,51 +52,79 @@ const ModalError = ({ openModalError, errorMessage, history }) => {
           </Typography>
 
           {errorMessage === "User does not exist." ? (
-              <>
-            <Typography
-              id="modal-modal-body"
-              variant="subtitle2"
-              component="div"
-              sx={{ mt: 1, textAlign: "center" }}
-            >
-              This may happen for the folowing reasons:
-            </Typography>
-            <Typography
-            id="modal-modal-body"
-            variant="subtitle2"
-            component="div"
-            sx={{ mt: 1, textAlign: "center" }}
-          >
-            * user may not be
-            registered.
-          </Typography>
-          <Typography
-            id="modal-modal-body"
-            variant="subtitle2"
-            component="div"
-            sx={{ mt: 1, textAlign: "center" }}
-          >
-            * you miss some character in url link.
-          </Typography>
-          </>
-          ) : errorMessage === "Error 404. User Profile wasn't found." ? (<>
-            <Typography
-              id="modal-modal-body"
-              variant="subtitle2"
-              component="div"
-              sx={{ mt: 1, textAlign: "center" }}
-            >
-              This may happen for the folowing reasons:
-            </Typography>
-            <Typography
-            id="modal-modal-body"
-            variant="subtitle2"
-            component="div"
-            sx={{ mt: 1, textAlign: "center" }}
-          >
-            * user is registered but without first profile setup.
-          </Typography>
-          </>) : null}
+            <>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                This may happen for the folowing reasons:
+              </Typography>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                * user may not be registered.
+              </Typography>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                * you miss some character in url link.
+              </Typography>
+            </>
+          ) : errorMessage === "Error 404. User Profile wasn't found." ? (
+            <>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                This may happen for the folowing reasons:
+              </Typography>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                * user is registered but without first profile setup.
+              </Typography>
+            </>
+          ) : errorMessage === "User is not active" ? (
+            <>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                This may happen for the folowing reasons:
+              </Typography>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                * user is disabled for some reason.
+              </Typography>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle1"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                 Contact with this website admin.
+              </Typography>
+            </>
+          ) : null}
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={2} sx={{ textAlign: "center" }}>
               <Grid item xs={12}>
