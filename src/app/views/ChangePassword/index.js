@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -17,6 +17,11 @@ import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import { useSnackbar } from "notistack";
 import Navbar from "../../../components/Navbar";
+import { AppContext } from "../../../components/AppContext";
+import PasswordChecklist from "react-password-checklist";
+import PasswordCheckList from "../../../components/PasswordCheckList";
+import HelpIcon from "@mui/icons-material/Help";
+import IconButton from "@mui/material/IconButton";
 // import Footer from "../../../components/Footer";
 
 const theme = createTheme();
@@ -30,12 +35,18 @@ const schema = Yup.object({
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
     ),
   confirmNewPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
     .required("Confirm new password is required"),
 });
 
 export const ChangePassword = () => {
-  // const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  // useState para mostrar y ocultar contraseña
+  // const [showPassword, setShowPassword] = useState(false);
+  // const handleClickShowPassword = () => setShowPassword(!showPassword);
+  // const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  const { objLogin } = useContext(AppContext);
+  const { user, username, email, serialNumber } = objLogin;
 
   const formik = useFormik({
     initialValues: {
@@ -45,12 +56,16 @@ export const ChangePassword = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      sendCode(values);
+      changePass(values);
     },
   });
 
-  const sendCode = (event) => {
+  const changePass = (event) => {
     const payload = {
+      name: user,
+      username: username,
+      email: email,
+      serialNumber: serialNumber,
       currentPassword: event.currentPassword,
       newPassword: event.newPassword,
       confirmNewPassword: event.confirmNewPassword,
@@ -60,18 +75,19 @@ export const ChangePassword = () => {
       .post("/auth/changePassword", payload)
       .then((res) => {
         if (res.data.ok === false) {
-          console.log("Hubo un error inesperado");
+          console.log(res);
         } else {
           console.log("Cambios realizados con exito");
         }
-
-        // setDisabledButton(false);
       })
       .catch(function (error) {
-        // setDisabledButton(false);
-        console.log("Hubo un error");
+        console.log(error);
       });
   };
+
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
+  const [show, setShow] = useState(false);
 
   return (
     <>
@@ -87,7 +103,7 @@ export const ChangePassword = () => {
               alignItems: "center",
             }}
           >
-            {/* Icono de forgot password */}
+            {/* Icono de change password */}
             <Avatar
               sx={{ m: 1, bgcolor: "primary.main", height: 50, width: 50 }}
             >
@@ -101,34 +117,63 @@ export const ChangePassword = () => {
             <form onSubmit={formik.handleSubmit}>
               {/* Formulario de current password */}
 
-              <TextField
-                focused
-                margin="normal"
-                fullWidth
-                id="currentPassword"
-                label="Current password"
-                name="currentPassword"
-                value={formik.values.currentPassword}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.currentPassword &&
-                  Boolean(formik.errors.currentPassword)
-                }
-                helperText={
-                  formik.touched.currentPassword &&
-                  formik.errors.currentPassword
-                }
-              />
+              <Grid container>
+                <Grid xs={11.9}>
+                  <TextField
+                    focused
+                    type="password"
+                    margin="normal"
+                    // fullWidth
+                    style={{ width: "97.5%" }}
+                    id="currentPassword"
+                    label="Current password"
+                    name="currentPassword"
+                    value={formik.values.currentPassword}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.currentPassword &&
+                      Boolean(formik.errors.currentPassword)
+                    }
+                    helperText={
+                      formik.touched.currentPassword &&
+                      formik.errors.currentPassword
+                    }                    
+                  />
+                </Grid>
+                <Grid xs={0.1} alignSelf='center'>
+                  <IconButton
+                  title='Click here to know the password requirements.'
+                  style={{width: '10%' }}
+                    color="primary"
+                    aria-label="upload picture"
+                    component="span"
+                    onClick={() => {
+                      setShow(!show);
+                    }}
+                  >
+                    <HelpIcon />
+                  </IconButton>
+
+                </Grid>
+
+
+              </Grid>
+
 
               <TextField
                 focused
+                type="password"
                 margin="normal"
-                fullWidth
+                // fullWidth
+                style={{ width: "97.5%" }}
                 id="newPassword"
                 label="New password"
                 name="newPassword"
                 value={formik.values.newPassword}
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  setPassword(e.target.value);
+                }}
                 error={
                   formik.touched.newPassword &&
                   Boolean(formik.errors.newPassword)
@@ -140,13 +185,18 @@ export const ChangePassword = () => {
 
               <TextField
                 focused
+                type="password"
                 margin="normal"
-                fullWidth
+                // fullWidth
+                style={{ width: "97.5%" }}
                 id="confirmNewPassword"
                 label="Confirm new password"
                 name="confirmNewPassword"
                 value={formik.values.confirmNewPassword}
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  formik.handleChange(e);
+                  setPasswordAgain(e.target.value);
+                }}
                 error={
                   formik.touched.confirmNewPassword &&
                   Boolean(formik.errors.confirmNewPassword)
@@ -157,11 +207,18 @@ export const ChangePassword = () => {
                 }
               />
 
+              {show && (
+                <PasswordCheckList
+                  password={password}
+                  passwordAgain={passwordAgain}
+                />
+              )}
+
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, width: "97.5%" }}
               >
                 Change password
               </Button>
