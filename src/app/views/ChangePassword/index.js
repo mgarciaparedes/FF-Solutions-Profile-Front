@@ -22,6 +22,10 @@ import PasswordChecklist from "react-password-checklist";
 import PasswordCheckList from "../../../components/PasswordCheckList";
 import HelpIcon from "@mui/icons-material/Help";
 import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { InputAdornment } from "@mui/material";
 // import Footer from "../../../components/Footer";
 
 const theme = createTheme();
@@ -32,7 +36,7 @@ const schema = Yup.object({
     .required("New password is required")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.-])[A-Za-z\d@$!%*#?&.-]{8,}$/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      "Must meet the requirements below"
     ),
   confirmNewPassword: Yup.string()
     .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
@@ -40,10 +44,24 @@ const schema = Yup.object({
 });
 
 export const ChangePassword = () => {
+// useState para mostrar y ocultar contraseña actual
+const [showCuPassword, setCuShowPassword] = useState(false);
+const handleClickShowCuPassword = () => setCuShowPassword(!showCuPassword);
+const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
+
   // useState para mostrar y ocultar contraseña
-  // const [showPassword, setShowPassword] = useState(false);
-  // const handleClickShowPassword = () => setShowPassword(!showPassword);
-  // const handleMouseDownPassword = () => setShowPassword(!showPassword);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  // useState para mostrar y ocultar confirmar contraseña
+  const [showCoPassword, setShowCoPassword] = useState(false);
+  const handleClickShowCoPassword = () => setShowCoPassword(!showCoPassword);
+  const handleMouseDownCoPassword = () => setShowCoPassword(!showCoPassword);
+
+  // useState para checklist
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
 
   const { objLogin } = useContext(AppContext);
   const { user, username, email, serialNumber } = objLogin;
@@ -85,10 +103,6 @@ export const ChangePassword = () => {
       });
   };
 
-  const [password, setPassword] = useState("");
-  const [passwordAgain, setPasswordAgain] = useState("");
-  const [show, setShow] = useState(false);
-
   return (
     <>
       <Navbar />
@@ -117,55 +131,45 @@ export const ChangePassword = () => {
             <form onSubmit={formik.handleSubmit}>
               {/* Formulario de current password */}
 
-              <Grid container>
-                <Grid xs={11.9}>
-                  <TextField
-                    focused
-                    type="password"
-                    margin="normal"
-                    // fullWidth
-                    style={{ width: "97.5%" }}
-                    id="currentPassword"
-                    label="Current password"
-                    name="currentPassword"
-                    value={formik.values.currentPassword}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.currentPassword &&
-                      Boolean(formik.errors.currentPassword)
-                    }
-                    helperText={
-                      formik.touched.currentPassword &&
-                      formik.errors.currentPassword
-                    }                    
-                  />
-                </Grid>
-                <Grid xs={0.1} alignSelf='center'>
-                  <IconButton
-                  title='Click here to know the password requirements.'
-                  style={{width: '10%' }}
-                    color="primary"
-                    aria-label="upload picture"
-                    component="span"
-                    onClick={() => {
-                      setShow(!show);
-                    }}
-                  >
-                    <HelpIcon />
-                  </IconButton>
-
-                </Grid>
-
-
-              </Grid>
-
-
-              <TextField
-                focused
-                type="password"
+              <TextField                
                 margin="normal"
-                // fullWidth
-                style={{ width: "97.5%" }}
+                fullWidth
+                id="currentPassword"
+                label="Current password"
+                name="currentPassword"
+                value={formik.values.currentPassword}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.currentPassword &&
+                  Boolean(formik.errors.currentPassword)
+                }
+                helperText={
+                  formik.touched.currentPassword &&
+                  formik.errors.currentPassword
+                }
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                type={showCuPassword ? "text" : "password"}
+                  InputProps={{
+                    // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowCuPassword}
+                          onMouseDown={handleMouseDownCuPassword}
+                        >
+                          {showCuPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+              />
+
+              <TextField                
+                margin="normal"
+                fullWidth
                 id="newPassword"
                 label="New password"
                 name="newPassword"
@@ -181,14 +185,29 @@ export const ChangePassword = () => {
                 helperText={
                   formik.touched.newPassword && formik.errors.newPassword
                 }
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                type={showPassword ? "text" : "password"}
+                  InputProps={{
+                    // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
               />
 
-              <TextField
-                focused
-                type="password"
+              <TextField                
                 margin="normal"
-                // fullWidth
-                style={{ width: "97.5%" }}
+                fullWidth
                 id="confirmNewPassword"
                 label="Confirm new password"
                 name="confirmNewPassword"
@@ -205,9 +224,28 @@ export const ChangePassword = () => {
                   formik.touched.confirmNewPassword &&
                   formik.errors.confirmNewPassword
                 }
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                type={showCoPassword ? "text" : "password"}
+                  InputProps={{
+                    // <-- This is where the toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowCoPassword}
+                          onMouseDown={handleMouseDownCoPassword}
+                        >
+                          {showCoPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
               />
+              
 
-              {show && (
+              {password !== "" && (
                 <PasswordCheckList
                   password={password}
                   passwordAgain={passwordAgain}

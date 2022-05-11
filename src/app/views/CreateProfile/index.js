@@ -25,6 +25,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PasswordCheckList from "../../../components/PasswordCheckList";
 
 //Constante con el formato de validación para cada campo-------------------------------------------
 const validationSchema = yup.object({
@@ -44,7 +45,7 @@ const validationSchema = yup.object({
     .required("Password is required")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.-])[A-Za-z\d@$!%*#?&.-]{8,}$/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      "Must meet the requirements below"
     ),
   confirmPassword: yup
     .string()
@@ -81,6 +82,9 @@ export const CreateProfile = () => {
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
 
   const action = (key) => (
     <>
@@ -303,7 +307,10 @@ export const CreateProfile = () => {
                     ),
                   }}
                   value={formik.values.password}
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    setPassword(e.target.value);
+                  }}
                   error={
                     formik.touched.password && Boolean(formik.errors.password)
                   }
@@ -336,7 +343,10 @@ export const CreateProfile = () => {
                     ),
                   }}
                   value={formik.values.confirmPassword}
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    setPasswordAgain(e.target.value);
+                  }}
                   error={
                     formik.touched.confirmPassword &&
                     Boolean(formik.errors.confirmPassword)
@@ -348,15 +358,15 @@ export const CreateProfile = () => {
                 />
               </Grid>
 
-              {/* Checkbox para recibir promociones y actualizaciones. */}
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+                {password !== "" && (
+                  <PasswordCheckList
+                    password={password}
+                    passwordAgain={passwordAgain}
+                  />
+                )}
               </Grid>
+
             </Grid>
             {/* Boton de registrarse */}
             {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
