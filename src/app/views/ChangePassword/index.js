@@ -84,7 +84,7 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
       username: username,
       email: email,
       serialNumber: serialNumber,
-      currentPassword: event.currentPassword,
+      password: event.currentPassword,
       newPassword: event.newPassword,
       confirmNewPassword: event.confirmNewPassword,
     };
