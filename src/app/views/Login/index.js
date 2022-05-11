@@ -345,15 +345,6 @@ export const Login = () => {
 
                 {/*Loading progress bar */}
                 {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
-                {/* <Backdrop
-                  sx={{
-                    color: "#fff",
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
-                  }}
-                  open={loading}
-                >
-                  <CircularProgress color="inherit" />
-                </Backdrop> */}
 
                 {/* Botón submit */}
                 <Button

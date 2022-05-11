@@ -142,7 +142,7 @@ export const CreateProfile = () => {
 
         const { ok, msg } = res.data;
         if (ok && msg === "User created succesfully.") {
-          enqueueSnackbar("An error ocurred. Please try again!", {
+          enqueueSnackbar(msg, {
             variant: "success",
             autoHideDuration: 3000,
             action,

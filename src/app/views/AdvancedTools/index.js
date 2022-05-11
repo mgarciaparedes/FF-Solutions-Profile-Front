@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
 import Navbar from "../../../components/Navbar";
 import {
   Container,
@@ -9,11 +10,12 @@ import {
   FormControlLabel,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
-  Avatar,
   Divider,
   Button,
+  LinearProgress,
+  CircularProgress,
+  Backdrop,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -21,7 +23,11 @@ import Switch, { SwitchProps } from "@mui/material/Switch";
 import { AppContext } from "../../../components/AppContext";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
-import ViewListIcon from '@mui/icons-material/ViewList';
+import ViewListIcon from "@mui/icons-material/ViewList";
+import { useSnackbar } from "notistack";
+
+//Importación de componentes hijos
+import GpsNotifications from "./ChildrenComponent/GpsNotifications";
 
 const theme = createTheme();
 
@@ -29,43 +35,40 @@ export const AdvancedTools = () => {
   const { objLogin, setGPSNotificationsSelectedContext } =
     useContext(AppContext);
   const [loading, setLoading] = useState(false);
-  const [sendNotifications, setSendNotifications] = useState(
-    objLogin.sendNotifications
-  );
 
   //   useEffect(() => {
   //     console.log(objLogin);
   //   }, []);
 
-  //   const changeGPSNotificationsStatus = (isChecked) => {
-  //     setLoading(true);
-
-  //     const payloadGPSNotifications = {
-  //       username: objLogin.username,
-  //       sendNotifications: isChecked,
-  //     };
-
-  //     axios
-  //       .post("/users/activateGPSNotifications", payloadGPSNotifications)
-  //       .then((res) => {
-  //         //console.log(res.data);
-  //         setLoading(false);
-  //       })
-  //       .catch((error) => {
-  //         setLoading(false);
-  //       });
-  //   };
-
-  const sendEmailNotifications = (e) => {
-    //alert(e.target.checked);
-    setSendNotifications(e.target.checked);
-    setGPSNotificationsSelectedContext(e.target.checked);
-    // changeGPSNotificationsStatus(e.target.checked);
-  };
-
   return (
     <>
+      {/*Barra de tareas */}
       <Navbar />
+
+      {/*En caso de que se esté consumiendo algún servicio se activa este loading en página completa*/}
+      {loading ? (
+        <Backdrop
+          sx={{
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+          }}
+          open={loading}
+        >
+          {/* <CircularProgress color="inherit" /> */}
+          <LinearProgress
+            sx={{ mt: 2, zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            color="secondary"
+          />
+          <Typography
+            variant="caption"
+            display="block"
+            sx={{ textAlign: "center" }}
+            gutterBottom
+          >
+            Saving your changes...
+          </Typography>
+        </Backdrop>
+      ) : null}
 
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
@@ -98,31 +101,14 @@ export const AdvancedTools = () => {
                 bgcolor: "background.paper",
               }}
             >
-              <ListItem>
-                <ListItemText
-                  primary="GPS Notifications"
-                  secondary={
-                    sendNotifications === true ? "Enabled" : "Disabled"
-                  }
-                />
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={sendNotifications === true ? true : false}
-                        onChange={(e) => {
-                          sendEmailNotifications(e);
-                        }}
-                      />
-                    }
-                    label=""
-                  />
-                </FormGroup>
-              </ListItem>
+              {/* Componente hijo para activar o desactivar las notificacions de geolocalización */}
+              <GpsNotifications setLoading={setLoading} />
+
               <Divider component="li" />
+
               <ListItem>
                 <ListItemText primary="Connect Account" secondary="Disabled" />
-                <FormGroup>
+                {/* <FormGroup>
                   <FormControlLabel
                     control={
                       <Switch
@@ -134,17 +120,15 @@ export const AdvancedTools = () => {
                     }
                     label=""
                   />
-                </FormGroup>
+                </FormGroup> */}
               </ListItem>
               <Divider component="li" />
               <ListItem>
                 <ListItemText
                   primary="Gallery Status"
-                  secondary={
-                    sendNotifications === true ? "Enabled" : "Disabled"
-                  }
+                  secondary="Test"
                 />
-                <FormGroup>
+                {/* <FormGroup>
                   <FormControlLabel
                     control={
                       <Switch
@@ -156,7 +140,7 @@ export const AdvancedTools = () => {
                     }
                     label=""
                   />
-                </FormGroup>
+                </FormGroup> */}
               </ListItem>
               <ListItem>
                 <ListItemText
