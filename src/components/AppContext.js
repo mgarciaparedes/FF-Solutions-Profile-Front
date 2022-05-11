@@ -89,68 +89,65 @@ const AppProvider = ({ children }) => {
     history.push("/login");
   };
 
-  const setExistentProfile = (
-      value
-    ) => {
-      (async () => {
-        await AsyncStorage.getItem("APP::DATA").then((value) => {
-          if (value === null) {
-          } else {
-            let objStorage = JSON.parse(value);
-            if (JSON.parse(objStorage.authenticated) === true) {
-              const json = {
-                authenticated: objStorage.authenticated,
-                user: objStorage.user,
-                token: objStorage.token,
-                email: objStorage.email,
-                existentProfile: value,
-                serialNumber: objStorage.serialNumber,
-                username: objStorage.username,
-                profileData: objStorage.profileData,
-                galleryImages: objStorage.galleryImages,
-                galleryActive: objStorage.galleryActive,
-                customImage: objStorage.customImage,
-                sendNotifications: objStorage.sendNotifications,
-                isLinked: objStorage.isLinked,
-                usernameLinked: objStorage.usernameLinked,
-              };
-              setObjLogin(json);
-            }
+  const setExistentProfile = (value) => {
+    (async () => {
+      await AsyncStorage.getItem("APP::DATA").then((value) => {
+        if (value === null) {
+        } else {
+          let objStorage = JSON.parse(value);
+          if (JSON.parse(objStorage.authenticated) === true) {
+            const json = {
+              authenticated: objStorage.authenticated,
+              user: objStorage.user,
+              token: objStorage.token,
+              email: objStorage.email,
+              existentProfile: value,
+              serialNumber: objStorage.serialNumber,
+              username: objStorage.username,
+              profileData: objStorage.profileData,
+              galleryImages: objStorage.galleryImages,
+              galleryActive: objStorage.galleryActive,
+              customImage: objStorage.customImage,
+              sendNotifications: objStorage.sendNotifications,
+              isLinked: objStorage.isLinked,
+              usernameLinked: objStorage.usernameLinked,
+            };
+            setObjLogin(json);
           }
-        });
-      })();
-    };
+        }
+      });
+    })();
+  };
 
-  // const setGPSNotificationsSelectedContext = (
-  //   isChecked
-  // ) => {
-  //   (async () => {
-  //     await AsyncStorage.getItem("APP::DATA").then((value) => {
-  //       if (value === null) {
-  //       } else {
-  //         let objStorage = JSON.parse(value);
-  //         if (JSON.parse(objStorage.authenticated) === true) {
-  //           const json = {
-  //             authenticated: objStorage.authenticated,
-  //             user: objStorage.user,
-  //             token: objStorage.token,
-  //             email: objStorage.email,
-  //             serialNumber: objStorage.serialNumber,
-  //             username: objStorage.username,
-  //             profileData: objStorage.profileData,
-  //             galleryImages: objStorage.galleryImages,
-  //             galleryActive: objStorage.galleryActive,
-  //             customImage: objStorage.customImage,
-  //             sendNotifications: isChecked,
-  //             isLinked: objStorage.isLinked,
-  //             usernameLinked: objStorage.usernameLinked,
-  //           };
-  //           setObjLogin(json);
-  //         }
-  //       }
-  //     });
-  //   })();
-  // };
+  const setGPSNotificationsSelectedContext = (isChecked) => {
+    (async () => {
+      await AsyncStorage.getItem("APP::DATA").then((value) => {
+        if (value === null) {
+        } else {
+          let objStorage = JSON.parse(value);
+          if (JSON.parse(objStorage.authenticated) === true) {
+            const json = {
+              authenticated: objStorage.authenticated,
+              user: objStorage.user,
+              token: objStorage.token,
+              email: objStorage.email,
+              existentProfile: objStorage.existentProfile,
+              serialNumber: objStorage.serialNumber,
+              username: objStorage.username,
+              profileData: objStorage.profileData,
+              galleryImages: objStorage.galleryImages,
+              galleryActive: objStorage.galleryActive,
+              customImage: objStorage.customImage,
+              sendNotifications: isChecked,
+              isLinked: objStorage.isLinked,
+              usernameLinked: objStorage.usernameLinked,
+            };
+            setObjLogin(json);
+          }
+        }
+      });
+    })();
+  };
 
   // const setLinkToExistentProfileContext = (
   //   isLinkedStatus,
@@ -167,6 +164,7 @@ const AppProvider = ({ children }) => {
   //             user: objStorage.user,
   //             token: objStorage.token,
   //             email: objStorage.email,
+  //             existentProfile: objStorage.existentProfile,
   //             serialNumber: objStorage.serialNumber,
   //             username: objStorage.username,
   //             galleryImages: objStorage.galleryImages,
@@ -198,6 +196,7 @@ const AppProvider = ({ children }) => {
   //             user: objStorage.user,
   //             token: objStorage.token,
   //             email: objStorage.email,
+  //             existentProfile: objStorage.existentProfile,
   //             serialNumber: objStorage.serialNumber,
   //             username: objStorage.username,
   //             profileData: objStorage.profileData,
@@ -229,6 +228,7 @@ const AppProvider = ({ children }) => {
   //             user: objStorage.user,
   //             token: objStorage.token,
   //             email: objStorage.email,
+  //             existentProfile: objStorage.existentProfile,
   //             serialNumber: objStorage.serialNumber,
   //             username: objStorage.username,
   //             profileData: objStorage.profileData,
@@ -260,6 +260,7 @@ const AppProvider = ({ children }) => {
   //             user: objStorage.user,
   //             token: objStorage.token,
   //             email: objStorage.email,
+  //             existentProfile: objStorage.existentProfile,
   //             serialNumber: objStorage.serialNumber,
   //             username: objStorage.username,
   //             profileData: objStorage.profileData,
@@ -284,7 +285,7 @@ const AppProvider = ({ children }) => {
         logoutContext,
         objLogin,
         setExistentProfile,
-        // setGPSNotificationsSelectedContext,
+        setGPSNotificationsSelectedContext,
         // setLinkToExistentProfileContext,
         // setGalleryActiveContext,
         // setGalleryImageContext,

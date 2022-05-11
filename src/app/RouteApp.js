@@ -16,6 +16,7 @@ import { ForgotPassword } from "./views/ForgotPassword";
 import { SetupProfile } from "./views/SetupProfile";
 import { ChangePassword } from "./views/ChangePassword";
 import { Profile } from "./views/Profile";
+import { AdvancedTools } from "./views/AdvancedTools";
 
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
@@ -67,7 +68,7 @@ const RouteApp = () => {
               component={() => <ChangePassword />}
             />
 
-            {/* <Route exact path="/advanced-tools" component={() => <AdvancedTools />} /> */}
+            <Route exact path="/advanced-tools" component={() => <AdvancedTools />} />
             {/* <Route exact path="/help" component={() => <Help />} /> */}
 
             {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}
