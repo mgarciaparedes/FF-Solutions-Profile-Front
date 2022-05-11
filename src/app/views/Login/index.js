@@ -178,7 +178,7 @@ export const Login = () => {
               customImage: customImage ? customImage : null,
               sendNotifications: data ? data.sendNotifications : false,
               isLinked: data ? data.isLinked : false,
-              usernameLinked: data ? data.usernameLinked : "",
+              usernameLinked: data ? data.usernameLinked : ""
             };
             loginContext(json);
 

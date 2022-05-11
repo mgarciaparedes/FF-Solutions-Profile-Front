@@ -18,6 +18,7 @@ import {
   Zoom,
   Fab,
   Skeleton,
+  Container
 } from "@mui/material";
 // Importaciones de iconos
 import MenuIcon from "@mui/icons-material/Menu";
@@ -334,33 +335,35 @@ const Sidebar = () => {
         }}
       >
         <Fade in={openProgressBar}>
-          <Box sx={styleModalProgressBar}>
-            <Typography
-              sx={{
-                textAlign: "center",
-                mt: 25,
-              }}
-            >
-              <HandshakeIcon color="info" sx={{ fontSize: 70 }} />
-            </Typography>
-            <Typography
-              id="modal-modal-title"
-              variant="h5"
-              component="h2"
-              sx={{ mt: 1, textAlign: "center" }}
-            >
-              See u next time
-            </Typography>
-            <LinearProgress sx={{ mt: 2 }} />
-            <Typography
-              variant="caption"
-              display="block"
-              sx={{ textAlign: "center" }}
-              gutterBottom
-            >
-              Signing off...
-            </Typography>
-          </Box>
+          <Container>
+            <Box sx={styleModalProgressBar}>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  mt: 25,
+                }}
+              >
+                <HandshakeIcon color="info" sx={{ fontSize: 70 }} />
+              </Typography>
+              <Typography
+                id="modal-modal-title"
+                variant="h5"
+                component="h2"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                See u next time
+              </Typography>
+              <LinearProgress sx={{ mt: 2 }} />
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ textAlign: "center" }}
+                gutterBottom
+              >
+                Signing off...
+              </Typography>
+            </Box>
+          </Container>
         </Fade>
       </Modal>
 
