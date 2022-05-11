@@ -4,10 +4,8 @@ import Navbar from "../../../components/Navbar";
 import {
   Container,
   Typography,
-  FormGroup,
   Box,
   Alert,
-  FormControlLabel,
   List,
   ListItem,
   ListItemText,
@@ -16,6 +14,7 @@ import {
   LinearProgress,
   CircularProgress,
   Backdrop,
+  Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -54,19 +53,24 @@ export const AdvancedTools = () => {
           }}
           open={loading}
         >
-          {/* <CircularProgress color="inherit" /> */}
-          <LinearProgress
-            sx={{ mt: 2, zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            color="secondary"
-          />
-          <Typography
-            variant="caption"
-            display="block"
-            sx={{ textAlign: "center" }}
-            gutterBottom
-          >
-            Saving your changes...
-          </Typography>
+          <Container>
+            <Grid container>
+              <Grid item xs={12} textAlign="center">
+                {/* <CircularProgress color="inherit" sx={{ mt: 2 }} /> */}
+                <LinearProgress color="info" sx={{ mt: 2 }} />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  sx={{ textAlign: "center" }}
+                  gutterBottom
+                >
+                  Saving your changes...
+                </Typography>
+              </Grid>
+            </Grid>
+          </Container>
         </Backdrop>
       ) : null}
 
@@ -124,10 +128,7 @@ export const AdvancedTools = () => {
               </ListItem>
               <Divider component="li" />
               <ListItem>
-                <ListItemText
-                  primary="Gallery Status"
-                  secondary="Test"
-                />
+                <ListItemText primary="Gallery Status" secondary="Test" />
                 {/* <FormGroup>
                   <FormControlLabel
                     control={
