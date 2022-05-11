@@ -85,6 +85,7 @@ export const Profile = ({ location }) => {
   const [isLinked, setIsLinked] = useState(false);
   const [usernameLinked, setUsernameLinked] = useState("");
   const [profileActive, setProfileActive] = useState(true);
+  const [sendNotifications, setSendNotifications] = useState(false);
 
   //Declaro el estado del arreglo inicial que va a guardar las RRSS seleccionadas
   const [rows, setRows] = useState([]);
@@ -128,6 +129,7 @@ export const Profile = ({ location }) => {
           setUsernameLinked(data.usernameLinked);
           setCustomImage(customImage);
           setProfileActive(active);
+          setSendNotifications(data.sendNotifications);
           setErrorMessage("");
 
           //Hacemos un if para ver si galería existe
@@ -162,6 +164,10 @@ export const Profile = ({ location }) => {
 
           //Aquí guardo si es que el profile tiene alguna red social
           setRows(data.socialMedia);
+
+          //Ejecutamos la función que envía el correo si sendNotificacions es true
+          //Envío el valor a ver si se va a enviar correo o no
+          sendEmailNotifications(sendNotifications, email, 1);
 
           //Guardo data para enviar al change password
           //   setName(objLogin.user);
@@ -209,6 +215,48 @@ export const Profile = ({ location }) => {
           }
       });
   }, []);
+
+  const sendEmailNotifications = (value, email, whereIsClicked) => {
+    if (value === true && whereIsClicked === 1) {
+      //Si el valor que recibe es true entonces enviamos el correo
+      navigator.geolocation.getCurrentPosition(function (position) {
+        // console.log("Latitude is :", position.coords.latitude);
+        // console.log("Longitude is :", position.coords.longitude);
+
+        const payloadToSendNotifications = {
+          to: email,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+
+        // console.log(payloadToSendNotifications);
+
+        axios
+          .post("email/sendNotification", payloadToSendNotifications)
+          .then((res) => {
+            if (res.data.ok === true) {
+              enqueueSnackbar("Notification was sent!", {
+                variant: "success",
+                autoHideDuration: 2000,
+              });
+            } else {
+              enqueueSnackbar("Notification was not sent. Try again!", {
+                variant: "error",
+                autoHideDuration: 2000,
+              });
+            }
+          })
+          .catch((error) => {
+            enqueueSnackbar("An error occurred.", {
+              variant: "error",
+              autoHideDuration: 2000,
+            });
+          });
+      });
+    } else {
+      // console.log("Notifications disabled");
+    }
+  };
 
   return (
     <>
