@@ -174,7 +174,7 @@ const ConnectAcount = () => {
           setLoading(false);
 
           //Se cambia el estado de la variable de sesión
-          setLinkToExistentProfileContext(true, values.username);
+          setLinkToExistentProfileContext(false, values.username);
 
           //Cerramos el modal
           handleCloseModal();

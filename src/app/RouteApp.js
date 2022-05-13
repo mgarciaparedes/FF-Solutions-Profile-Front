@@ -17,12 +17,11 @@ import { SetupProfile } from "./views/SetupProfile";
 import { ChangePassword } from "./views/ChangePassword";
 import { Profile } from "./views/Profile";
 import { AdvancedTools } from "./views/AdvancedTools";
+import { ActivateLinkedProfile } from "./views/ActivateLinkedProfile";
 
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
 // import { ForgotPassword } from "./views/ForgotPassword/index";
-
-// import { ActivateLinkedProfile } from "./views/ActivateLinkedProfile";
 
 /*Componente para el manejo de rutas de la app*/
 const RouteApp = () => {
@@ -68,23 +67,26 @@ const RouteApp = () => {
               component={() => <ChangePassword />}
             />
 
-            <Route exact path="/advanced-tools" component={() => <AdvancedTools />} />
+            <Route
+              exact
+              path="/advanced-tools"
+              component={() => <AdvancedTools />}
+            />
             {/* <Route exact path="/help" component={() => <Help />} /> */}
 
             {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}
 
-            {/* 
-          <Route
-            exact
-            path="/activateLinkedProfile/:params"
-            component={(params) => <ActivateLinkedProfile {...params} />}
-          /> */}
-          
-          <Route
-            exact
-            path="/:params"
-            component={(params) => <Profile {...params} />}
-          />
+            <Route
+              exact
+              path="/activateLinkedProfile/:params"
+              component={(params) => <ActivateLinkedProfile {...params} />}
+            />
+
+            <Route
+              exact
+              path="/:params"
+              component={(params) => <Profile {...params} />}
+            />
             <Route exact path="/" render={() => <Redirect to="/login" />} />
             <Route path="*" component={() => <Error404 />} />
           </Switch>
