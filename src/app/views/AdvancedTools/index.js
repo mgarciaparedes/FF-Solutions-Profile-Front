@@ -27,6 +27,7 @@ import { useSnackbar } from "notistack";
 
 //Importación de componentes hijos
 import GpsNotifications from "./ChildrenComponent/GpsNotifications";
+import ConnectAcount from "./ChildrenComponent/ConnectAcount";
 
 const theme = createTheme();
 
@@ -110,22 +111,7 @@ export const AdvancedTools = () => {
 
               <Divider component="li" />
 
-              <ListItem>
-                <ListItemText primary="Connect Account" secondary="Disabled" />
-                {/* <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={sendNotifications === true ? true : false}
-                        onChange={(e) => {
-                          sendEmailNotifications(e);
-                        }}
-                      />
-                    }
-                    label=""
-                  />
-                </FormGroup> */}
-              </ListItem>
+              <ConnectAcount />
               <Divider component="li" />
               <ListItem>
                 <ListItemText primary="Gallery Status" secondary="Test" />

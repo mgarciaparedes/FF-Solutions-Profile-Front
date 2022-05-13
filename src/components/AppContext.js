@@ -149,38 +149,38 @@ const AppProvider = ({ children }) => {
     })();
   };
 
-  // const setLinkToExistentProfileContext = (
-  //   isLinkedStatus,
-  //   usernameLinkedStatus,
-  // ) => {
-  //   (async () => {
-  //     await AsyncStorage.getItem("APP::DATA").then((value) => {
-  //       if (value === null) {
-  //       } else {
-  //         let objStorage = JSON.parse(value);
-  //         if (JSON.parse(objStorage.authenticated) === true) {
-  //           const json = {
-  //             authenticated: objStorage.authenticated,
-  //             user: objStorage.user,
-  //             token: objStorage.token,
-  //             email: objStorage.email,
-  //             existentProfile: objStorage.existentProfile,
-  //             serialNumber: objStorage.serialNumber,
-  //             username: objStorage.username,
-  //             galleryImages: objStorage.galleryImages,
-  //             galleryActive: objStorage.galleryActive,
-  //             customImage: objStorage.customImage,
-  //             profileData: objStorage.profileData,
-  //             sendNotifications: objStorage.sendNotifications,
-  //             isLinked: objStorage.isLinked,
-  //             usernameLinked: objStorage.usernameLinked,
-  //           };
-  //           setObjLogin(json);
-  //         }
-  //       }
-  //     });
-  //   })();
-  // };
+  const setLinkToExistentProfileContext = (
+    isLinkedStatus,
+    usernameLinkedStatus,
+  ) => {
+    (async () => {
+      await AsyncStorage.getItem("APP::DATA").then((value) => {
+        if (value === null) {
+        } else {
+          let objStorage = JSON.parse(value);
+          if (JSON.parse(objStorage.authenticated) === true) {
+            const json = {
+              authenticated: objStorage.authenticated,
+              user: objStorage.user,
+              token: objStorage.token,
+              email: objStorage.email,
+              existentProfile: objStorage.existentProfile,
+              serialNumber: objStorage.serialNumber,
+              username: objStorage.username,
+              galleryImages: objStorage.galleryImages,
+              galleryActive: objStorage.galleryActive,
+              customImage: objStorage.customImage,
+              profileData: objStorage.profileData,
+              sendNotifications: objStorage.sendNotifications,
+              isLinked: isLinkedStatus,
+              usernameLinked: usernameLinkedStatus,
+            };
+            setObjLogin(json);
+          }
+        }
+      });
+    })();
+  };
 
   // const setGalleryActiveContext = (
   //   galleryActiveStatus,
@@ -286,7 +286,7 @@ const AppProvider = ({ children }) => {
         objLogin,
         setExistentProfile,
         setGPSNotificationsSelectedContext,
-        // setLinkToExistentProfileContext,
+        setLinkToExistentProfileContext,
         // setGalleryActiveContext,
         // setGalleryImageContext,
         // setCustomImageContext
