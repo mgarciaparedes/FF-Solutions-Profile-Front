@@ -9,16 +9,26 @@ import {
   Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { AppContext } from "../../../components/AppContext";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import AnnouncementTwoToneIcon from "@mui/icons-material/AnnouncementTwoTone";
+
+//Se crea el tema de plantilla preconfigurado por Material UI para obtener el diseño del Login-----------------
+const theme = createTheme();
 
 export const ActivateLinkedProfile = ({ location }) => {
   const [loading, setLoading] = useState(false);
-  const { objLogin } = useContext(AppContext);
   const { enqueueSnackbar } = useSnackbar();
   const { pathname } = location;
   const username = pathname.replace("/activateLinkedProfile/", "");
   const payloadToActivateLinkedProfile = {
     usernameToActivateLink: username,
+  };
+
+  //Función para cerrar la pestaña activa
+  const closeTab = () => {
+    setTimeout(function () {
+      window.close();
+    }, 3000);
   };
 
   useEffect(() => {
@@ -34,13 +44,15 @@ export const ActivateLinkedProfile = ({ location }) => {
             variant: "success",
             autoHideDuration: 3000,
           });
-          history.push("/login");
+
+          closeTab();
         } else {
           enqueueSnackbar(msg, {
             variant: "error",
             autoHideDuration: 3000,
           });
-          history.push("/login");
+
+          closeTab();
         }
       })
       .catch((error) => {
@@ -49,7 +61,7 @@ export const ActivateLinkedProfile = ({ location }) => {
           variant: "error",
           autoHideDuration: 3000,
         });
-        history.push("/login");
+        closeTab();
       });
   }, []);
   return (
@@ -82,7 +94,36 @@ export const ActivateLinkedProfile = ({ location }) => {
             </Grid>
           </Container>
         </Backdrop>
-      ) : null}
+      ) : (
+        <ThemeProvider theme={theme}>
+          <Grid container component="main" sx={{ mt: 25 }}>
+            <Grid item xs={12} textAlign="center">
+              <Typography>
+                <AnnouncementTwoToneIcon color="info" sx={{ fontSize: 70 }} />
+              </Typography>
+            </Grid>
+            <Grid item xs={12} textAlign="center">
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                Tab will be closed in a few seconds
+              </Typography>
+              <LinearProgress sx={{ mt: 2 }} />
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ textAlign: "center" }}
+                gutterBottom
+              >
+                Closing tab...
+              </Typography>
+            </Grid>
+          </Grid>
+        </ThemeProvider>
+      )}
     </>
   );
 };
