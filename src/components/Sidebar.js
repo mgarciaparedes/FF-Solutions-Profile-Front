@@ -335,37 +335,39 @@ const Sidebar = () => {
         }}
       >
         <Fade in={openProgressBar}>
-          <Grid container component="main">
-            <Grid item xs={12} textAlign="center">
-              <Box sx={styleModalProgressBar}>
-                <Typography
-                  sx={{
-                    textAlign: "center",
-                    mt: 25,
-                  }}
-                >
-                  <HandshakeIcon color="info" sx={{ fontSize: 70 }} />
-                </Typography>
-                <Typography
-                  id="modal-modal-title"
-                  variant="h5"
-                  component="h2"
-                  sx={{ mt: 1, textAlign: "center" }}
-                >
-                  See u next time
-                </Typography>
-                <LinearProgress sx={{ mt: 2 }} />
-                <Typography
-                  variant="caption"
-                  display="block"
-                  sx={{ textAlign: "center" }}
-                  gutterBottom
-                >
-                  Signing off...
-                </Typography>
-              </Box>
+          <Container>
+            <Grid container component="main">
+              <Grid item xs={12} textAlign="center">
+                <Box sx={styleModalProgressBar}>
+                  <Typography
+                    sx={{
+                      textAlign: "center",
+                      mt: 25,
+                    }}
+                  >
+                    <HandshakeIcon color="info" sx={{ fontSize: 70 }} />
+                  </Typography>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h5"
+                    component="h2"
+                    sx={{ mt: 1, textAlign: "center" }}
+                  >
+                    See u next time
+                  </Typography>
+                  <LinearProgress sx={{ mt: 2 }} />
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    sx={{ textAlign: "center" }}
+                    gutterBottom
+                  >
+                    Signing off...
+                  </Typography>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
+          </Container>
         </Fade>
       </Modal>
 

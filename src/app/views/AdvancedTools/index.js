@@ -20,7 +20,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { AppContext } from "../../../components/AppContext";
-import CollectionsIcon from "@mui/icons-material/Collections";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { useSnackbar } from "notistack";
@@ -28,6 +27,8 @@ import { useSnackbar } from "notistack";
 //Importación de componentes hijos
 import GpsNotifications from "./ChildrenComponent/GpsNotifications";
 import ConnectAcount from "./ChildrenComponent/ConnectAcount";
+import GalleryStatus from "./ChildrenComponent/GalleryStatus";
+import GalleryImages from "./ChildrenComponent/GalleryImages";
 
 const theme = createTheme();
 
@@ -111,33 +112,17 @@ export const AdvancedTools = () => {
 
               <Divider component="li" />
 
+              {/* Componente hijo para activar o desactivar la conexión a otro perfil */}
               <ConnectAcount />
+
               <Divider component="li" />
-              <ListItem>
-                <ListItemText primary="Gallery Status" secondary="Test" />
-                {/* <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={sendNotifications === true ? true : false}
-                        onChange={(e) => {
-                          sendEmailNotifications(e);
-                        }}
-                      />
-                    }
-                    label=""
-                  />
-                </FormGroup> */}
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="Gallery Images"
-                  secondary="Checkout your gallery images"
-                />
-                <Button variant="outlined">
-                  <CollectionsIcon />
-                </Button>
-              </ListItem>
+
+              {/*Componente hijo para activar o desactivar la galería */}
+              <GalleryStatus setLoading={setLoading} />
+
+              {/*Componente hijo para activar o desactivar la galería */}
+              <GalleryImages setLoading={setLoading} />
+
               <ListItem>
                 <ListItemText
                   primary="Gallery Setup"
