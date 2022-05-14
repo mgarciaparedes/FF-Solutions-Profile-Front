@@ -72,7 +72,7 @@ const GalleryImages = () => {
           primary="Gallery Images"
           secondary="Checkout your gallery images"
         />
-        <Button variant="outlined" onClick={() => setOpenModalGallery(true)}>
+        <Button variant="outlined" disabled={galleryImages === null} onClick={() => setOpenModalGallery(true)}>
           <CollectionsIcon />
         </Button>
       </ListItem>
@@ -101,22 +101,24 @@ const GalleryImages = () => {
               autoPlay={false}
               shouldResetAutoplay={false}
             >
-              {galleryImages.map((element, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleCarouselClick(element.url)}
-                >
-                  <Box
-                    component="img"
-                    sx={{
-                      height: 200,
-                      width: 1,
-                    }}
-                    alt="banner image"
-                    src={`${process.env.REACT_APP_API_URL}/render/image/${element.image}`}
-                  />
-                </Button>
-              ))}
+              {galleryImages !== null
+                ? galleryImages.map((element, index) => (
+                    <Button
+                      key={index}
+                      onClick={() => handleCarouselClick(element.url)}
+                    >
+                      <Box
+                        component="img"
+                        sx={{
+                          height: 200,
+                          width: 1,
+                        }}
+                        alt="banner image"
+                        src={`${process.env.REACT_APP_API_URL}/render/image/${element.image}`}
+                      />
+                    </Button>
+                  ))
+                : null}
             </Carousel>
             <Box sx={{ mt: 3 }}>
               <Grid container spacing={2}>

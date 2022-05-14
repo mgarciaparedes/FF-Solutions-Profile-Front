@@ -29,6 +29,7 @@ import GpsNotifications from "./ChildrenComponent/GpsNotifications";
 import ConnectAcount from "./ChildrenComponent/ConnectAcount";
 import GalleryStatus from "./ChildrenComponent/GalleryStatus";
 import GalleryImages from "./ChildrenComponent/GalleryImages";
+import GallerySetup from "./ChildrenComponent/GallerySetup";
 
 const theme = createTheme();
 
@@ -121,17 +122,11 @@ export const AdvancedTools = () => {
               <GalleryStatus setLoading={setLoading} />
 
               {/*Componente hijo para activar o desactivar la galería */}
-              <GalleryImages setLoading={setLoading} />
+              <GalleryImages />
 
-              <ListItem>
-                <ListItemText
-                  primary="Gallery Setup"
-                  secondary="Select your images and make a gallery for your profile"
-                />
-                <Button variant="outlined">
-                  <TouchAppIcon />
-                </Button>
-              </ListItem>
+              {/*Componente hijo para configurar nueva galería */}
+              <GallerySetup />
+
               <Divider component="li" />
               <ListItem>
                 <ListItemText
