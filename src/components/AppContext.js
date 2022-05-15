@@ -246,37 +246,37 @@ const AppProvider = ({ children }) => {
   //   })();
   // };
 
-  // const setCustomImageContext = (
-  //   customImages,
-  // ) => {
-  //   (async () => {
-  //     await AsyncStorage.getItem("APP::DATA").then((value) => {
-  //       if (value === null) {
-  //       } else {
-  //         let objStorage = JSON.parse(value);
-  //         if (JSON.parse(objStorage.authenticated) === true) {
-  //           const json = {
-  //             authenticated: objStorage.authenticated,
-  //             user: objStorage.user,
-  //             token: objStorage.token,
-  //             email: objStorage.email,
-  //             existentProfile: objStorage.existentProfile,
-  //             serialNumber: objStorage.serialNumber,
-  //             username: objStorage.username,
-  //             profileData: objStorage.profileData,
-  //             galleryImages: objStorage.galleryImages,
-  //             galleryActive: objStorage.galleryActive,
-  //             customImage: customImages,
-  //             sendNotifications: objStorage.sendNotifications,
-  //             isLinked: objStorage.isLinked,
-  //             usernameLinked: objStorage.usernameLinked,
-  //           };
-  //           setObjLogin(json);
-  //         }
-  //       }
-  //     });
-  //   })();
-  // };
+  const setCustomImageContext = (
+    customImages,
+  ) => {
+    (async () => {
+      await AsyncStorage.getItem("APP::DATA").then((value) => {
+        if (value === null) {
+        } else {
+          let objStorage = JSON.parse(value);
+          if (JSON.parse(objStorage.authenticated) === true) {
+            const json = {
+              authenticated: objStorage.authenticated,
+              user: objStorage.user,
+              token: objStorage.token,
+              email: objStorage.email,
+              existentProfile: objStorage.existentProfile,
+              serialNumber: objStorage.serialNumber,
+              username: objStorage.username,
+              profileData: objStorage.profileData,
+              galleryImages: objStorage.galleryImages,
+              galleryActive: objStorage.galleryActive,
+              customImage: customImages,
+              sendNotifications: objStorage.sendNotifications,
+              isLinked: objStorage.isLinked,
+              usernameLinked: objStorage.usernameLinked,
+            };
+            setObjLogin(json);
+          }
+        }
+      });
+    })();
+  };
 
   return (
     <AppContext.Provider

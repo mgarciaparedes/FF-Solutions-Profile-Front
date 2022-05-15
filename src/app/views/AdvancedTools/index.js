@@ -28,6 +28,7 @@ import { useSnackbar } from "notistack";
 //Importación de componentes hijos
 import GpsNotifications from "./ChildrenComponent/GpsNotifications";
 import ConnectAcount from "./ChildrenComponent/ConnectAcount";
+import CustomImageSetup from "./ChildrenComponent/CustomImageSetup";
 
 const theme = createTheme();
 
@@ -35,6 +36,11 @@ export const AdvancedTools = () => {
   const { objLogin, setGPSNotificationsSelectedContext } =
     useContext(AppContext);
   const [loading, setLoading] = useState(false);
+  
+  // useState para abrir modal de customImage
+  const [openCustomImageSetup, setOpenCustomImageSetup] = useState(false)
+  const handleCloseCustomImageSetup = () => setOpenCustomImageSetup(false);
+  
 
   //   useEffect(() => {
   //     console.log(objLogin);
@@ -85,6 +91,12 @@ export const AdvancedTools = () => {
               //   alignItems: "center",
             }}
           >
+            <CustomImageSetup 
+              openCustomImageSetup={openCustomImageSetup}
+              setOpenCustomImageSetup={setOpenCustomImageSetup}
+              handleCloseCustomImageSetup={handleCloseCustomImageSetup}
+
+            />
             <Alert variant="outlined" severity="info">
               In this area you can add more advanced tools such as customizing
               your profile buttons, adding a photo gallery, and sub functions
@@ -148,12 +160,13 @@ export const AdvancedTools = () => {
                 </Button>
               </ListItem>
               <Divider component="li" />
+
               <ListItem>
                 <ListItemText
                   primary="Custom Images"
                   secondary="Checkout your custom images button"
                 />
-                <Button variant="outlined">
+                <Button variant="outlined" onClick={ ()=> { setOpenCustomImageSetup(true) } }>
                   <ViewListIcon />
                 </Button>
               </ListItem>
@@ -167,6 +180,7 @@ export const AdvancedTools = () => {
                 </Button>
               </ListItem>
             </List>
+            
 
             {/* <FormControlLabel
                 disabled
