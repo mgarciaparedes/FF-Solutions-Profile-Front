@@ -26,6 +26,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { InputAdornment } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import LinearProgress from "@mui/material/LinearProgress";
 // import Footer from "../../../components/Footer";
 
 const theme = createTheme();
@@ -44,10 +46,10 @@ const schema = Yup.object({
 });
 
 export const ChangePassword = () => {
-// useState para mostrar y ocultar contraseña actual
-const [showCuPassword, setCuShowPassword] = useState(false);
-const handleClickShowCuPassword = () => setCuShowPassword(!showCuPassword);
-const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
+  // useState para mostrar y ocultar contraseña actual
+  const [showCuPassword, setCuShowPassword] = useState(false);
+  const handleClickShowCuPassword = () => setCuShowPassword(!showCuPassword);
+  const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
 
   // useState para mostrar y ocultar contraseña
   const [showPassword, setShowPassword] = useState(false);
@@ -63,8 +65,30 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
 
+  // useState para notifications.
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const [loading, setLoading] = useState(false)
+
   const { objLogin } = useContext(AppContext);
   const { user, username, email, serialNumber } = objLogin;
+
+  // Función de snackbar
+  const action = (key) => (
+    <>
+      <IconButton
+        variant="outlined"
+        sx={{
+          color: "white",
+        }}
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+    </>
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -79,6 +103,7 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
   });
 
   const changePass = (event) => {
+    setLoading(true);
     const payload = {
       name: user,
       username: username,
@@ -92,14 +117,29 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
     axios
       .post("/auth/changePassword", payload)
       .then((res) => {
+        setLoading(false)
         if (res.data.ok === false) {
-          console.log(res);
+          enqueueSnackbar(res.data.msg, {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
         } else {
-          console.log("Cambios realizados con exito");
+          enqueueSnackbar("Changes made successfully", {
+            variant: "success",
+            autoHideDuration: 3000,
+            action,
+          });
+          setLoading(false)          
         }
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(function () {
+        enqueueSnackbar("Error, try again.", {
+          variant: "success",
+          autoHideDuration: 3000,
+          action,
+        });        
+        setLoading(false);
       });
   };
 
@@ -131,7 +171,7 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
             <form onSubmit={formik.handleSubmit}>
               {/* Formulario de current password */}
 
-              <TextField                
+              <TextField
                 margin="normal"
                 fullWidth
                 id="currentPassword"
@@ -151,23 +191,23 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
                   shrink: true,
                 }}
                 type={showCuPassword ? "text" : "password"}
-                  InputProps={{
-                    // <-- This is where the toggle button is added.
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowCuPassword}
-                          onMouseDown={handleMouseDownCuPassword}
-                        >
-                          {showCuPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
+                InputProps={{
+                  // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowCuPassword}
+                        onMouseDown={handleMouseDownCuPassword}
+                      >
+                        {showCuPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
-              <TextField                
+              <TextField
                 margin="normal"
                 fullWidth
                 id="newPassword"
@@ -189,23 +229,23 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
                   shrink: true,
                 }}
                 type={showPassword ? "text" : "password"}
-                  InputProps={{
-                    // <-- This is where the toggle button is added.
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
+                InputProps={{
+                  // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
-              <TextField                
+              <TextField
                 margin="normal"
                 fullWidth
                 id="confirmNewPassword"
@@ -228,22 +268,21 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
                   shrink: true,
                 }}
                 type={showCoPassword ? "text" : "password"}
-                  InputProps={{
-                    // <-- This is where the toggle button is added.
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowCoPassword}
-                          onMouseDown={handleMouseDownCoPassword}
-                        >
-                          {showCoPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
+                InputProps={{
+                  // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowCoPassword}
+                        onMouseDown={handleMouseDownCoPassword}
+                      >
+                        {showCoPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
-              
 
               {password !== "" && (
                 <PasswordCheckList
@@ -252,11 +291,22 @@ const handleMouseDownCuPassword = () => setCuShowPassword(!showCuPassword);
                 />
               )}
 
+              {
+                loading && 
+                // setTimeout(() => {
+                //   <LinearProgress sx={{ width: '100%', marginTop: 3 }}/>
+                  
+                // }, 3000)
+                <LinearProgress sx={{ width: '100%', marginTop: 3 }}/>
+              }
+
+              
+
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, width: "97.5%" }}
+                sx={{ mt: 3, mb: 2 }}
               >
                 Change password
               </Button>

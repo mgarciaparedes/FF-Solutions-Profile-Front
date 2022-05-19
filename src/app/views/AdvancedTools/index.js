@@ -30,6 +30,8 @@ import ConnectAcount from "./ChildrenComponent/ConnectAcount";
 import GalleryStatus from "./ChildrenComponent/GalleryStatus";
 import GalleryImages from "./ChildrenComponent/GalleryImages";
 import GallerySetup from "./ChildrenComponent/GallerySetup";
+import CustomImageSetup from "./ChildrenComponent/CustomImageSetup";
+import SaveCustomImage from "./ChildrenComponent/SaveCustomImage";
 
 const theme = createTheme();
 
@@ -37,10 +39,48 @@ export const AdvancedTools = () => {
   const { objLogin, setGPSNotificationsSelectedContext } =
     useContext(AppContext);
   const [loading, setLoading] = useState(false);
+  
+  // useState para abrir modal de customImage
+  const [openCustomImageSetup, setOpenCustomImageSetup] = useState(false)
+  const handleCloseCustomImageSetup = () => setOpenCustomImageSetup(false);
 
-  //   useEffect(() => {
-  //     console.log(objLogin);
-  //   }, []);
+  // useState para abrir modal de saveCustomImage
+  const [openSaveCustomImage, setOpenSaveCustomImage] = useState(false)
+  const handleCloseSaveCustomImage = () => setOpenSaveCustomImage(false);
+  
+
+  //uso este servicio para validar que haya token en la petición
+  //Con esto evitamos que si se cae el token o el objLogin o se recarga la página pueda funcionar el front
+  useEffect(() => {
+    axios
+      .get("/users/getProfileUserData")
+      .then((res) => {
+        const { ok } = res.data;
+        console.log('This session is over');
+
+        // if (!ok) {
+        //   Swal.fire({
+        //     title: "This session is over",
+        //     text: "Please login again",
+        //     icon: "error",
+        //     confirmButtonText: "OK",
+        //   }).then((result) => {
+        //     history.push("/");
+        //   });
+        // }
+      })
+      .catch((error) => {
+        // Swal.fire({
+        //   title: "This session is over",
+        //   text: "Please login again",
+        //   icon: "error",
+        //   confirmButtonText: "OK",
+        // }).then((result) => {
+        //   history.push("/");
+        // });
+        console.log('Errooorr');
+      });
+  }, []);
 
   return (
     <>
@@ -87,6 +127,17 @@ export const AdvancedTools = () => {
               //   alignItems: "center",
             }}
           >
+            <CustomImageSetup 
+              openCustomImageSetup={openCustomImageSetup}
+              setOpenCustomImageSetup={setOpenCustomImageSetup}
+              handleCloseCustomImageSetup={handleCloseCustomImageSetup}
+
+            />
+            <SaveCustomImage 
+              openSaveCustomImage={openSaveCustomImage}
+              setOpenSaveCustomImage={setOpenSaveCustomImage}
+              handleCloseSaveCustomImage={handleCloseSaveCustomImage}
+            />
             <Alert variant="outlined" severity="info">
               In this area you can add more advanced tools such as customizing
               your profile buttons, adding a photo gallery, and sub functions
@@ -128,12 +179,15 @@ export const AdvancedTools = () => {
               <GallerySetup />
 
               <Divider component="li" />
+
               <ListItem>
                 <ListItemText
                   primary="Custom Images"
                   secondary="Checkout your custom images button"
                 />
-                <Button variant="outlined">
+                <Button variant="outlined" 
+                onClick={ ()=> { setOpenCustomImageSetup(true) } }
+                >
                   <ViewListIcon />
                 </Button>
               </ListItem>
@@ -142,11 +196,14 @@ export const AdvancedTools = () => {
                   primary="Custom Image Setup"
                   secondary="Make a brand new custom image button"
                 />
-                <Button variant="outlined">
+                <Button variant="outlined"
+                  onClick={ ()=>{ setOpenSaveCustomImage(true) } }
+                >
                   <TouchAppIcon />
                 </Button>
               </ListItem>
             </List>
+            
 
             {/* <FormControlLabel
                 disabled
