@@ -289,7 +289,7 @@ const AppProvider = ({ children }) => {
         setLinkToExistentProfileContext,
         // setGalleryActiveContext,
         // setGalleryImageContext,
-        // setCustomImageContext
+        setCustomImageContext
       }}
     >
       {children}
