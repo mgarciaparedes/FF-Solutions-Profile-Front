@@ -367,7 +367,7 @@ const GallerySetup = () => {
       <ListItem>
         <ListItemText
           primary="Gallery Setup"
-          secondary="Select your images and make a gallery for your profile"
+          secondary="Select your images and make a new gallery for your profile"
         />
         <Button variant="outlined" onClick={() => startGallerySetupSteps()}>
           <TouchAppIcon />

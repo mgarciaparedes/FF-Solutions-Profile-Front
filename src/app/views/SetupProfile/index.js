@@ -5,7 +5,16 @@ import Navbar from "../../../components/Navbar";
 import helpers from "../../../components/Helpers";
 import { AppContext } from "../../../components/AppContext";
 // import history from "../../../components/History";
-import { Divider, Chip, Grid, Button, LinearProgress } from "@mui/material";
+import {
+  Divider,
+  Chip,
+  Grid,
+  Button,
+  LinearProgress,
+  CssBaseline,
+  Box,
+  Container
+} from "@mui/material";
 // import img_avatar from "../../../assets/images/avatar.jpg";
 // import banner from "../../../assets/images/banner.png";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -32,7 +41,7 @@ import ModalWelcomeFirstSetup from "./ChildrenComponent/ModalWelcomeFirstSetup";
 import ModalConfirmClearData from "./ChildrenComponent/ModalConfirmClearData";
 
 // Tema para input's
-const theme = createTheme();
+// const theme = createTheme();
 
 const {
   convertStringWithPlus,
@@ -391,56 +400,62 @@ export const SetupProfile = () => {
   return (
     <>
       <Navbar />
-      <ThemeProvider theme={theme}>
-        {/* Body 2 */}
-        <div style={{ backgroundColor: "#fff", width: "100%" }}>
-          <Grid container>
-            {/* Body 1.1 */}
-            <Grid item xs={12} marginTop={8}>
-              {/* Inicio de formulario para editar información. */}
-              <NoDynamicForm
-                nameState={nameState}
-                bioState={bioState}
-                handleNameChange={handleNameChange}
-                handleBioChange={handleBioChange}
-                imgProfile={imgProfile}
-                setImgProfile={setImgProfile}
-                imgBanner={imgBanner}
-                setImgBanner={setImgBanner}
-                imgProfileToUpload={imgProfileToUpload}
-                setImgProfileToUpload={setImgProfileToUpload}
-                imgBannerToUpload={imgBannerToUpload}
-                setImgBannerToUpload={setImgBannerToUpload}
-                setImgProfileSize={setImgProfileSize}
-                setImgBannerSize={setImgBannerSize}
-                handleOnAdd={handleOnAdd}
-                reader={reader}
-                reader2={reader2}
-              />
-              {/* Social media selector */}
-              <Grid>
-                {rows.length > 0 ? (
-                  <Divider sx={{ marginY: 3 }}>
-                    <Chip color="info" label="Social Network Options" />
-                  </Divider>
-                ) : null}
-                {rows.map((row, index) => (
-                  <Row
-                    {...row}
-                    onChange={(name, value) => {
-                      handleOnChange(index, name, value);
-                    }}
-                    onRemove={() => handleOnRemove(index)}
-                    key={index}
-                    view={1}
-                  />
-                ))}
-              </Grid>
-              {/* </ThemeProvider> */}
+      {/* <ThemeProvider theme={theme}> */}
+      <CssBaseline />
+      {/* Body 2 */}
+      {/* <div style={{ backgroundColor: "#fff", width: "100%" }}> */}
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container>
+          {/* Body 1.1 */}
+          <Grid item xs={12} marginTop={8}>
+            {/* Inicio de formulario para editar información. */}
+            <NoDynamicForm
+              nameState={nameState}
+              bioState={bioState}
+              handleNameChange={handleNameChange}
+              handleBioChange={handleBioChange}
+              imgProfile={imgProfile}
+              setImgProfile={setImgProfile}
+              imgBanner={imgBanner}
+              setImgBanner={setImgBanner}
+              imgProfileToUpload={imgProfileToUpload}
+              setImgProfileToUpload={setImgProfileToUpload}
+              imgBannerToUpload={imgBannerToUpload}
+              setImgBannerToUpload={setImgBannerToUpload}
+              setImgProfileSize={setImgProfileSize}
+              setImgBannerSize={setImgBannerSize}
+              handleOnAdd={handleOnAdd}
+              reader={reader}
+              reader2={reader2}
+            />
+            {/* Social media selector */}
+            <Grid>
+              {rows.length > 0 ? (
+                <Divider sx={{ marginY: 3 }}>
+                  <Chip color="info" label="Social Network Options" />
+                </Divider>
+              ) : null}
+              {rows.map((row, index) => (
+                <Row
+                  {...row}
+                  onChange={(name, value) => {
+                    handleOnChange(index, name, value);
+                  }}
+                  onRemove={() => handleOnRemove(index)}
+                  key={index}
+                  view={1}
+                />
+              ))}
             </Grid>
 
-            {/* Body 1.2 - Buttons */}
-            <Grid item xs={12} marginTop={3} marginBottom={1}>
+            {/* </ThemeProvider> */}
+          </Grid>
+        </Grid>
+
+        {/* Body 1.2 - Buttons */}
+        <Grid container>
+          <Grid item xs={12} marginTop={3} marginBottom={1}>
+            <Container>
               {/*Loading progress bar */}
               {disabledButton ? <LinearProgress sx={{ mb: 3 }} /> : <></>}
 
@@ -452,74 +467,77 @@ export const SetupProfile = () => {
               >
                 Save changes
               </Button>
-            </Grid>
-            <Grid item xs={5.5}>
-              <Button
-                // type="submit"
-                fullWidth
-                color="success"
-                variant="contained"
-                sx={{ mt: 1, mb: 2 }}
-                onClick={() => setOpenLivePreview(true)}
-              >
-                {/* <RemoveRedEyeTwoToneIcon sx={{ fontSize: 15 }} /> */}
-                Live Preview
-              </Button>
-            </Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={5.5}>
-              <Button
-                type="submit"
-                fullWidth
-                color="inherit"
-                variant="contained"
-                sx={{ mt: 1, mb: 2 }}
-                onClick={() => setConfirmModalClearData(true)}
-              >
-                Clear Data
-              </Button>
-            </Grid>
+            </Container>
           </Grid>
-        </div>
+          <Grid item xs={6}>
+          <Container>
+            <Button
+              // type="submit"
+              fullWidth
+              color="success"
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+              onClick={() => setOpenLivePreview(true)}
+            >
+              {/* <RemoveRedEyeTwoToneIcon sx={{ fontSize: 15 }} /> */}
+              Live Preview
+            </Button>
+            </Container>
+          </Grid>
+          <Grid item xs={6}>
+          <Container>
+            <Button
+              fullWidth
+              color="inherit"
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+              onClick={() => setConfirmModalClearData(true)}
+            >
+              Clear Data
+            </Button>
+            </Container>
+          </Grid>
+        </Grid>
+      </Box>
 
-        {/*Modal de Live Preview de Profile */}
-        <ModalLivePreview
-          username={username}
-          openLivePreview={openLivePreview}
-          setOpenLivePreview={setOpenLivePreview}
-          handleCloseLivePreview={handleCloseLivePreview}
-          imgProfile={imgProfile}
-          imgBanner={imgBanner}
-          // imgBannerToUpload={imgBannerToUpload}
-          // imgProfileToUpload={imgProfileToUpload}
-          nameState={nameState}
-          bioState={bioState}
-          rows={rows}
-          convertStringWithPlus={convertStringWithPlus}
-          copyTextToClipboard={copyTextToClipboard}
-          copyToClipboard={copyToClipboard}
-          enqueueSnackbar={enqueueSnackbar}
-        />
+      {/*Modal de Live Preview de Profile */}
+      <ModalLivePreview
+        username={username}
+        openLivePreview={openLivePreview}
+        setOpenLivePreview={setOpenLivePreview}
+        handleCloseLivePreview={handleCloseLivePreview}
+        imgProfile={imgProfile}
+        imgBanner={imgBanner}
+        // imgBannerToUpload={imgBannerToUpload}
+        // imgProfileToUpload={imgProfileToUpload}
+        nameState={nameState}
+        bioState={bioState}
+        rows={rows}
+        convertStringWithPlus={convertStringWithPlus}
+        copyTextToClipboard={copyTextToClipboard}
+        copyToClipboard={copyToClipboard}
+        enqueueSnackbar={enqueueSnackbar}
+      />
 
-        {/*Modal de Session Over */}
-        <ModalSessionOver
-          sessionOver={sessionOver}
-          handleCloseSessionOver={handleCloseSessionOver}
-        />
+      {/*Modal de Session Over */}
+      <ModalSessionOver
+        sessionOver={sessionOver}
+        handleCloseSessionOver={handleCloseSessionOver}
+      />
 
-        {/*Modal Inicio de Sesión Primer Perfil */}
-        <ModalWelcomeFirstSetup
-          welcome={welcome}
-          handleCloseWelcome={handleCloseWelcome}
-        />
+      {/*Modal Inicio de Sesión Primer Perfil */}
+      <ModalWelcomeFirstSetup
+        welcome={welcome}
+        handleCloseWelcome={handleCloseWelcome}
+      />
 
-        {/*Modal Inicio de Sesión Primer Perfil */}
-        <ModalConfirmClearData
-          confirmModalClearData={confirmModalClearData}
-          handleCloseConfirmModalClearData={handleCloseConfirmModalClearData}
-          clearData={clearData}
-        />
-      </ThemeProvider>
+      {/*Modal Inicio de Sesión Primer Perfil */}
+      <ModalConfirmClearData
+        confirmModalClearData={confirmModalClearData}
+        handleCloseConfirmModalClearData={handleCloseConfirmModalClearData}
+        clearData={clearData}
+      />
+      {/* </ThemeProvider> */}
     </>
   );
 };
