@@ -15,6 +15,7 @@ import {
   CircularProgress,
   Backdrop,
   Grid,
+  CssBaseline
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -77,7 +78,8 @@ export const AdvancedTools = () => {
         </Backdrop>
       ) : null}
 
-      <ThemeProvider theme={theme}>
+      {/* <ThemeProvider theme={theme}> */}
+      <CssBaseline />
         <Container component="main" maxWidth="xs">
           <Box
             sx={{
@@ -155,7 +157,7 @@ export const AdvancedTools = () => {
               /> */}
           </Box>
         </Container>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </>
   );
 };

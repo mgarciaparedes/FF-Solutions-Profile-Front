@@ -66,7 +66,7 @@ function Copyright(props) {
 }
 
 //Se crea el tema de plantilla preconfigurado por Material UI para obtener el diseño de CreateProfile------
-const theme = createTheme();
+// const theme = createTheme();
 
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const CreateProfile = () => {
@@ -191,7 +191,7 @@ export const CreateProfile = () => {
 
   return (
     // Inicio de Tema proporcionado por template de Material UI
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -399,6 +399,6 @@ export const CreateProfile = () => {
 
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 };

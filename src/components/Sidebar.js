@@ -203,7 +203,7 @@ const Sidebar = () => {
           {[
             { name: "Advanced Tools", url: "/advanced-tools" },
             { name: "Change Password", url: "/change-password" },
-            { name: "Help", url: "/help" },
+            // { name: "Help", url: "/help" },
           ].map((text, index) => (
             <ListItem
               button
