@@ -23,18 +23,21 @@ import { AppContext } from "../../../components/AppContext";
 const images = [
   {
     url: banner3,
-    title: "Breakfast",
-    width: "33%",
+    title: "Change Password",
+    width: "33%",    
+    pushOn: ()=>{history.push("/change-password")}
   },
   {
     url: banner,
-    title: "Stay tunned",
+    title: "Advanced Tools",
     width: "34%",
+    pushOn: ()=>{history.push("/advanced-tools")}
   },
   {
     url: banner2,
     title: "Set up your Profile",
     width: "33%",
+    pushOn: ()=>{history.push("/setup-profile")}
   },
 ];
 
@@ -116,6 +119,7 @@ export const Dashboard = () => {
             style={{
               width: image.width,
             }}
+            onClick={ image.pushOn }
           >
             <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
             <ImageBackdrop className="MuiImageBackdrop-root" />
