@@ -62,7 +62,7 @@ function Copyright(props) {
 }
 
 //Se crea el tema de plantilla preconfigurado por Material UI para obtener el diseño del Login-----------------
-const theme = createTheme();
+// const theme = createTheme();
 
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const Login = () => {
@@ -236,7 +236,7 @@ export const Login = () => {
   return (
     <>
       {/*Inicio de Tema proporcionado por template de Material UI */}
-      <ThemeProvider theme={theme}>
+      {/* <ThemeProvider theme={theme}> */}
         <Grid container component="main" sx={{ height: "100vh" }}>
           <CssBaseline />
 
@@ -389,7 +389,7 @@ export const Login = () => {
           {/* Final de Grilla de opciones de crear profile y cambio de contraseña */}
         </Grid>
         {/* Final de Grilla principal del formulario */}
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </>
   );
 };
