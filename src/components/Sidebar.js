@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef, useLayoutEffect } from "react";
 import {
   Box,
   Grid,
@@ -39,7 +39,7 @@ import img_avatar from "../assets/images/avatar.jpg";
 import history from "./History.js";
 import { set } from "lodash";
 
-const Sidebar = () => {
+const Sidebar = ( { test } ) => {
   const [state, setState] = useState({
     left: false,
   });
@@ -52,16 +52,28 @@ const Sidebar = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleCloseLoading = () => setOpenLoading(false);
-
-  useEffect(() => {
-    setOpenSkeleton(true);
+  
+  useLayoutEffect(() => {       
 
     objLogin.profileData &&
     (objLogin.profileData.base64ProfilePhoto !== null ||
       objLogin.profileData.base64ProfilePhoto === "")
       ? setUserProfilePhoto(
           `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
-        )
+        )        
+      : setUserProfilePhoto(img_avatar);
+    
+  }, [open]);
+  
+  useEffect(() => {
+    setOpenSkeleton(true);    
+
+    objLogin.profileData &&
+    (objLogin.profileData.base64ProfilePhoto !== null ||
+      objLogin.profileData.base64ProfilePhoto === "")
+      ? setUserProfilePhoto(
+          `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
+        )        
       : setUserProfilePhoto(img_avatar);
 
     setTimeout(function () {
@@ -194,7 +206,12 @@ const Sidebar = () => {
               <ListItemText primary={text.name} />
             </ListItem>
           ))}
-          <ListItem button onClick={() => handleOpenLoading()}>
+          <ListItem button           
+          onClick={() => {
+            handleOpenLoading()   
+            // test();                                
+            }}
+            >
             <ListItemIcon>
               <SettingsApplicationsSharpIcon />
             </ListItemIcon>

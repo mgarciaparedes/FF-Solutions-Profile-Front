@@ -17,6 +17,7 @@ import { useSnackbar } from "notistack";
 import userImage from "../../../assets/images/default-user-image.png";
 import bannerImage from "../../../assets/images/default-user-banner.jpg";
 import FormData from "form-data";
+import history from '../../../components/History';
 
 // Icons
 // import { PhotoCamera } from "@mui/icons-material";
@@ -30,6 +31,7 @@ import ModalLivePreview from "./ChildrenComponent/ModalLivePreview";
 import ModalSessionOver from "./ChildrenComponent/ModalSessionOver";
 import ModalWelcomeFirstSetup from "./ChildrenComponent/ModalWelcomeFirstSetup";
 import ModalConfirmClearData from "./ChildrenComponent/ModalConfirmClearData";
+import Sidebar from "../../../components/Sidebar";
 
 // Tema para input's
 const theme = createTheme();
@@ -56,8 +58,12 @@ const styleModal = {
 
 export const SetupProfile = () => {
   //Obtenemos variables de sesión
-  const { objLogin, logoutContext, setExistentProfile } =
-    useContext(AppContext);
+  const {
+    objLogin,
+    logoutContext,
+    setExistentProfile,
+    setProfilePhotoContext,
+  } = useContext(AppContext);
   const { enqueueSnackbar } = useSnackbar();
 
   const [nameState, setNameState] = useState("");
@@ -138,6 +144,8 @@ export const SetupProfile = () => {
         setImgProfile(
           `${process.env.REACT_APP_API_URL}/render/image/${objLogin.profileData.base64ProfilePhoto}`
         );
+
+        // setExistentProfile(objLogin.profileData.base64ProfilePhoto)
       }
 
       /*Aplicamos la misma validación, verificamos que haya sido guarda la ruta del banner en S3.*/
@@ -353,7 +361,7 @@ export const SetupProfile = () => {
           },
         })
         .then((res) => {
-          const { ok, msg } = res.data;
+          const { ok, msg, newData } = res.data;
 
           if (ok === true) {
             setDisabledButton(false);
@@ -363,6 +371,8 @@ export const SetupProfile = () => {
               variant: "success",
               autoHideDuration: 2000,
             });
+            setProfilePhotoContext(newData);
+            history.push('/setup-profile');
           } else {
             setDisabledButton(false);
 
@@ -388,9 +398,11 @@ export const SetupProfile = () => {
         });
     }
   };
+
   return (
     <>
       <Navbar />
+      {/* <Sidebar /> */}
       <ThemeProvider theme={theme}>
         {/* Body 2 */}
         <div style={{ backgroundColor: "#fff", width: "100%" }}>

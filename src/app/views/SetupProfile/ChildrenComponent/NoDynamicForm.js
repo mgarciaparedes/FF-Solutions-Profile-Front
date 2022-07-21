@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   TextField,
   Grid,
@@ -71,6 +71,7 @@ const NoDynamicForm = ({
     "Embed Youtube Video",
   ];
 
+
   return (
     <Container component="main" maxWidth="xs">
       {/* Input: Full name */}
@@ -131,7 +132,7 @@ const NoDynamicForm = ({
                     } else {
                       setImgProfileToUpload(e.target.files[0]);
                       setImgProfileSize(e.target.files[0].size);
-                      reader.readAsDataURL(e.target.files[0]);
+                      reader.readAsDataURL(e.target.files[0]);                      
                     }
                   } else {
                     enqueueSnackbar(

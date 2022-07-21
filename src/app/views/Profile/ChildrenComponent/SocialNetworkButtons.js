@@ -265,8 +265,8 @@ const SocialNetworkButtons = ({
             {customImage.map((element, index) => (
               <Grid item key={index} xs={12}>
                 {element.customImageActive === true ? (
-                  <ItemCustomButton>
-                    <Button
+                  <ItemCustomButton sx={{ mb: 1 }}>
+                    <Button                      
                       onClick={() =>
                         handleOpenModalCustomImage(
                           element.customImageButtonName,

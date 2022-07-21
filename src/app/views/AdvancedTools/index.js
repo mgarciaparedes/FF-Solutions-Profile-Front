@@ -21,7 +21,7 @@ import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { AppContext } from "../../../components/AppContext";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
-import ViewListIcon from "@mui/icons-material/ViewList";
+
 import { useSnackbar } from "notistack";
 
 //Importación de componentes hijos
@@ -30,8 +30,8 @@ import ConnectAcount from "./ChildrenComponent/ConnectAcount";
 import GalleryStatus from "./ChildrenComponent/GalleryStatus";
 import GalleryImages from "./ChildrenComponent/GalleryImages";
 import GallerySetup from "./ChildrenComponent/GallerySetup";
+import CustomImageList from "./ChildrenComponent/CustomImageList";
 import CustomImageSetup from "./ChildrenComponent/CustomImageSetup";
-import SaveCustomImage from "./ChildrenComponent/SaveCustomImage";
 
 const theme = createTheme();
 
@@ -47,40 +47,48 @@ export const AdvancedTools = () => {
   // useState para abrir modal de saveCustomImage
   const [openSaveCustomImage, setOpenSaveCustomImage] = useState(false)
   const handleCloseSaveCustomImage = () => setOpenSaveCustomImage(false);
+
+  // Hook usado para guardar las imagenes de los customImage
+  const [customImageToRender, setCustomImageToRender] = useState([]);
   
 
   //uso este servicio para validar que haya token en la petición
   //Con esto evitamos que si se cae el token o el objLogin o se recarga la página pueda funcionar el front
-  useEffect(() => {
-    axios
-      .get("/users/getProfileUserData")
-      .then((res) => {
-        const { ok } = res.data;
-        console.log('This session is over');
+  // useEffect(() => {
+  //   axios
+  //     .get("/users/getProfileUserData")
+  //     .then((res) => {
+  //       const { ok } = res.data;
+  //       console.log('This session is over');
 
-        // if (!ok) {
-        //   Swal.fire({
-        //     title: "This session is over",
-        //     text: "Please login again",
-        //     icon: "error",
-        //     confirmButtonText: "OK",
-        //   }).then((result) => {
-        //     history.push("/");
-        //   });
-        // }
-      })
-      .catch((error) => {
-        // Swal.fire({
-        //   title: "This session is over",
-        //   text: "Please login again",
-        //   icon: "error",
-        //   confirmButtonText: "OK",
-        // }).then((result) => {
-        //   history.push("/");
-        // });
-        console.log('Errooorr');
-      });
-  }, []);
+  //       // if (!ok) {
+  //       //   Swal.fire({
+  //       //     title: "This session is over",
+  //       //     text: "Please login again",
+  //       //     icon: "error",
+  //       //     confirmButtonText: "OK",
+  //       //   }).then((result) => {
+  //       //     history.push("/");
+  //       //   });
+  //       // }
+  //     })
+  //     .catch((error) => {
+  //       // Swal.fire({
+  //       //   title: "This session is over",
+  //       //   text: "Please login again",
+  //       //   icon: "error",
+  //       //   confirmButtonText: "OK",
+  //       // }).then((result) => {
+  //       //   history.push("/");
+  //       // });
+  //       console.log('Errooorr');
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    // setCustomImage(objLogin.customImage);
+    setCustomImageToRender(objLogin.customImage);
+  }, [])
 
   return (
     <>
@@ -127,17 +135,7 @@ export const AdvancedTools = () => {
               //   alignItems: "center",
             }}
           >
-            <CustomImageSetup 
-              openCustomImageSetup={openCustomImageSetup}
-              setOpenCustomImageSetup={setOpenCustomImageSetup}
-              handleCloseCustomImageSetup={handleCloseCustomImageSetup}
-
-            />
-            <SaveCustomImage 
-              openSaveCustomImage={openSaveCustomImage}
-              setOpenSaveCustomImage={setOpenSaveCustomImage}
-              handleCloseSaveCustomImage={handleCloseSaveCustomImage}
-            />
+            
             <Alert variant="outlined" severity="info">
               In this area you can add more advanced tools such as customizing
               your profile buttons, adding a photo gallery, and sub functions
@@ -180,28 +178,22 @@ export const AdvancedTools = () => {
 
               <Divider component="li" />
 
-              <ListItem>
-                <ListItemText
-                  primary="Custom Images"
-                  secondary="Checkout your custom images button"
-                />
-                <Button variant="outlined" 
-                onClick={ ()=> { setOpenCustomImageSetup(true) } }
-                >
-                  <ViewListIcon />
-                </Button>
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="Custom Image Setup"
-                  secondary="Make a brand new custom image button"
-                />
-                <Button variant="outlined"
-                  onClick={ ()=>{ setOpenSaveCustomImage(true) } }
-                >
-                  <TouchAppIcon />
-                </Button>
-              </ListItem>
+              
+              {/* Revisar */}
+            <CustomImageList 
+                openCustomImageSetup={openCustomImageSetup}              
+                handleCloseCustomImageSetup={handleCloseCustomImageSetup}
+                customImageToRender={customImageToRender} 
+                setCustomImageToRender={setCustomImageToRender}
+                setOpenCustomImageSetup={setOpenCustomImageSetup}                
+              />
+              {/* Seleccionar imagenes */}
+              <CustomImageSetup 
+                openSaveCustomImage={openSaveCustomImage}              
+                handleCloseSaveCustomImage={handleCloseSaveCustomImage}
+                setCustomImageToRender={setCustomImageToRender}
+                setOpenSaveCustomImage={setOpenSaveCustomImage}
+              />
             </List>
             
 
@@ -211,6 +203,7 @@ export const AdvancedTools = () => {
                 label="Disabled"
               /> */}
           </Box>
+          {/* Modals */}
         </Container>
       </ThemeProvider>
     </>

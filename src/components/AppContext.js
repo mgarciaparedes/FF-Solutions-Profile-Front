@@ -56,6 +56,7 @@ const AppProvider = ({ children }) => {
               usernameLinked: objStorage.usernameLinked,
             };
             setObjLogin(json);
+            // Seteamos la cabecera para el consumo de servicio despues de iniciar sesion.
             axios.defaults.headers.common["x-token"] = objStorage.token;
             history.push("/dashboard");
           } else {
@@ -278,6 +279,38 @@ const AppProvider = ({ children }) => {
     })();
   };
 
+  const setProfilePhotoContext = (
+    profileFoto
+  ) => {
+    (async () => {
+      await AsyncStorage.getItem("APP::DATA").then((value) => {
+        if (value === null) {
+        } else {
+          let objStorage = JSON.parse(value);
+          if (JSON.parse(objStorage.authenticated) === true) {
+            const json = {
+              authenticated: objStorage.authenticated,
+              user: objStorage.user,
+              token: objStorage.token,
+              email: objStorage.email,
+              existentProfile: objStorage.existentProfile,
+              serialNumber: objStorage.serialNumber,
+              username: objStorage.username,
+              profileData: profileFoto,
+              galleryImages: objStorage.galleryImages,
+              galleryActive: objStorage.galleryActive,
+              customImage: objStorage.customImage,
+              sendNotifications: objStorage.sendNotifications,
+              isLinked: objStorage.isLinked,
+              usernameLinked: objStorage.usernameLinked,
+            };
+            setObjLogin(json);
+          }
+        }
+      });
+    })();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -289,7 +322,8 @@ const AppProvider = ({ children }) => {
         setLinkToExistentProfileContext,
         setGalleryActiveContext,
         setGalleryImageContext,        
-        setCustomImageContext
+        setCustomImageContext,
+        setProfilePhotoContext
       }}
     >
       {children}

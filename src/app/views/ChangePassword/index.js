@@ -307,6 +307,9 @@ export const ChangePassword = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={
+                  loading === true
+                }
               >
                 Change password
               </Button>
