@@ -29,6 +29,7 @@ import { AppContext } from "../../../components/AppContext";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
+import imagotipo from "../../../assets/images/imagotipo.png";
 
 //Constante con el formato de validación para cada campo-----------------------------------------------------
 const validationSchema = yup.object({
@@ -178,7 +179,7 @@ export const Login = () => {
               customImage: customImage ? customImage : null,
               sendNotifications: data ? data.sendNotifications : false,
               isLinked: data ? data.isLinked : false,
-              usernameLinked: data ? data.usernameLinked : ""
+              usernameLinked: data ? data.usernameLinked : "",
             };
             loginContext(json);
 
@@ -237,158 +238,162 @@ export const Login = () => {
     <>
       {/*Inicio de Tema proporcionado por template de Material UI */}
       {/* <ThemeProvider theme={theme}> */}
-        <Grid container component="main" sx={{ height: "100vh" }}>
-          <CssBaseline />
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
 
-          {/* Grilla en donde se muestran las imágenes random */}
-          <Grid
-            item
-            xs={false}
-            sm={4}
-            md={7}
+        {/* Grilla en donde se muestran las imágenes random */}
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+
+        {/* Grilla en donde se muestra el formulario */}
+        <Grid item xs={12} sm={8} md={5} elevation={6} square>
+          <Box
             sx={{
-              backgroundImage: "url(https://source.unsplash.com/random)",
-              backgroundRepeat: "no-repeat",
-              backgroundColor: (t) =>
-                t.palette.mode === "light"
-                  ? t.palette.grey[50]
-                  : t.palette.grey[900],
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
-          />
-
-          {/* Grilla en donde se muestra el formulario */}
-          <Grid
-            item
-            xs={12}
-            sm={8}
-            md={5}
-            component={Paper}
-            elevation={6}
-            square
           >
             <Box
+              component="img"
               sx={{
-                my: 8,
-                mx: 4,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                // height: 200,
+                width: 1,
+                mb: 3
               }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-              </Typography>
-              {/* <Box
+              alt="imagotipo"
+              src={imagotipo}
+            />
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            {/* <Box
               component="form"
               noValidate
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             > */}
 
-              {/* Inicio de formulario */}
-              <form onSubmit={formik.handleSubmit}>
-                {/* Campo Email */}
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
+            {/* Inicio de formulario */}
+            <form onSubmit={formik.handleSubmit}>
+              {/* Campo Email */}
+              <TextField
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
 
-                {/* Campo Password */}
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type={showPassword ? "text" : "password"}
-                  InputProps={{
-                    // <-- This is where the toggle button is added.
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  id="password"
-                  autoComplete="current-password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.password && Boolean(formik.errors.password)
-                  }
-                  helperText={formik.touched.password && formik.errors.password}
-                />
+              {/* Campo Password */}
+              <TextField
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                id="password"
+                autoComplete="current-password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+              />
 
-                {/* <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               /> */}
 
-                {/*Loading progress bar */}
-                {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
+              {/*Loading progress bar */}
+              {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
 
-                {/* Botón submit */}
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign In
-                </Button>
+              {/* Botón submit */}
+              <Button
+                type="submit"
+                disabled={loading}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
 
-                {/* Grilla nueva en donde se muestran opciones de crear profile y cambio de contraseña */}
-                <Grid container>
-                  <Grid item xs>
-                    <Link
-                      variant="body2"
-                      onClick={() => {
-                        history.push("/forgot-password");
-                      }}
-                      sx={{ cursor: "pointer" }}
-                    >
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link
-                      onClick={() => history.push("/create-profile")}
-                      variant="body2"
-                      sx={{ cursor: "pointer" }}
-                    >
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
+              {/* Grilla nueva en donde se muestran opciones de crear profile y cambio de contraseña */}
+              <Grid container>
+                <Grid item xs>
+                  <Link
+                    variant="body2"
+                    onClick={() => {
+                      history.push("/forgot-password");
+                    }}
+                    sx={{ cursor: "pointer" }}
+                    color="primary.light"
+                  >
+                    Forgot password?
+                  </Link>
                 </Grid>
-                <Copyright sx={{ mt: 5 }} />
-              </form>
-              {/* Final del Formulario */}
-              {/* </Box> */}
-            </Box>
-          </Grid>
-          {/* Final de Grilla de opciones de crear profile y cambio de contraseña */}
+                <Grid item>
+                  <Link
+                    onClick={() => history.push("/create-profile")}
+                    variant="body2"
+                    sx={{ cursor: "pointer", textDecoration: 'none' }}
+                    color="primary.light"
+                  >
+                    {"Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+              <Copyright sx={{ mt: 5 }} />
+            </form>
+            {/* Final del Formulario */}
+            {/* </Box> */}
+          </Box>
         </Grid>
-        {/* Final de Grilla principal del formulario */}
+        {/* Final de Grilla de opciones de crear profile y cambio de contraseña */}
+      </Grid>
+      {/* Final de Grilla principal del formulario */}
       {/* </ThemeProvider> */}
     </>
   );

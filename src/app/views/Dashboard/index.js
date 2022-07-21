@@ -22,10 +22,10 @@ import { AppContext } from "../../../components/AppContext";
 
 const images = [
   {
-    url: banner3,
-    title: "Change Password",
-    width: "33%",    
-    pushOn: ()=>{history.push("/change-password")}
+    url: banner2,
+    title: "Set up your Profile",
+    width: "33%",
+    pushOn: ()=>{history.push("/setup-profile")}
   },
   {
     url: banner,
@@ -34,11 +34,11 @@ const images = [
     pushOn: ()=>{history.push("/advanced-tools")}
   },
   {
-    url: banner2,
-    title: "Set up your Profile",
-    width: "33%",
-    pushOn: ()=>{history.push("/setup-profile")}
-  },
+    url: banner3,
+    title: "Change Password",
+    width: "33%",    
+    pushOn: ()=>{history.push("/change-password")}
+  }  
 ];
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({

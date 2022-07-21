@@ -15,8 +15,10 @@ import {
   Paper,
   Container,
   Skeleton,
+  CssBaseline
 } from "@mui/material";
 import { useSnackbar } from "notistack";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import QRCode from "qrcode.react";
 import helpers from "../../../components/Helpers";
 import Footer from "../../../components/Footer";
@@ -35,6 +37,12 @@ import SocialNetworkButtons from "./ChildrenComponent/SocialNetworkButtons";
 import Gallery from "./ChildrenComponent/Gallery";
 import ModalShareLink from "./ChildrenComponent/ModalShareLink";
 
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
 //Estilo modal CustomText
 const styleModalCustomText = {
   position: "absolute",
@@ -42,14 +50,16 @@ const styleModalCustomText = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 300,
-  bgcolor: "background.paper",
+  bgcolor: "white",
+  color: "#424949",
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
 };
 
 const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2.5),
   textAlign: "center",
@@ -57,11 +67,12 @@ const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
 }));
 
 const ItemCustomButton = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
-  color: theme.palette.text.secondary,
+  color: "#424949",
 }));
 
 const { convertStringWithPlus, copyTextToClipboard, copyToClipboard } = helpers;
@@ -255,6 +266,8 @@ export const Profile = ({ location }) => {
 
   return (
     <>
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
       {loadingProfileData ? ( //Cargando Inicial
         <>
           <Skeleton
@@ -488,6 +501,7 @@ export const Profile = ({ location }) => {
         openModalShareLink={openModalShareLink}
         usernameURL={"https://profile.stdicompany.com/" + username}
       />
+      </ThemeProvider>
     </>
   );
 };

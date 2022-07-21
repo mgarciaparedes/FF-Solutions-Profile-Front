@@ -29,7 +29,7 @@ import FormData from "form-data";
 import history from '../../../components/History';
 
 // Icons
-// import { PhotoCamera } from "@mui/icons-material";
+import { RemoveRedEyeTwoTone } from "@mui/icons-material";
 
 // import { Carousel } from 'antd';
 
@@ -474,7 +474,7 @@ export const SetupProfile = () => {
                 onClick={() => onSubmit()}
                 disabled={disabledButton}
                 fullWidth
-                variant="contained"
+                variant="outlined"
               >
                 Save changes
               </Button>
@@ -486,11 +486,10 @@ export const SetupProfile = () => {
               // type="submit"
               fullWidth
               color="success"
-              variant="contained"
+              variant="outlined"
               sx={{ mt: 1, mb: 2 }}
               onClick={() => setOpenLivePreview(true)}
             >
-              {/* <RemoveRedEyeTwoToneIcon sx={{ fontSize: 15 }} /> */}
               Live Preview
             </Button>
             </Container>
@@ -500,7 +499,7 @@ export const SetupProfile = () => {
             <Button
               fullWidth
               color="inherit"
-              variant="contained"
+              variant="outlined"
               sx={{ mt: 1, mb: 2 }}
               onClick={() => setConfirmModalClearData(true)}
             >

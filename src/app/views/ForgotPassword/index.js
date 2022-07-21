@@ -127,7 +127,7 @@ export const ForgotPassword = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 1, mb: 2 }}
             >
               Send verification code
             </Button>
@@ -140,6 +140,7 @@ export const ForgotPassword = () => {
                   }}
                   variant="body2"
                   sx={{ cursor: "pointer" }}
+                  color="primary.light"
                 >
                   Back to Login?
                 </Link>
@@ -151,6 +152,7 @@ export const ForgotPassword = () => {
                   }}
                   variant="body2"
                   sx={{ cursor: "pointer" }}
+                  color="primary.light"
                 >
                   Don't have an account? Sign Up
                 </Link>

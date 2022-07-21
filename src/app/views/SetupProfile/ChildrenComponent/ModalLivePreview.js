@@ -11,9 +11,11 @@ import {
   Paper,
   Container,
   Skeleton,
+  CssBaseline,
 } from "@mui/material";
 // import { TreeView, TreeItem } from "@mui/lab";
 import { styled } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppContext } from "../../../../components/AppContext";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -52,8 +54,15 @@ import SmsIcon from "../../../../assets/svg/sms.svg";
 import WebsiteIcon from "../../../../assets/svg/website.svg";
 import QRCode from "qrcode.react";
 
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
+
 const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2.5),
   textAlign: "center",
@@ -61,11 +70,12 @@ const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
 }));
 
 const ItemCustomButton = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
-  color: theme.palette.text.secondary,
+  color: "#424949",
 }));
 
 const styleModal = {
@@ -75,7 +85,8 @@ const styleModal = {
   transform: "translate(-50%, -50%)",
   width: "100%",
   height: "100%",
-  bgcolor: "background.paper",
+  bgcolor: "white",
+  color: "#424949",
   overflow: "scroll", //para que funcione el scroll
   boxShadow: 24,
   p: 3,
@@ -89,7 +100,8 @@ const styleModalCustomText = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 300,
-  bgcolor: "background.paper",
+  bgcolor: "white",
+  color: "#424949",
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
@@ -273,8 +285,8 @@ const ModalLivePreview = ({
                 component="img"
                 sx={{
                   height: 200,
-                  width: 1,
                 }}
+                width={"100%"}
                 alt="banner image"
                 src={imgBanner}
               />
@@ -494,9 +506,15 @@ const ModalLivePreview = ({
                   {rows.map((row, index) =>
                     row.socialNetwork === "CustomURL" ? (
                       <Grid item key={index} xs={12}>
-                        <ItemCustomButton>
+                        <ItemCustomButton sx={{ mb: 1 }}>
                           <Button target="_blank" href={row.profile}>
-                            <LinkIcon sx={{ mr: 2 }} /> {row.linkName}
+                            <LinkIcon sx={{ mr: 2 }} />{" "}
+                            <Typography
+                              variant="button"
+                              sx={{ color: "#1C2833" }}
+                            >
+                              {row.linkName}
+                            </Typography>
                           </Button>
                         </ItemCustomButton>
                       </Grid>
@@ -512,7 +530,7 @@ const ModalLivePreview = ({
                     {objLogin.customImage.map((element, index) => (
                       <Grid item key={index} xs={12}>
                         {element.customImageActive === true ? (
-                          <ItemCustomButton>
+                          <ItemCustomButton sx={{ mb: 1 }}>
                             <Button
                               onClick={() =>
                                 handleOpenModalCustomImage(
@@ -522,7 +540,12 @@ const ModalLivePreview = ({
                               }
                             >
                               <ImageIcon color="info" sx={{ mr: 2 }} />{" "}
-                              {element.customImageButtonName}
+                              <Typography
+                                variant="button"
+                                sx={{ color: "#1C2833" }}
+                              >
+                                {element.customImageButtonName}
+                              </Typography>
                             </Button>
                           </ItemCustomButton>
                         ) : null}
@@ -538,7 +561,7 @@ const ModalLivePreview = ({
                   {rows.map((row, index) =>
                     row.socialNetwork === "CustomText" ? (
                       <Grid item key={index} xs={12}>
-                        <ItemCustomButton>
+                        <ItemCustomButton sx={{ mb: 1 }}>
                           <Button
                             onClick={() =>
                               handleOpenModalCustomText(
@@ -547,7 +570,13 @@ const ModalLivePreview = ({
                               )
                             }
                           >
-                            <AbcIcon sx={{ mr: 2 }} /> {row.linkName}
+                            <AbcIcon sx={{ mr: 2 }} />
+                            <Typography
+                              variant="button"
+                              sx={{ color: "#1C2833" }}
+                            >
+                              {row.linkName}
+                            </Typography>
                           </Button>
                         </ItemCustomButton>
                       </Grid>
@@ -651,7 +680,7 @@ const ModalLivePreview = ({
                   fullWidth
                   color="info"
                   variant="contained"
-                  sx={{ mt: 1, mb: 2 }}
+                  sx={{ mt: 1, mb: 2, color: '#fff' }}
                   onClick={() => setOpenLivePreview(false)}
                 >
                   Close Live Preview
