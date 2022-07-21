@@ -415,7 +415,7 @@ export const SetupProfile = () => {
       <CssBaseline />
       {/* Body 2 */}
       {/* <div style={{ backgroundColor: "#fff", width: "100%" }}> */}
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, mt: 2 }}>
         <Grid container>
           {/* Body 1.1 */}
           <Grid item xs={12} marginTop={8}>
@@ -443,7 +443,7 @@ export const SetupProfile = () => {
             <Grid>
               {rows.length > 0 ? (
                 <Divider sx={{ marginY: 3 }}>
-                  <Chip color="info" label="Social Network Options" />
+                  <Chip color="primary" label="Social Network Options" />
                 </Divider>
               ) : null}
               {rows.map((row, index) => (
@@ -474,7 +474,7 @@ export const SetupProfile = () => {
                 onClick={() => onSubmit()}
                 disabled={disabledButton}
                 fullWidth
-                variant="outlined"
+                variant="contained"
               >
                 Save changes
               </Button>
@@ -487,7 +487,7 @@ export const SetupProfile = () => {
               fullWidth
               color="success"
               variant="outlined"
-              sx={{ mt: 1, mb: 2 }}
+              sx={{ mt: 1, mb: 2, color: 'white' }}
               onClick={() => setOpenLivePreview(true)}
             >
               Live Preview
@@ -498,9 +498,9 @@ export const SetupProfile = () => {
           <Container>
             <Button
               fullWidth
-              color="inherit"
+              color="error"
               variant="outlined"
-              sx={{ mt: 1, mb: 2 }}
+              sx={{ mt: 1, mb: 2, color: 'white' }}
               onClick={() => setConfirmModalClearData(true)}
             >
               Clear Data

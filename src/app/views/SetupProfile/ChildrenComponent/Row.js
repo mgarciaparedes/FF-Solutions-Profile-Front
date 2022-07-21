@@ -92,7 +92,7 @@ const Row = ({
                         onClick={onRemove}
                         edge="end"
                       >
-                        <BackspaceTwoToneIcon color="info" />
+                        <BackspaceTwoToneIcon color="primary" />
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -134,7 +134,7 @@ const Row = ({
                           onClick={onRemove}
                           edge="end"
                         >
-                          <BackspaceTwoToneIcon color="info" />
+                          <BackspaceTwoToneIcon color="primary" />
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -179,7 +179,7 @@ const Row = ({
                           onClick={onRemove}
                           edge="end"
                         >
-                          <BackspaceTwoToneIcon color="info" />
+                          <BackspaceTwoToneIcon color="primary" />
                         </IconButton>
                       </InputAdornment>
                     ),

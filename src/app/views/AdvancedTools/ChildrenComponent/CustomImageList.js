@@ -214,7 +214,7 @@ const CustomImageList = ({
               Your list of custom images
             </Typography>
 
-            <Alert severity="info" sx={{ mt: 3 }}>
+            <Alert variant="outlined" severity="info" sx={{ mt: 3 }}>
               Tap in your custom image buttons to see whats images are in each
               carousel.
             </Alert>

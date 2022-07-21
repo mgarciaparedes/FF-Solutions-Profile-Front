@@ -89,7 +89,7 @@ const GalleryImages = () => {
             {/* <Typography sx={{ textAlign: "center" }}>
       <InfoOutlinedIcon color="info" sx={{ fontSize: 70 }} />
     </Typography> */}
-            <Alert severity="info" sx={{ mb: 3 }}>
+            <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
               These are the images on your last saved gallery.
             </Alert>
             <Carousel

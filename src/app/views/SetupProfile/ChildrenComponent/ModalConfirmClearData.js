@@ -59,7 +59,7 @@ const ModalConfirmClearData = ({
                 <Grid item xs={6} sx={{ textAlign: "right" }}>
                   {" "}
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     onClick={() => {
                       clearData();
                       handleCloseConfirmModalClearData();
@@ -70,7 +70,7 @@ const ModalConfirmClearData = ({
                 </Grid>
                 <Grid item xs={6}>
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     onClick={() => {
                       handleCloseConfirmModalClearData();
                     }}

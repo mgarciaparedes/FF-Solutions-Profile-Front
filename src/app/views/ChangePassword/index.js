@@ -1,36 +1,34 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import {
+  CssBaseline,
+  Avatar,
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Container,
+  IconButton,
+  InputAdornment,
+  LinearProgress
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import history from "../../../components/History";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
-import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert";
 import { useSnackbar } from "notistack";
 import Navbar from "../../../components/Navbar";
 import { AppContext } from "../../../components/AppContext";
 import PasswordChecklist from "react-password-checklist";
 import PasswordCheckList from "../../../components/PasswordCheckList";
 import HelpIcon from "@mui/icons-material/Help";
-import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { InputAdornment } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import LinearProgress from "@mui/material/LinearProgress";
-// import Footer from "../../../components/Footer";
 
-const theme = createTheme();
+// const theme = createTheme();
 
 const schema = Yup.object({
   currentPassword: Yup.string().required("Current password is required"),
@@ -68,7 +66,7 @@ export const ChangePassword = () => {
   // useState para notifications.
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const { objLogin } = useContext(AppContext);
   const { user, username, email, serialNumber } = objLogin;
@@ -117,7 +115,7 @@ export const ChangePassword = () => {
     axios
       .post("/auth/changePassword", payload)
       .then((res) => {
-        setLoading(false)
+        setLoading(false);
         if (res.data.ok === false) {
           enqueueSnackbar(res.data.msg, {
             variant: "error",
@@ -130,7 +128,7 @@ export const ChangePassword = () => {
             autoHideDuration: 3000,
             action,
           });
-          setLoading(false)          
+          setLoading(false);
         }
       })
       .catch(function () {
@@ -138,7 +136,7 @@ export const ChangePassword = () => {
           variant: "success",
           autoHideDuration: 3000,
           action,
-        });        
+        });
         setLoading(false);
       });
   };
@@ -147,176 +145,168 @@ export const ChangePassword = () => {
     <>
       <Navbar />
 
-      <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-          <Box
-            sx={{
-              marginTop: 17,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            {/* Icono de change password */}
-            <Avatar
-              sx={{ m: 1, bgcolor: "primary.main", height: 50, width: 50 }}
-            >
-              <LockResetIcon fontSize="large" />
-            </Avatar>
-            {/* Tipografía de forgot password */}
-            <Typography component="h1" variant="h5">
-              Change Password
-            </Typography>
+      {/* <ThemeProvider theme={theme}> */}
+      <CssBaseline />
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 17,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {/* Icono de change password */}
+          <Avatar sx={{ m: 1, bgcolor: "primary.main", height: 50, width: 50 }}>
+            <LockResetIcon fontSize="large" />
+          </Avatar>
+          {/* Tipografía de forgot password */}
+          <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+            Change Password
+          </Typography>
 
-            <form onSubmit={formik.handleSubmit}>
-              {/* Formulario de current password */}
+          <form onSubmit={formik.handleSubmit}>
+            {/* Formulario de current password */}
 
-              <TextField
-                margin="normal"
-                fullWidth
-                id="currentPassword"
-                label="Current password"
-                name="currentPassword"
-                value={formik.values.currentPassword}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.currentPassword &&
-                  Boolean(formik.errors.currentPassword)
-                }
-                helperText={
-                  formik.touched.currentPassword &&
-                  formik.errors.currentPassword
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                type={showCuPassword ? "text" : "password"}
-                InputProps={{
-                  // <-- This is where the toggle button is added.
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowCuPassword}
-                        onMouseDown={handleMouseDownCuPassword}
-                      >
-                        {showCuPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <TextField
-                margin="normal"
-                fullWidth
-                id="newPassword"
-                label="New password"
-                name="newPassword"
-                value={formik.values.newPassword}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  setPassword(e.target.value);
-                }}
-                error={
-                  formik.touched.newPassword &&
-                  Boolean(formik.errors.newPassword)
-                }
-                helperText={
-                  formik.touched.newPassword && formik.errors.newPassword
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                type={showPassword ? "text" : "password"}
-                InputProps={{
-                  // <-- This is where the toggle button is added.
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <TextField
-                margin="normal"
-                fullWidth
-                id="confirmNewPassword"
-                label="Confirm new password"
-                name="confirmNewPassword"
-                value={formik.values.confirmNewPassword}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  setPasswordAgain(e.target.value);
-                }}
-                error={
-                  formik.touched.confirmNewPassword &&
-                  Boolean(formik.errors.confirmNewPassword)
-                }
-                helperText={
-                  formik.touched.confirmNewPassword &&
-                  formik.errors.confirmNewPassword
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                type={showCoPassword ? "text" : "password"}
-                InputProps={{
-                  // <-- This is where the toggle button is added.
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowCoPassword}
-                        onMouseDown={handleMouseDownCoPassword}
-                      >
-                        {showCoPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              {password !== "" && (
-                <PasswordCheckList
-                  password={password}
-                  passwordAgain={passwordAgain}
-                />
-              )}
-
-              {
-                loading && 
-                // setTimeout(() => {
-                //   <LinearProgress sx={{ width: '100%', marginTop: 3 }}/>
-                  
-                // }, 3000)
-                <LinearProgress sx={{ width: '100%', marginTop: 3 }}/>
+            <TextField
+              margin="normal"
+              fullWidth
+              id="currentPassword"
+              label="Current password"
+              name="currentPassword"
+              value={formik.values.currentPassword}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.currentPassword &&
+                Boolean(formik.errors.currentPassword)
               }
+              helperText={
+                formik.touched.currentPassword && formik.errors.currentPassword
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+              type={showCuPassword ? "text" : "password"}
+              InputProps={{
+                // <-- This is where the toggle button is added.
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowCuPassword}
+                      onMouseDown={handleMouseDownCuPassword}
+                    >
+                      {showCuPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-              
+            <TextField
+              margin="normal"
+              fullWidth
+              id="newPassword"
+              label="New password"
+              name="newPassword"
+              value={formik.values.newPassword}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setPassword(e.target.value);
+              }}
+              error={
+                formik.touched.newPassword && Boolean(formik.errors.newPassword)
+              }
+              helperText={
+                formik.touched.newPassword && formik.errors.newPassword
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+              type={showPassword ? "text" : "password"}
+              InputProps={{
+                // <-- This is where the toggle button is added.
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                disabled={
-                  loading === true
-                }
-              >
-                Change password
-              </Button>
-            </form>
-          </Box>
-        </Container>
-      </ThemeProvider>
+            <TextField
+              margin="normal"
+              fullWidth
+              id="confirmNewPassword"
+              label="Confirm new password"
+              name="confirmNewPassword"
+              value={formik.values.confirmNewPassword}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setPasswordAgain(e.target.value);
+              }}
+              error={
+                formik.touched.confirmNewPassword &&
+                Boolean(formik.errors.confirmNewPassword)
+              }
+              helperText={
+                formik.touched.confirmNewPassword &&
+                formik.errors.confirmNewPassword
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+              type={showCoPassword ? "text" : "password"}
+              InputProps={{
+                // <-- This is where the toggle button is added.
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowCoPassword}
+                      onMouseDown={handleMouseDownCoPassword}
+                    >
+                      {showCoPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            {password !== "" && (
+              <PasswordCheckList
+                password={password}
+                passwordAgain={passwordAgain}
+              />
+            )}
+
+            {loading && (
+              // setTimeout(() => {
+              //   <LinearProgress sx={{ width: '100%', marginTop: 3 }}/>
+
+              // }, 3000)
+              <LinearProgress sx={{ width: "100%", marginTop: 3 }} />
+            )}
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={loading === true}
+            >
+              Change password
+            </Button>
+          </form>
+        </Box>
+      </Container>
+      {/* </ThemeProvider> */}
     </>
   );
 };

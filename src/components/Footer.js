@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-import logo from "../assets/images/logo.jpg";
+import imagotipo from "../assets/images/imagotipo.png";
 
 function Copyright() {
   return (
@@ -25,6 +25,7 @@ const Footer = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        textAlign:"center"
         // minHeight: '40vh',
       }}
     >
@@ -52,13 +53,14 @@ const Footer = () => {
       >
         <Container maxWidth="sm">
         <Box
+        
             component="img"
             sx={{
               // height: 200,
-              width: 1,
+              width: 0.7,
             }}
             alt="logo"
-            src={logo}
+            src={imagotipo}
           />
           {/* <Copyright /> */}
         </Container>

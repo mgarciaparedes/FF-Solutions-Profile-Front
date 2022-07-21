@@ -425,7 +425,7 @@ const GallerySetup = () => {
                           {step.label}
                         </StepLabel>
                         <StepContent>
-                          <Alert severity="info">{step.description}</Alert>
+                          <Alert variant="outlined" severity="info">{step.description}</Alert>
                           <Box sx={{ mb: 2 }}>
                             <div>
                               {/* A continuación, dependiendo del paso voy cambiando el cuerpo del paso */}

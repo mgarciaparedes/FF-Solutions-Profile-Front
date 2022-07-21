@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Sidebar from "./Sidebar";
+import imagotipo from "../assets/images/imagotipo.png";
+import logotipo from "../assets/images/logotipo.png";
 
 const pages = [];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -47,7 +49,15 @@ const Navbar = () => {
               component="div"
               sx={{ pl: 4, display: { xs: "none", md: "flex" } }}
             >
-              LOGO
+              <Box
+                component="img"
+                sx={{
+                  // height: 200,
+                  width: '10em',
+                }}
+                alt="logo"
+                src={imagotipo}
+              />
             </Typography>
 
             <Typography
@@ -56,7 +66,15 @@ const Navbar = () => {
               component="div"
               sx={{ pl: 4, flexGrow: 1, display: { xs: "flex", md: "none" } }}
             >
-              LOGO
+              <Box
+                component="img"
+                sx={{
+                  // height: 200,
+                  width: '7em',
+                }}
+                alt="logo"
+                src={imagotipo}
+              />
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (

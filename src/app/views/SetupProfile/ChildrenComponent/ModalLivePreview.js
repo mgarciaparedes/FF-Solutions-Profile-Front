@@ -508,7 +508,7 @@ const ModalLivePreview = ({
                       <Grid item key={index} xs={12}>
                         <ItemCustomButton sx={{ mb: 1 }}>
                           <Button target="_blank" href={row.profile}>
-                            <LinkIcon sx={{ mr: 2 }} />{" "}
+                            <LinkIcon color="info" sx={{ mr: 2 }} />{" "}
                             <Typography
                               variant="button"
                               sx={{ color: "#1C2833" }}
@@ -570,7 +570,7 @@ const ModalLivePreview = ({
                               )
                             }
                           >
-                            <AbcIcon sx={{ mr: 2 }} />
+                            <AbcIcon color="info" sx={{ mr: 2 }} />
                             <Typography
                               variant="button"
                               sx={{ color: "#1C2833" }}
@@ -642,6 +642,7 @@ const ModalLivePreview = ({
                   </Grid>
                   <Grid item xs={6}>
                     <Button
+                    color="info"
                       onClick={() => {
                         copyToClipboard(username);
                         //Notificación data copiada
@@ -657,7 +658,7 @@ const ModalLivePreview = ({
                       />{" "}
                       Copy Link
                     </Button>
-                    <Button onClick={() => setOpenModalShareLink(true)}>
+                    <Button color="info" onClick={() => setOpenModalShareLink(true)}>
                       <ShareTwoToneIcon
                         color="info"
                         sx={{ fontSize: 20, mr: 1 }}
@@ -725,8 +726,9 @@ const ModalLivePreview = ({
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
                   {" "}
                   <Button
-                    sx={{ mr: 3 }}
+                    sx={{ mr: 3, color: 'white' }}
                     variant="contained"
+                    color="info"
                     onClick={() => {
                       copyTextToClipboard(modalBody);
                       handleCloseModalCustomText();
@@ -741,6 +743,7 @@ const ModalLivePreview = ({
                   </Button>
                   <Button
                     variant="outlined"
+                    color="info"
                     onClick={() => {
                       handleCloseModalCustomText();
                     }}
@@ -812,6 +815,7 @@ const ModalLivePreview = ({
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
                   <Button
                     variant="outlined"
+                    color="info"
                     onClick={() => {
                       handleCloseModalCustomImage();
                     }}
@@ -928,6 +932,7 @@ const ModalLivePreview = ({
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
                   <Button
                     variant="outlined"
+                    color="info"
                     onClick={() => {
                       handleCloseModalShareLink();
                     }}

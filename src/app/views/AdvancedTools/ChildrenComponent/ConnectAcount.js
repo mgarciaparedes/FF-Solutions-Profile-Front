@@ -98,6 +98,7 @@ const ConnectAcount = () => {
   //Función para cerrar el modal
   const handleCloseModal = () => {
     setOpenModal(false);
+    setIsLinked(false);
   };
 
   const startModalSteps = (e) => {
@@ -278,7 +279,7 @@ const ConnectAcount = () => {
                           {step.label}
                         </StepLabel>
                         <StepContent>
-                          <Alert severity="info">{step.description}</Alert>
+                          <Alert variant="outlined" severity="info">{step.description}</Alert>
                           <Box sx={{ mb: 2 }}>
                             <div>
                               {/* A continuación, dependiendo del paso voy cambiando el cuerpo del paso */}
