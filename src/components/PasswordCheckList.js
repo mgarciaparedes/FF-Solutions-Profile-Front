@@ -4,7 +4,7 @@ import { Alert, AlertTitle } from "@mui/material";
 
 const PasswordCheckList = ({ password, passwordAgain }) => {
   return (    
-      <Alert severity="warning" sx={{ marginTop: 2 }}>
+      <Alert variant="outlined" severity="warning" sx={{ marginTop: 2 }}>
         <AlertTitle>Password must contain:</AlertTitle>
         <PasswordChecklist
           rules={["minLength", "specialChar", "number", "capital", "match"]}
