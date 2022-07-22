@@ -7,7 +7,7 @@ const helpers = {
 
   //Función para copiar la url
   copyToClipboard(username) {
-    var value = "https://profile.stdicompany.com/" + username;
+    var value = "https://blacklion.stdicompany.com/" + username;
     navigator.clipboard.writeText(value);
   },
 

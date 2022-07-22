@@ -393,6 +393,7 @@ export const Profile = ({ location }) => {
             sx={{
               display: "flex",
               justifyContent: "center",
+              textAlign: "center",
               mt: 1,
               whiteSpace: "pre-wrap",
             }}

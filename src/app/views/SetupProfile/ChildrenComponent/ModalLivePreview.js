@@ -342,6 +342,7 @@ const ModalLivePreview = ({
               variant="overline"
               sx={{
                 display: "flex",
+                textAlign: "center",
                 justifyContent: "center",
                 mt: 1,
                 whiteSpace: "pre-wrap",
