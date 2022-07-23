@@ -105,6 +105,7 @@ const styleModalCustomText = {
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
+  wordWrap:'break-word'
 };
 
 //Cantidad de íconos a mostrar según tamaño de dispositivo

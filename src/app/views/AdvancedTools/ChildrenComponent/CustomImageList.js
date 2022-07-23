@@ -47,6 +47,7 @@ const styleModalCustomText = {
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
+  wordWrap:'break-word'
 };
 
 const ItemCustomButton = styled(Paper)(({ theme }) => ({
