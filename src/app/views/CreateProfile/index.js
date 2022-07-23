@@ -238,7 +238,7 @@ export const CreateProfile = () => {
               <TextField
                 fullWidth
                 id="userName"
-                label="profile.stdicompany.com/username"
+                label="blacklion.stdicompany.com/username"
                 name="userName"
                 autoComplete="family-name"
                 value={formik.values.userName}

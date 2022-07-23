@@ -88,7 +88,7 @@ const ModalShareLink = ({
             component="h2"
             sx={{ mt: 1, textAlign: "center" }}
           >
-            <ShareTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1 }} />
+            <ShareTwoToneIcon sx={{ fontSize: 20, mr: 1, color: "primary.main" }} />
             Share Link
           </Typography>
           <Typography

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
+import { borders } from '@mui/system';
 import axios from "axios";
 import history from "../../../components/History";
 import { styled } from "@mui/material/styles";
@@ -37,11 +38,11 @@ import SocialNetworkButtons from "./ChildrenComponent/SocialNetworkButtons";
 import Gallery from "./ChildrenComponent/Gallery";
 import ModalShareLink from "./ChildrenComponent/ModalShareLink";
 
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
+// const lightTheme = createTheme({
+//   palette: {
+//     mode: 'dark',
+//   },
+// });
 
 //Estilo modal CustomText
 const styleModalCustomText = {
@@ -50,8 +51,9 @@ const styleModalCustomText = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 300,
-  bgcolor: "white",
-  color: "#424949",
+  // bgcolor: "white",
+  // color: "#424949",
+  bgcolor: "background.paper",
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
@@ -59,21 +61,24 @@ const styleModalCustomText = {
 };
 
 const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  backgroundColor: "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2.5),
   textAlign: "center",
+  border: 1,
+  borderColor: 'primary.main',
   color: theme.palette.text.secondary,
 }));
 
 const ItemCustomButton = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  backgroundColor: "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
-  color: "#424949",
+  color: "white",
+  // color: "#424949",
 }));
 
 const { convertStringWithPlus, copyTextToClipboard, copyToClipboard } = helpers;
@@ -267,7 +272,7 @@ export const Profile = ({ location }) => {
 
   return (
     <>
-    <ThemeProvider theme={lightTheme}>
+    {/* <ThemeProvider theme={lightTheme}> */}
       <CssBaseline />
       {loadingProfileData ? ( //Cargando Inicial
         <>
@@ -373,6 +378,8 @@ export const Profile = ({ location }) => {
               sx={{
                 width: 120,
                 height: 120,
+                border: 6,
+                borderColor: "#1A2027"
               }}
             />
           </Stack>
@@ -444,7 +451,7 @@ export const Profile = ({ location }) => {
                 <Grid item xs={6}>
                   <QRCode
                     id="QR"
-                    value={"https://profile.stdicompany.com/" + username}
+                    value={"https://blacklion.stdicompany.com/" + username}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -459,17 +466,17 @@ export const Profile = ({ location }) => {
                     }}
                   >
                     <ContentCopyTwoToneIcon
-                      color="info"
+                      color="primary.main"
                       sx={{ fontSize: 20, mr: 1 }}
                     />{" "}
-                    Copy Link
+                    <Typography variant="button" sx={{ color: '#D5D8DC'}}>Copy Link</Typography>
                   </Button>
                   <Button onClick={() => setOpenModalShareLink(true)}>
                     <ShareTwoToneIcon
-                      color="info"
+                      color="primary.main"
                       sx={{ fontSize: 20, mr: 1 }}
                     />{" "}
-                    Share Link
+                    <Typography variant="button" sx={{ color: '#D5D8DC'}}>Share Link</Typography>
                   </Button>
                 </Grid>
               </Grid>
@@ -501,9 +508,9 @@ export const Profile = ({ location }) => {
         styleModalCustomText={styleModalCustomText}
         handleCloseModalShareLink={handleCloseModalShareLink}
         openModalShareLink={openModalShareLink}
-        usernameURL={"https://profile.stdicompany.com/" + username}
+        usernameURL={"https://blacklion.stdicompany.com/" + username}
       />
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </>
   );
 };

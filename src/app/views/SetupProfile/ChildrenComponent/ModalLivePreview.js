@@ -61,8 +61,8 @@ const lightTheme = createTheme({
 });
 
 const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  backgroundColor: "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2.5),
   textAlign: "center",
@@ -70,8 +70,8 @@ const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
 }));
 
 const ItemCustomButton = styled(Paper)(({ theme }) => ({
-  // backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  backgroundColor: "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  // backgroundColor: "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
@@ -85,8 +85,9 @@ const styleModal = {
   transform: "translate(-50%, -50%)",
   width: "100%",
   height: "100%",
-  bgcolor: "white",
-  color: "#424949",
+  // bgcolor: "white",
+  bgcolor: "background.paper",
+  // color: "#424949",
   overflow: "scroll", //para que funcione el scroll
   boxShadow: 24,
   p: 3,
@@ -100,12 +101,13 @@ const styleModalCustomText = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 300,
-  bgcolor: "white",
-  color: "#424949",
+  bgcolor: "background.paper",
+  // bgcolor: "white",
+  // color: "#424949",
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
-  wordWrap:'break-word'
+  wordWrap: "break-word",
 };
 
 //Cantidad de íconos a mostrar según tamaño de dispositivo
@@ -324,6 +326,8 @@ const ModalLivePreview = ({
                   sx={{
                     width: 100,
                     height: 100,
+                    border: 6,
+                    borderColor: "#1A2027",
                   }}
                 />
               )}
@@ -376,7 +380,9 @@ const ModalLivePreview = ({
                     row.socialNetwork !== "CustomText" &&
                     row.socialNetwork !== "Embed Youtube Video" ? (
                       <Grid item key={index} xs={4}>
-                        <ItemSocialNetwork>
+                        <ItemSocialNetwork
+                          sx={{ border: 1, borderColor: "primary.main" }}
+                        >
                           <a
                             // sx={{
                             //   outline: "none !important",
@@ -508,12 +514,14 @@ const ModalLivePreview = ({
                   {rows.map((row, index) =>
                     row.socialNetwork === "CustomURL" ? (
                       <Grid item key={index} xs={12}>
-                        <ItemCustomButton sx={{ mb: 1 }}>
+                        <ItemCustomButton
+                          sx={{ mb: 1, border: 1, borderColor: "primary.main" }}
+                        >
                           <Button target="_blank" href={row.profile}>
-                            <LinkIcon color="info" sx={{ mr: 2 }} />{" "}
+                            <LinkIcon color="primary.main" sx={{ mr: 2 }} />{" "}
                             <Typography
                               variant="button"
-                              sx={{ color: "#1C2833" }}
+                              sx={{ color: "white" }}
                             >
                               {row.linkName}
                             </Typography>
@@ -532,7 +540,13 @@ const ModalLivePreview = ({
                     {objLogin.customImage.map((element, index) => (
                       <Grid item key={index} xs={12}>
                         {element.customImageActive === true ? (
-                          <ItemCustomButton sx={{ mb: 1 }}>
+                          <ItemCustomButton
+                            sx={{
+                              mb: 1,
+                              border: 1,
+                              borderColor: "primary.main",
+                            }}
+                          >
                             <Button
                               onClick={() =>
                                 handleOpenModalCustomImage(
@@ -541,10 +555,10 @@ const ModalLivePreview = ({
                                 )
                               }
                             >
-                              <ImageIcon color="info" sx={{ mr: 2 }} />{" "}
+                              <ImageIcon color="primary.main" sx={{ mr: 2 }} />{" "}
                               <Typography
                                 variant="button"
-                                sx={{ color: "#1C2833" }}
+                                sx={{ color: "white" }}
                               >
                                 {element.customImageButtonName}
                               </Typography>
@@ -563,7 +577,9 @@ const ModalLivePreview = ({
                   {rows.map((row, index) =>
                     row.socialNetwork === "CustomText" ? (
                       <Grid item key={index} xs={12}>
-                        <ItemCustomButton sx={{ mb: 1 }}>
+                        <ItemCustomButton
+                          sx={{ mb: 1, border: 1, borderColor: "primary.main" }}
+                        >
                           <Button
                             onClick={() =>
                               handleOpenModalCustomText(
@@ -572,10 +588,10 @@ const ModalLivePreview = ({
                               )
                             }
                           >
-                            <AbcIcon color="info" sx={{ mr: 2 }} />
+                            <AbcIcon color="primary.main" sx={{ mr: 2 }} />
                             <Typography
                               variant="button"
-                              sx={{ color: "#1C2833" }}
+                              sx={{ color: "white" }}
                             >
                               {row.linkName}
                             </Typography>
@@ -639,12 +655,11 @@ const ModalLivePreview = ({
                   <Grid item xs={6}>
                     <QRCode
                       id="QR"
-                      value={"https://profile.stdicompany.com/" + username}
+                      value={"https://blacklion.stdicompany.com/" + username}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <Button
-                    color="info"
                       onClick={() => {
                         copyToClipboard(username);
                         //Notificación data copiada
@@ -655,17 +670,17 @@ const ModalLivePreview = ({
                       }}
                     >
                       <ContentCopyTwoToneIcon
-                        color="info"
+                        color="primary.main"
                         sx={{ fontSize: 20, mr: 1 }}
                       />{" "}
-                      Copy Link
+                      <Typography variant="button" sx={{ color: '#D5D8DC'}}>Copy Link</Typography>
                     </Button>
-                    <Button color="info" onClick={() => setOpenModalShareLink(true)}>
+                    <Button onClick={() => setOpenModalShareLink(true)}>
                       <ShareTwoToneIcon
-                        color="info"
+                        color="primary.main"
                         sx={{ fontSize: 20, mr: 1 }}
                       />{" "}
-                      Share Link
+                      <Typography variant="button" sx={{ color: '#D5D8DC'}}>Share Link</Typography>
                     </Button>
                   </Grid>
                 </Grid>
@@ -681,9 +696,8 @@ const ModalLivePreview = ({
                 <Button
                   type="button"
                   fullWidth
-                  color="info"
                   variant="contained"
-                  sx={{ mt: 1, mb: 2, color: '#fff' }}
+                  sx={{ mt: 1, mb: 2 }}
                   onClick={() => setOpenLivePreview(false)}
                 >
                   Close Live Preview
@@ -728,7 +742,7 @@ const ModalLivePreview = ({
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
                   {" "}
                   <Button
-                    sx={{ mr: 3, color: 'white' }}
+                    sx={{ mr: 3, color: "white" }}
                     variant="contained"
                     color="info"
                     onClick={() => {
@@ -846,7 +860,7 @@ const ModalLivePreview = ({
               component="h2"
               sx={{ mt: 1, textAlign: "center" }}
             >
-              <ShareTwoToneIcon color="info" sx={{ fontSize: 20, mr: 1 }} />
+              <ShareTwoToneIcon sx={{ fontSize: 20, mr: 1, color: "primary.main" }} />
               Share Link
             </Typography>
             <Typography
@@ -934,7 +948,6 @@ const ModalLivePreview = ({
                 <Grid item xs={12} sx={{ textAlign: "center" }}>
                   <Button
                     variant="outlined"
-                    color="info"
                     onClick={() => {
                       handleCloseModalShareLink();
                     }}

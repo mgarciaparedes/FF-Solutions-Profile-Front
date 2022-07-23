@@ -112,7 +112,7 @@ const SocialNetworkButtons = ({
             row.socialNetwork !== "CustomText" &&
             row.socialNetwork !== "Embed Youtube Video" ? (
               <Grid item key={index} xs={4}>
-                <ItemSocialNetwork>
+                <ItemSocialNetwork sx={{border:1,borderColor: "primary.main"}}>
                   <a
                     // sx={{
                     //   outline: "none !important",
@@ -243,10 +243,10 @@ const SocialNetworkButtons = ({
           {rows.map((row, index) =>
             row.socialNetwork === "CustomURL" ? (
               <Grid item key={index} xs={12}>
-                <ItemCustomButton>
+                <ItemCustomButton sx={{border:1,borderColor: "primary.main"}}>
                   <Button target="_blank" href={row.profile}>
                     <LinkIcon sx={{ mr: 2 }} />
-                    <Typography variant="button" sx={{ color: "#1C2833" }}>
+                    <Typography variant="button" sx={{ color: "white" }}>
                       {row.linkName}
                     </Typography>
                   </Button>
@@ -264,7 +264,7 @@ const SocialNetworkButtons = ({
             {customImage.map((element, index) => (
               <Grid item key={index} xs={12}>
                 {element.customImageActive === true ? (
-                  <ItemCustomButton sx={{ mb: 1 }}>
+                  <ItemCustomButton sx={{mb: 1, border:1,borderColor: "primary.main"}}>
                     <Button
                       onClick={() =>
                         handleOpenModalCustomImage(
@@ -273,8 +273,8 @@ const SocialNetworkButtons = ({
                         )
                       }
                     >
-                      <ImageIcon color="info" sx={{ mr: 2 }} />{" "}
-                      <Typography variant="button" sx={{ color: "#1C2833" }}>
+                      <ImageIcon color="primary.main" sx={{ mr: 2 }} />{" "}
+                      <Typography variant="button" sx={{ color: "white" }}>
                         {element.customImageButtonName}
                       </Typography>
                     </Button>
@@ -292,14 +292,14 @@ const SocialNetworkButtons = ({
           {rows.map((row, index) =>
             row.socialNetwork === "CustomText" ? (
               <Grid item key={index} xs={12}>
-                <ItemCustomButton sx={{ mb: 1 }}>
+                <ItemCustomButton sx={{mb:1, border:1,borderColor: "primary.main"}}>
                   <Button
                     onClick={() =>
                       handleOpenModalCustomText(row.linkName, row.profile)
                     }
                   >
                     <AbcIcon sx={{ mr: 2 }} />{" "}
-                    <Typography variant="button" sx={{ color: "#1C2833" }}>
+                    <Typography variant="button" sx={{ color: "white" }}>
                       {row.linkName}
                     </Typography>
                   </Button>

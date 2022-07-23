@@ -25,7 +25,7 @@ const Footer = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        textAlign:"center"
+        textAlign: "center",
         // minHeight: '40vh',
       }}
     >
@@ -52,17 +52,23 @@ const Footer = () => {
         }}
       >
         <Container maxWidth="sm">
-        <Box
-        
-            component="img"
-            sx={{
-              // height: 200,
-              width: 0.7,
-            }}
-            alt="logo"
-            src={imagotipo}
-          />
-          {/* <Copyright /> */}
+          <Link
+            target="_blank"
+            href={
+              "https://smjurgenklaric.pro.typeform.com/to/orcmOwvQ?utm_campaign=TF-PRINCIPAL-BL&utm_source=Instagram&utm_medium=Social&utm_term=OPT&utm_content=Generalista&typeform-source=l.instagram.com"
+            }
+          >
+            <Box
+              component="img"
+              sx={{
+                // height: 200,
+                width: 0.7,
+              }}
+              alt="logo"
+              src={imagotipo}
+            />
+            {/* <Copyright /> */}
+          </Link>
         </Container>
       </Box>
     </Box>
