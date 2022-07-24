@@ -243,7 +243,7 @@ const SocialNetworkButtons = ({
           {rows.map((row, index) =>
             row.socialNetwork === "CustomURL" ? (
               <Grid item key={index} xs={12}>
-                <ItemCustomButton sx={{border:1,borderColor: "primary.main"}}>
+                <ItemCustomButton sx={{mb:1, border:1,borderColor: "primary.main"}}>
                   <Button target="_blank" href={row.profile}>
                     <LinkIcon sx={{ mr: 2 }} />
                     <Typography variant="button" sx={{ color: "white" }}>
@@ -259,7 +259,7 @@ const SocialNetworkButtons = ({
 
       {/*Botón CUSTOM IMAGE ---------------------------*/}
       {customImage ? (
-        <Box sx={{ flexGrow: 1 }} mt={1} mr={2} ml={2}>
+        <Box sx={{ flexGrow: 1 }} mr={2} ml={2}>
           <Grid container spacing={0}>
             {customImage.map((element, index) => (
               <Grid item key={index} xs={12}>
