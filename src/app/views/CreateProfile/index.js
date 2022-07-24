@@ -35,11 +35,7 @@ const validationSchema = yup.object({
     .string()
     .email("Must be a valid email")
     .required("Email is required"),
-  serialNumber: yup
-    .number()
-    .typeError("Must be just numbers.")
-    .integer("The serial number can't include a decimal point.")
-    .required("Serial number is required."),
+  serialNumber: yup.string().required("Serial number is required"),
   password: yup
     .string()
     .required("Password is required")
