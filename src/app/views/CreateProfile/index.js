@@ -35,7 +35,13 @@ const validationSchema = yup.object({
     .string()
     .email("Must be a valid email")
     .required("Email is required"),
-  serialNumber: yup.string().required("Serial number is required"),
+  serialNumber: yup
+    .string()
+    .required("Serial number is required")
+    .matches(
+      /^[A-Za-z0-9]*$/,
+      "Wrong format"
+    ),
   password: yup
     .string()
     .required("Password is required")
@@ -234,7 +240,7 @@ export const CreateProfile = () => {
               <TextField
                 fullWidth
                 id="userName"
-                label="blacklion.stdicompany.com/username"
+                label="blacklion.stdicompany.com/here_your_username"
                 name="userName"
                 autoComplete="family-name"
                 value={formik.values.userName}
@@ -277,6 +283,7 @@ export const CreateProfile = () => {
                 helperText={
                   formik.touched.serialNumber && formik.errors.serialNumber
                 }
+                inputProps={{ maxLength: 12 }}
               />
             </Grid>
 
