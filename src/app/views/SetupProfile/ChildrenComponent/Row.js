@@ -24,6 +24,7 @@ const Row = ({
           <Grid marginTop={3}>
             {socialNetwork !== "CustomURL" && socialNetwork !== "CustomText" ? (
               <TextField
+                inputProps={{ maxlength: 25 }}
                 id="standard-multiline-static"
                 label={socialNetwork}
                 placeholder={

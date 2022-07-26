@@ -10,7 +10,7 @@ import {
   Container,
   IconButton,
   InputAdornment,
-  LinearProgress
+  LinearProgress,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockResetIcon from "@mui/icons-material/LockReset";
@@ -31,15 +31,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // const theme = createTheme();
 
 const schema = Yup.object({
-  currentPassword: Yup.string().required("Current password is required"),
+  currentPassword: Yup.string()
+    .required("Current password is required")
+    .min(8, "Current password should be of minimum 8 characters length")
+    .max(25, "Current password should be maximum 25 characters."),
   newPassword: Yup.string()
     .required("New password is required")
+    .min(8, "New password should be of minimum 8 characters length")
+    .max(25, "New password should be maximum 25 characters.")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.-])[A-Za-z\d@$!%*#?&.-]{8,}$/,
       "Must meet the requirements below"
     ),
   confirmNewPassword: Yup.string()
     .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
+    .min(8, "Confirm new password should be of minimum 8 characters length")
+    .max(25, "Confirm new password should be maximum 25 characters.")
     .required("Confirm new password is required"),
 });
 
@@ -187,6 +194,7 @@ export const ChangePassword = () => {
                 shrink: true,
               }}
               type={showCuPassword ? "text" : "password"}
+              inputProps={{ maxlength: 25 }}
               InputProps={{
                 // <-- This is where the toggle button is added.
                 endAdornment: (
@@ -224,6 +232,7 @@ export const ChangePassword = () => {
                 shrink: true,
               }}
               type={showPassword ? "text" : "password"}
+              inputProps={{ maxlength: 25 }}
               InputProps={{
                 // <-- This is where the toggle button is added.
                 endAdornment: (
@@ -263,6 +272,7 @@ export const ChangePassword = () => {
                 shrink: true,
               }}
               type={showCoPassword ? "text" : "password"}
+              inputProps={{ maxlength: 25 }}
               InputProps={{
                 // <-- This is where the toggle button is added.
                 endAdornment: (
