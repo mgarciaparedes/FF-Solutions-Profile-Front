@@ -261,6 +261,10 @@ const ModalLivePreview = ({
     }
   };
 
+  const checkIframe = (cadena) => {
+    return cadena.substr(17);
+  };
+
   return (
     <>
       <Modal
@@ -364,7 +368,10 @@ const ModalLivePreview = ({
                     <iframe
                       width="100%"
                       height="200"
-                      src={"https://www.youtube.com/embed/" + row.profile}
+                      src={
+                        "https://www.youtube.com/embed/" +
+                        checkIframe(row.profile)
+                      }
                     ></iframe>
                   </Box>
                 </Container>
@@ -673,14 +680,18 @@ const ModalLivePreview = ({
                         color="primary.main"
                         sx={{ fontSize: 20, mr: 1 }}
                       />{" "}
-                      <Typography variant="button" sx={{ color: '#D5D8DC'}}>Copy Link</Typography>
+                      <Typography variant="button" sx={{ color: "#D5D8DC" }}>
+                        Copy Link
+                      </Typography>
                     </Button>
                     <Button onClick={() => setOpenModalShareLink(true)}>
                       <ShareTwoToneIcon
                         color="primary.main"
                         sx={{ fontSize: 20, mr: 1 }}
                       />{" "}
-                      <Typography variant="button" sx={{ color: '#D5D8DC'}}>Share Link</Typography>
+                      <Typography variant="button" sx={{ color: "#D5D8DC" }}>
+                        Share Link
+                      </Typography>
                     </Button>
                   </Grid>
                 </Grid>
@@ -860,7 +871,9 @@ const ModalLivePreview = ({
               component="h2"
               sx={{ mt: 1, textAlign: "center" }}
             >
-              <ShareTwoToneIcon sx={{ fontSize: 20, mr: 1, color: "primary.main" }} />
+              <ShareTwoToneIcon
+                sx={{ fontSize: 20, mr: 1, color: "primary.main" }}
+              />
               Share Link
             </Typography>
             <Typography
