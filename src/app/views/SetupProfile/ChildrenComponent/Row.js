@@ -24,6 +24,8 @@ const Row = ({
           <Grid marginTop={3}>
             {socialNetwork !== "CustomURL" && socialNetwork !== "CustomText" ? (
               <TextField
+                inputProps={{ maxlength: 100 }}
+                autoComplete='off'
                 id="standard-multiline-static"
                 label={socialNetwork}
                 placeholder={
@@ -75,8 +77,6 @@ const Row = ({
                     ? "Type the full link"
                     : socialNetwork === "HouseParty"
                     ? "HouseParty username"
-                    : socialNetwork === "Embed Youtube Video"
-                    ? "Type Embed Youtube ID"
                     : "Type the full link"
                 }
                 name="profile"

@@ -36,11 +36,13 @@ const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
     .email("Enter a valid email")
-    .required("Email is required"),
+    .required("Email is required")
+    .max(50, "Email should be maximum 50 characters."),
   password: yup
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
+    .required("Password is required")
+    .max(25, "Password should be maximum 25 characters."),
 });
 
 //Footer de Formulario Login----------------------------------------------------------------------------------
@@ -275,7 +277,7 @@ export const Login = () => {
               sx={{
                 // height: 200,
                 width: 1,
-                mb: 3
+                mb: 3,
               }}
               alt="imagotipo"
               src={imagotipo}
@@ -298,6 +300,7 @@ export const Login = () => {
               {/* Campo Email */}
               <TextField
                 margin="normal"
+                inputProps={{ maxlength: 50 }}
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -330,6 +333,9 @@ export const Login = () => {
                       </IconButton>
                     </InputAdornment>
                   ),
+                }}
+                inputProps={{
+                  maxLength: 25,
                 }}
                 id="password"
                 autoComplete="current-password"
@@ -378,7 +384,7 @@ export const Login = () => {
                   <Link
                     onClick={() => history.push("/create-profile")}
                     variant="body2"
-                    sx={{ cursor: "pointer", textDecoration: 'none' }}
+                    sx={{ cursor: "pointer", textDecoration: "none" }}
                     color="primary.light"
                   >
                     {"Sign Up"}

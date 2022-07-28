@@ -23,7 +23,8 @@ const theme = createTheme();
 const schema = Yup.object({
   email: Yup.string()
     .email("Must be a valid email")
-    .required("Email is required"),
+    .required("Email is required")
+    .max(50, "Email should be maximum 50 characters."),
 });
 
 export const ForgotPassword = () => {
@@ -112,6 +113,7 @@ export const ForgotPassword = () => {
 
             <TextField
               margin="normal"
+              inputProps={{ maxlength: 50 }}
               fullWidth
               id="email"
               label="Example: email@email.com"

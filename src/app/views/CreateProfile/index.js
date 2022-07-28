@@ -29,28 +29,37 @@ import PasswordCheckList from "../../../components/PasswordCheckList";
 
 //Constante con el formato de validación para cada campo-------------------------------------------
 const validationSchema = yup.object({
-  fullName: yup.string().required("Full name is required"),
-  userName: yup.string("Enter your Username").required("Username is required"),
+  fullName: yup
+    .string()
+    .required("Full name is required")
+    .max(50, "Full name should be maximum 50 characters."),
+  userName: yup
+    .string("Enter your Username")
+    .required("Username is required")
+    .max(25, "Username should be maximum 25 characters."),
   email: yup
     .string()
     .email("Must be a valid email")
-    .required("Email is required"),
+    .required("Email is required")
+    .max(50, "Email should be maximum 50 characters."),
   serialNumber: yup
     .string()
     .required("Serial number is required")
-    .matches(
-      /^[A-Za-z0-9]*$/,
-      "Wrong format"
-    ),
+    .max(12, "Wrong amount of characters.")
+    .matches(/^[A-Za-z0-9]*$/, "Wrong format"),
   password: yup
     .string()
     .required("Password is required")
+    .min(8, "Password should be of minimum 8 characters length")
+    .max(25, "Password should be maximum 25 characters.")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.-])[A-Za-z\d@$!%*#?&.-]{8,}$/,
       "Must meet the requirements below"
     ),
   confirmPassword: yup
     .string()
+    .min(8, "Confirm password should be of minimum 8 characters length")
+    .max(25, "Confirm password should be maximum 25 characters.")
     .oneOf([yup.ref("password"), null], "Passwords must match")
     .required("Confirmation password is required"),
 });
@@ -221,6 +230,7 @@ export const CreateProfile = () => {
             {/*Campo FullName*/}
             <Grid item xs={12} sm={12}>
               <TextField
+                inputProps={{ maxlength: 50 }}
                 autoComplete="off"
                 name="fullName"
                 fullWidth
@@ -239,6 +249,7 @@ export const CreateProfile = () => {
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
+                inputProps={{ maxlength: 25 }}
                 id="userName"
                 label="blacklion.stdicompany.com/here_your_username"
                 name="userName"
@@ -264,6 +275,7 @@ export const CreateProfile = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
+                inputProps={{ maxlength: 50 }}
               />
             </Grid>
 
@@ -295,6 +307,7 @@ export const CreateProfile = () => {
                 label="Password"
                 id="password"
                 type={showPassword ? "text" : "password"}
+                inputProps={{ maxlength: 25 }}
                 InputProps={{
                   // <-- This is where the toggle button is added.
                   endAdornment: (
@@ -331,6 +344,7 @@ export const CreateProfile = () => {
                 id="confirmPassword"
                 sx={{ fontSize: "50" }}
                 type={showCoPassword ? "text" : "password"}
+                inputProps={{ maxlength: 25 }}
                 InputProps={{
                   // <-- This is where the toggle button is added.
                   endAdornment: (

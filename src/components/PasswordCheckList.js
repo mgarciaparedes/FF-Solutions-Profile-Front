@@ -8,7 +8,7 @@ const PasswordCheckList = ({ password, passwordAgain }) => {
         <AlertTitle>Password must contain:</AlertTitle>
         <PasswordChecklist
           rules={["minLength", "specialChar", "number", "capital", "match"]}
-          minLength={5}
+          minLength={8}
           value={password}
           valueAgain={passwordAgain}
           onChange={(isValid) => {}}

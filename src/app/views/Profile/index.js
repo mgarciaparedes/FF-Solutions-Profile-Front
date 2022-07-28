@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import { borders } from '@mui/system';
+import { borders } from "@mui/system";
 import axios from "axios";
 import history from "../../../components/History";
 import { styled } from "@mui/material/styles";
@@ -16,7 +16,7 @@ import {
   Paper,
   Container,
   Skeleton,
-  CssBaseline
+  CssBaseline,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -57,7 +57,7 @@ const styleModalCustomText = {
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
-  wordWrap:'break-word'
+  wordWrap: "break-word",
 };
 
 const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
@@ -67,7 +67,7 @@ const ItemSocialNetwork = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2.5),
   textAlign: "center",
   border: 1,
-  borderColor: 'primary.main',
+  borderColor: "primary.main",
   color: theme.palette.text.secondary,
 }));
 
@@ -131,9 +131,8 @@ export const Profile = ({ location }) => {
     axios
       .post("/users/usernameData", payload)
       .then((res) => {
-        
         const { ok, msg, data, email, gallery, customImage, active, username } =
-          res.data; 
+          res.data;
 
         if (ok && msg === "Username Profile Data found.") {
           setLoadingProfileData(false);
@@ -147,7 +146,10 @@ export const Profile = ({ location }) => {
           setCustomImage(customImage);
           setProfileActive(active);
           setSendNotifications(data.sendNotifications);
-          console.log("Send notifications en api inicial", data.sendNotifications);
+          console.log(
+            "Send notifications en api inicial",
+            data.sendNotifications
+          );
           setErrorMessage("");
 
           //Hacemos un if para ver si galería existe
@@ -190,15 +192,15 @@ export const Profile = ({ location }) => {
             navigator.geolocation.getCurrentPosition(function (position) {
               // console.log("Latitude is :", position.coords.latitude);
               // console.log("Longitude is :", position.coords.longitude);
-      
+
               const payloadToSendNotifications = {
                 to: email,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
               };
-      
+
               // console.log(payloadToSendNotifications);
-      
+
               axios
                 .post("email/sendNotification", payloadToSendNotifications)
                 .then((res) => {
@@ -254,25 +256,29 @@ export const Profile = ({ location }) => {
         }
 
         if (!ok && msg === "Error 404. User Profile wasn't found.") {
-            setProfileDataOk(false);
-            setErrorMessage(msg);
-            setOpenModalError(true);
-            return false;
-          }
+          setProfileDataOk(false);
+          setErrorMessage(msg);
+          setOpenModalError(true);
+          return false;
+        }
 
-          if (!ok && msg === "User is not active") {
-            setProfileDataOk(false);
-            setErrorMessage(msg);
-            setProfileActive(false);
-            setOpenModalError(true);
-            return false;
-          }
+        if (!ok && msg === "User is not active") {
+          setProfileDataOk(false);
+          setErrorMessage(msg);
+          setProfileActive(false);
+          setOpenModalError(true);
+          return false;
+        }
       });
   }, []);
 
+  const checkIframe = (cadena) => {
+    return cadena.substr(17);
+  };
+
   return (
     <>
-    {/* <ThemeProvider theme={lightTheme}> */}
+      {/* <ThemeProvider theme={lightTheme}> */}
       <CssBaseline />
       {loadingProfileData ? ( //Cargando Inicial
         <>
@@ -342,7 +348,7 @@ export const Profile = ({ location }) => {
             </Box>
           </Container>
         </>
-      ) : !loadingProfileData && profileDataOK && profileActive ? ( 
+      ) : !loadingProfileData && profileDataOK && profileActive ? (
         //Mostrar perfil cumpliendo con condiciones
         //loadingProfileData apagado
         //profileDataOK si es que cargó bien la data del servicio
@@ -379,7 +385,7 @@ export const Profile = ({ location }) => {
                 width: 120,
                 height: 120,
                 border: 6,
-                borderColor: "#1A2027"
+                borderColor: "#1A2027",
               }}
             />
           </Stack>
@@ -393,7 +399,9 @@ export const Profile = ({ location }) => {
               fontWeight: "bold",
             }}
           >
-            {errorMessage === "Error 404. User Profile wasn't found."  ?  "test" : nameState}
+            {errorMessage === "Error 404. User Profile wasn't found."
+              ? "test"
+              : nameState}
           </Typography>
 
           <Typography
@@ -417,7 +425,10 @@ export const Profile = ({ location }) => {
                   <iframe
                     width="100%"
                     height="200"
-                    src={"https://www.youtube.com/embed/" + row.profile}
+                    src={
+                      "https://www.youtube.com/embed/" +
+                      checkIframe(row.profile)
+                    }
                   ></iframe>
                 </Box>
               </Container>
@@ -469,14 +480,18 @@ export const Profile = ({ location }) => {
                       color="primary.main"
                       sx={{ fontSize: 20, mr: 1 }}
                     />{" "}
-                    <Typography variant="button" sx={{ color: '#D5D8DC'}}>Copy Link</Typography>
+                    <Typography variant="button" sx={{ color: "#D5D8DC" }}>
+                      Copy Link
+                    </Typography>
                   </Button>
                   <Button onClick={() => setOpenModalShareLink(true)}>
                     <ShareTwoToneIcon
                       color="primary.main"
                       sx={{ fontSize: 20, mr: 1 }}
                     />{" "}
-                    <Typography variant="button" sx={{ color: '#D5D8DC'}}>Share Link</Typography>
+                    <Typography variant="button" sx={{ color: "#D5D8DC" }}>
+                      Share Link
+                    </Typography>
                   </Button>
                 </Grid>
               </Grid>
@@ -493,8 +508,6 @@ export const Profile = ({ location }) => {
           <Typography>Error 404</Typography>
         </Grid>
       )}
-
-      
 
       {/*Modal Error*/}
       <ModalError
