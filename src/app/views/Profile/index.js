@@ -50,7 +50,7 @@ const styleModalCustomText = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 300,
+  width: 350,
   // bgcolor: "white",
   // color: "#424949",
   bgcolor: "background.paper",

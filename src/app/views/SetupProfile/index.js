@@ -381,7 +381,8 @@ export const SetupProfile = () => {
               autoHideDuration: 2000,
             });
             setProfilePhotoContext(newData);
-            history.push('/setup-profile');
+
+            // history.push('/setup-profile');
           } else {
             setDisabledButton(false);
 

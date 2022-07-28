@@ -100,7 +100,7 @@ const styleModalCustomText = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 300,
+  width: 350,
   bgcolor: "background.paper",
   // bgcolor: "white",
   // color: "#424949",
@@ -263,6 +263,7 @@ const ModalLivePreview = ({
 
   return (
     <>
+    <CssBaseline/>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -744,7 +745,6 @@ const ModalLivePreview = ({
                   <Button
                     sx={{ mr: 3, color: "white" }}
                     variant="contained"
-                    color="info"
                     onClick={() => {
                       copyTextToClipboard(modalBody);
                       handleCloseModalCustomText();
@@ -755,11 +755,10 @@ const ModalLivePreview = ({
                       });
                     }}
                   >
-                    Copy Text
+                    <Typography variant="button" sx={{ color: 'black' }}>Copy Text</Typography>
                   </Button>
                   <Button
                     variant="outlined"
-                    color="info"
                     onClick={() => {
                       handleCloseModalCustomText();
                     }}

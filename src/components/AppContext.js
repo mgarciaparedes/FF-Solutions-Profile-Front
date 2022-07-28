@@ -280,7 +280,7 @@ const AppProvider = ({ children }) => {
   };
 
   const setProfilePhotoContext = (
-    profileFoto
+    profileData
   ) => {
     (async () => {
       await AsyncStorage.getItem("APP::DATA").then((value) => {
@@ -296,7 +296,7 @@ const AppProvider = ({ children }) => {
               existentProfile: objStorage.existentProfile,
               serialNumber: objStorage.serialNumber,
               username: objStorage.username,
-              profileData: profileFoto,
+              profileData: profileData,
               galleryImages: objStorage.galleryImages,
               galleryActive: objStorage.galleryActive,
               customImage: objStorage.customImage,
