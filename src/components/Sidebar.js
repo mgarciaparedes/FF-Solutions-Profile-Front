@@ -28,6 +28,7 @@ import SettingsApplicationsSharpIcon from "@mui/icons-material/SettingsApplicati
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import LockResetRoundedIcon from "@mui/icons-material/LockResetRounded";
 import PrivacyTipSharpIcon from "@mui/icons-material/PrivacyTipSharp";
+import AddCardSharpIcon from '@mui/icons-material/AddCardSharp';
 import HandshakeIcon from "@mui/icons-material/HandshakeTwoTone";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 
@@ -201,7 +202,7 @@ const Sidebar = ( { test } ) => {
                 {index === 1 && <SettingsApplicationsSharpIcon />}
                 {index === 2 && <ConstructionRoundedIcon />}
                 {index === 3 && <LockResetRoundedIcon />}
-                {index === 4 && <PrivacyTipSharpIcon />}
+                {index === 4 && <AddCardSharpIcon />}
               </ListItemIcon>
               <ListItemText primary={text.name} />
             </ListItem>
@@ -220,7 +221,7 @@ const Sidebar = ( { test } ) => {
           {[
             { name: "Advanced Tools", url: "/advanced-tools" },
             { name: "Change Password", url: "/change-password" },
-            // { name: "Help", url: "/help" },
+            { name: "Payments", url: "/payment-process" },
           ].map((text, index) => (
             <ListItem
               button
@@ -232,7 +233,7 @@ const Sidebar = ( { test } ) => {
               <ListItemIcon>
                 {index === 0 && <ConstructionRoundedIcon />}
                 {index === 1 && <LockResetRoundedIcon />}
-                {index === 2 && <PrivacyTipSharpIcon />}
+                {index === 2 && <AddCardSharpIcon />}
               </ListItemIcon>
               <ListItemText primary={text.name} />
             </ListItem>

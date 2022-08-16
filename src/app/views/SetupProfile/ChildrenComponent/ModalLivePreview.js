@@ -54,9 +54,9 @@ import SmsIcon from "../../../../assets/svg/sms.svg";
 import WebsiteIcon from "../../../../assets/svg/website.svg";
 import QRCode from "qrcode.react";
 
-const lightTheme = createTheme({
+const darkTheme = createTheme({
   palette: {
-    mode: "light",
+    mode: "dark",
   },
 });
 
@@ -267,6 +267,7 @@ const ModalLivePreview = ({
 
   return (
     <>
+    <ThemeProvider theme={darkTheme}>
     <CssBaseline/>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -972,6 +973,7 @@ const ModalLivePreview = ({
           </Box>
         </Fade>
       </Modal>
+      </ThemeProvider>
     </>
   );
 };

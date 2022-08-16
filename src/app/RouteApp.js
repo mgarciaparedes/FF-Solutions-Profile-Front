@@ -18,6 +18,7 @@ import { ChangePassword } from "./views/ChangePassword";
 import { Profile } from "./views/Profile";
 import { AdvancedTools } from "./views/AdvancedTools";
 import { ActivateLinkedProfile } from "./views/ActivateLinkedProfile";
+import { PaymentProcess } from "./views/PaymentProcess";
 
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
@@ -72,6 +73,12 @@ const RouteApp = () => {
               path="/advanced-tools"
               component={() => <AdvancedTools />}
             />
+
+            <Route
+              exact
+              path="/payment-process"
+              component={() => <PaymentProcess />}
+            />
             {/* <Route exact path="/help" component={() => <Help />} /> */}
 
             {/*Con esto obtenemos el user del stdcompany/username y redireccionamos al login porque es una "/"" sola*/}
@@ -87,6 +94,7 @@ const RouteApp = () => {
               path="/:params"
               component={(params) => <Profile {...params} />}
             />
+
             <Route exact path="/" render={() => <Redirect to="/login" />} />
             <Route path="*" component={() => <Error404 />} />
           </Switch>
