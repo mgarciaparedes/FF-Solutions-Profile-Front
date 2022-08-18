@@ -17,8 +17,11 @@ import {
   CardContent,
   TextField,
   CssBaseline,
+  Alert,
 } from "@mui/material";
 import CardInput from "./ChildrenComponent/CardInput";
+import { useSnackbar } from "notistack";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -80,8 +83,13 @@ const FormCheckout = () => {
   // State
   const [email, setEmail] = useState("");
 
+  const [showSub, setShowSub] = useState(true); //show message with status subscription
+
   const stripe = useStripe();
   const elements = useElements();
+
+  const { enqueueSnackbar } = useSnackbar(); //sweetalert status subscription
+  const [ showloadSub, setShowloadsub ] = useState(false); //show loading subscription
 
   //   const handleSubmitPay = async (event) => {
   //     if (!stripe || !elements) {
@@ -126,6 +134,8 @@ const FormCheckout = () => {
       return;
     }
 
+    setShowloadsub(true);
+
     const result = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
@@ -137,7 +147,7 @@ const FormCheckout = () => {
     if (result.error) {
       console.log(result.error.message);
     } else {
-      const res = await axios.post("http://localhost:3000/sub", {
+      const res = await axios.post("/users/subscriptionStripe", {
         payment_method: result.paymentMethod.id,
         email: email,
       });
@@ -158,6 +168,12 @@ const FormCheckout = () => {
         });
       } else {
         console.log("You got the money!");
+        setShowSub(false);
+        setShowloadsub(false);
+        enqueueSnackbar("Successful subscription!", {
+          variant: "success",
+          autoHideDuration: 3000,
+        });
         // No additional information was needed
         // Show a success message to your customer
       }
@@ -170,6 +186,8 @@ const FormCheckout = () => {
       <CssBaseline />
       <Container>
         <Card className={classes.root}>
+          {
+            showSub ?
           <CardContent className={classes.content}>
             <TextField
               label="Email"
@@ -188,15 +206,16 @@ const FormCheckout = () => {
               {/* <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmitPay}>
           Pay
         </Button> */}
-              <Button
+              <LoadingButton
                 sx={{ mt: 3 }}
                 variant="contained"
                 color="primary"
                 className={classes.button}
                 onClick={handleSubmitSub}
+                loading={showloadSub}
               >
-                Subscribe
-              </Button>
+              Subscribe
+              </LoadingButton>
               <Button
                 sx={{ mt: 3 }}
                 variant="outlined"
@@ -208,6 +227,22 @@ const FormCheckout = () => {
               </Button>
             </div>
           </CardContent>
+          : 
+          <CardContent className={classes.content}>
+            <Alert variant="outlined" severity="info">
+            Your subscription has been completed successfully
+            </Alert>
+              <Button
+                sx={{ mt: 3 }}
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => history.push("/dashboard")}
+              >
+                Back
+              </Button>
+          </CardContent>
+          }
         </Card>
       </Container>
     </ThemeProvider>
