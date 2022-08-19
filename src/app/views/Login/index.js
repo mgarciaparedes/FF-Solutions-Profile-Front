@@ -300,7 +300,7 @@ export const Login = () => {
               {/* Campo Email */}
               <TextField
                 margin="normal"
-                inputProps={{ maxlength: 50 }}
+                inputProps={{ maxLength: 50 }}
                 fullWidth
                 id="email"
                 label="Email Address"

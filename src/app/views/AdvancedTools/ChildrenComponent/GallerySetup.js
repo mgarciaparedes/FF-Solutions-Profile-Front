@@ -509,7 +509,7 @@ const GallerySetup = () => {
                                     <div key={index}>
                                       <TextField
                                         fullWidth
-                                        inputProps={{ maxlength: 25 }}
+                                        inputProps={{ maxLength: 25 }}
                                         type="text"
                                         placeholder="Url to open in another tab"
                                         label={"Position " + (index + 1)}

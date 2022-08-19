@@ -85,7 +85,7 @@ const NoDynamicForm = ({
     <Typography variant="overline">Profile Full Name</Typography>
     </Grid> */}
         <TextField
-          inputProps={{ maxlength: 50 }}
+          inputProps={{ maxLength: 50 }}
           margin="normal"
           required
           fullWidth
@@ -225,7 +225,7 @@ const NoDynamicForm = ({
       {/* Input: Profile bio */}
       <Grid marginTop={1}>
         <TextField
-          inputProps={{ maxlength: 1000 }}
+          inputProps={{ maxLength: 1000 }}
           id="standard-multiline-static"
           label="Bio"
           name="bio"

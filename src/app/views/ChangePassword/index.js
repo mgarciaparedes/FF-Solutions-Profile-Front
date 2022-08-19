@@ -194,7 +194,7 @@ export const ChangePassword = () => {
                 shrink: true,
               }}
               type={showCuPassword ? "text" : "password"}
-              inputProps={{ maxlength: 25 }}
+              inputProps={{ maxLength: 25 }}
               InputProps={{
                 // <-- This is where the toggle button is added.
                 endAdornment: (
@@ -232,7 +232,7 @@ export const ChangePassword = () => {
                 shrink: true,
               }}
               type={showPassword ? "text" : "password"}
-              inputProps={{ maxlength: 25 }}
+              inputProps={{ maxLength: 25 }}
               InputProps={{
                 // <-- This is where the toggle button is added.
                 endAdornment: (
@@ -272,7 +272,7 @@ export const ChangePassword = () => {
                 shrink: true,
               }}
               type={showCoPassword ? "text" : "password"}
-              inputProps={{ maxlength: 25 }}
+              inputProps={{ maxLength: 25 }}
               InputProps={{
                 // <-- This is where the toggle button is added.
                 endAdornment: (

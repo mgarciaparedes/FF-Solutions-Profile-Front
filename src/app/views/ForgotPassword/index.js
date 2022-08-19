@@ -113,7 +113,7 @@ export const ForgotPassword = () => {
 
             <TextField
               margin="normal"
-              inputProps={{ maxlength: 50 }}
+              inputProps={{ maxLength: 50 }}
               fullWidth
               id="email"
               label="Example: email@email.com"

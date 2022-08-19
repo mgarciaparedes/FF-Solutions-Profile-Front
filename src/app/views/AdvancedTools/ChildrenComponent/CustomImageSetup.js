@@ -458,7 +458,7 @@ const CustomImageSetup = ({
                                 <>
                                   <TextField
                                     margin="normal"
-                                    inputProps={{ maxlength: 5 }}
+                                    inputProps={{ maxLength: 5 }}
                                     required
                                     fullWidth
                                     id="customImageButtonName"

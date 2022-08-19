@@ -230,7 +230,7 @@ export const CreateProfile = () => {
             {/*Campo FullName*/}
             <Grid item xs={12} sm={12}>
               <TextField
-                inputProps={{ maxlength: 50 }}
+                inputProps={{ maxLength: 50 }}
                 autoComplete="off"
                 name="fullName"
                 fullWidth
@@ -249,7 +249,7 @@ export const CreateProfile = () => {
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
-                inputProps={{ maxlength: 25 }}
+                inputProps={{ maxLength: 25 }}
                 id="userName"
                 label="blacklion.stdicompany.com/here_your_username"
                 name="userName"
@@ -275,7 +275,7 @@ export const CreateProfile = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
-                inputProps={{ maxlength: 50 }}
+                inputProps={{ maxLength: 50 }}
               />
             </Grid>
 
@@ -307,7 +307,7 @@ export const CreateProfile = () => {
                 label="Password"
                 id="password"
                 type={showPassword ? "text" : "password"}
-                inputProps={{ maxlength: 25 }}
+                inputProps={{ maxLength: 25 }}
                 InputProps={{
                   // <-- This is where the toggle button is added.
                   endAdornment: (
@@ -344,7 +344,7 @@ export const CreateProfile = () => {
                 id="confirmPassword"
                 sx={{ fontSize: "50" }}
                 type={showCoPassword ? "text" : "password"}
-                inputProps={{ maxlength: 25 }}
+                inputProps={{ maxLength: 25 }}
                 InputProps={{
                   // <-- This is where the toggle button is added.
                   endAdornment: (
