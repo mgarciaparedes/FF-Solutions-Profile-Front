@@ -3,7 +3,12 @@ import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import history from "../../../../components/History";
-import { PaymentElement, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  PaymentElement,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import {
   Button,
   Container,
@@ -12,11 +17,13 @@ import {
   TextField,
   CssBaseline,
   Alert,
-  Grid
+  Grid,
+  Typography,
 } from "@mui/material";
 import PaymentInput from "./PaymentInput";
 import { useSnackbar } from "notistack";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 const lightTheme = createTheme({
   palette: {
@@ -140,39 +147,76 @@ const CheckoutForm = () => {
       },
     });
 
-    if (result.error) {
-      console.log(result.error.message);
-    } else {
-      const res = await axios.post("/users/subscriptionStripe", {
-        payment_method: result.paymentMethod.id,
-        email: email,
+    if (email === "") {
+      enqueueSnackbar("Email is required", {
+        variant: "error",
+        autoHideDuration: 2000,
       });
-      // eslint-disable-next-line camelcase
-      const { client_secret, status } = res.data;
+      setShowloadsub(false);
+    }
 
-      if (status === "requires_action") {
-        stripe.confirmCardPayment(client_secret).then(function (result) {
-          if (result.error) {
-            console.log("There was an issue!");
-            console.log(result.error);
-            // Display error message in your UI.
-            // The card was declined (i.e. insufficient funds, card has expired, etc)
+    if (result.error) {
+      //   console.log(result.error.message);
+      enqueueSnackbar(result.error.message, {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
+      setShowloadsub(false);
+    } else {
+      await axios
+        .post("/users/subscriptionStripe", {
+          payment_method: result.paymentMethod.id,
+          email: email,
+        })
+        .then((res) => {
+          console.log(res);
+          // eslint-disable-next-line camelcase
+          const { client_secret, status } = res.data;
+
+          if (status === "requires_action") {
+            stripe.confirmCardPayment(client_secret).then(function (result) {
+              if (result.error) {
+                console.log("There was an issue!");
+                console.log(result.error);
+                // Display error message in your UI.
+                // The card was declined (i.e. insufficient funds, card has expired, etc)
+              } else {
+                console.log("You got the money!");
+                // Show a success message to your customer
+              }
+            });
           } else {
             console.log("You got the money!");
+            setShowSub(false);
+            setShowloadsub(false);
+            enqueueSnackbar("Successful subscription!", {
+              variant: "success",
+              autoHideDuration: 3000,
+            });
+            // No additional information was needed
             // Show a success message to your customer
           }
+        })
+        .catch((error) => {
+          const { ok, msg } = error.response.data;
+          setShowloadsub(false);
+
+          if (
+            !ok &&
+            msg ===
+              "The email is already associated with an active subscription"
+          ) {
+            enqueueSnackbar(msg, {
+              variant: "error",
+              autoHideDuration: 2000,
+            });
+          } else {
+            enqueueSnackbar("Something happened, please try again", {
+              variant: "error",
+              autoHideDuration: 2000,
+            });
+          }
         });
-      } else {
-        console.log("You got the money!");
-        setShowSub(false);
-        setShowloadsub(false);
-        enqueueSnackbar("Successful subscription!", {
-          variant: "success",
-          autoHideDuration: 3000,
-        });
-        // No additional information was needed
-        // Show a success message to your customer
-      }
     }
   };
 
@@ -181,12 +225,15 @@ const CheckoutForm = () => {
     <ThemeProvider theme={lightTheme}>
       <CssBaseline />
       <Container>
-        <Card sx={{ mt: 5 }}>
+        <Card variant="outlined" sx={{ mt: 5 }}>
           {showSub ? (
             <CardContent className={classes.content}>
+              <Typography variant="button" sx={{ fontWeight: "bold" }}>
+                Email
+              </Typography>
               <TextField
-                label="Email"
                 id="outlined-email-input"
+                placeholder={"Example: johndoe@domain.com"}
                 helperText={`Email you'll recive updates and receipts on`}
                 margin="normal"
                 variant="outlined"
@@ -195,9 +242,21 @@ const CheckoutForm = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 fullWidth
-                sx={{ mb: 3}}
+                sx={{ mt: 1, mb: 3 }}
               />
-              <PaymentInput />
+              <Typography variant="button" sx={{ fontWeight: "bold" }}>
+                Card
+              </Typography>
+              <div
+                style={{
+                  marginTop: "5px",
+                  padding: "18px 5px 18px",
+                  border: "1px solid #CDCDCD",
+                  borderRadius: "3px",
+                }}
+              >
+                <PaymentInput />
+              </div>
               <div className={classes.div}>
                 {/* <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmitPay}>
           Pay
@@ -241,6 +300,13 @@ const CheckoutForm = () => {
             </CardContent>
           )}
         </Card>
+
+        {showSub ? (
+          <Alert severity="info">
+            If you confirm the subscription, you will allow Blacklion to upload
+            your card this payment and future payments
+          </Alert>
+        ) : null}
 
         <Grid textAlign="center">
           <Button

@@ -13,7 +13,7 @@ import {
   ListItemText,
   Backdrop,
   Container,
-  LinearProgress
+  LinearProgress,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
@@ -47,7 +47,7 @@ const styleModalCustomText = {
   borderRadius: "2px",
   boxShadow: 24,
   p: 3,
-  wordWrap:'break-word'
+  wordWrap: "break-word",
 };
 
 const ItemCustomButton = styled(Paper)(({ theme }) => ({
@@ -90,7 +90,7 @@ const CustomImageList = ({
   const [modalCustomImageTitle, setModalCustomImagetitle] = useState("");
   const [modalCustomImagePhotos, setModalCustomImagePhotos] = useState([]);
   const handleCloseModalCustomImage = () => setOpenModalCustomImage(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   //función que maneja el open de modal custom image
   const handleOpenModalCustomImage = (text, imagesArray) => {
@@ -188,7 +188,9 @@ const CustomImageList = ({
         />
         <Button
           variant="outlined"
-          disabled={objLogin.customImage === null || objLogin.customImage === []}
+          disabled={
+            objLogin.customImage === null || objLogin.customImage === []
+          }
           onClick={() => {
             setCustomImageToRender(objLogin.customImage);
             setOpenCustomImageSetup(true);
@@ -228,7 +230,7 @@ const CustomImageList = ({
                     <Grid item key={index} xs={12}>
                       {element.customImageActive === true ? (
                         <Grid container marginTop={2}>
-                          <Grid xs={11}>
+                          <Grid item xs={11}>
                             <ItemCustomButton>
                               <Button
                                 onClick={() =>
@@ -244,14 +246,15 @@ const CustomImageList = ({
                             </ItemCustomButton>
                           </Grid>
                           <Grid xs={1} alignSelf="center">
-                            <IconButton aria-label="delete">
-                              <DeleteIcon
-                                onClick={() =>
-                                  deleteCustomImageButton(
-                                    element.idCustomImageButton
-                                  )
-                                }
-                              />
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() =>
+                                deleteCustomImageButton(
+                                  element.idCustomImageButton
+                                )
+                              }
+                            >
+                              <DeleteIcon />
                             </IconButton>
                           </Grid>
                         </Grid>

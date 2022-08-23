@@ -9,26 +9,26 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 export const PaymentProcess = () => {
-  const [clientSecret, setClientSecret] = useState("");
+//   const [clientSecret, setClientSecret] = useState("");
 
-  useEffect(() => {
-    axios
-      .get("/users/stripeCreatePaymentIntent")
-      .then((res) => {
-        setClientSecret(res.data.client_secret);
-      })
-      .catch((error) => {
-        alert("Error");
-      });
-  }, []);
+//   useEffect(() => {
+//     axios
+//       .get("/users/stripeCreatePaymentIntent")
+//       .then((res) => {
+//         setClientSecret(res.data.client_secret);
+//       })
+//       .catch((error) => {
+//         alert("Error");
+//       });
+//   }, []);
 
-  const options = {
-    clientSecret: clientSecret,
-  };
+//   const options = {
+//     clientSecret: clientSecret,
+//   };
   return (
     <>
       <Container>
-        <Grid sx={{ mt: 5 }}>
+        <Grid sx={{ marginTop: '80px' }}>
           <Grid item xs={12} textAlign="center">
             <Typography variant="h6" sx={{ color: "#707B7C" }} gutterBottom>
               Subscribe to Blacklion
@@ -52,11 +52,13 @@ export const PaymentProcess = () => {
           </Grid>
         </Grid>
       </Container>
-      {clientSecret && (
-        <Elements stripe={stripePromise} options={options}>
+      {/* {clientSecret && ( */}
+        {/* <Elements stripe={stripePromise} options={options}> */}
+        <Elements stripe={stripePromise} >
           <CheckoutForm />
         </Elements>
-      )}
+      {/* )} */}
+
     </>
   );
 };
