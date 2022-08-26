@@ -221,7 +221,7 @@ const Sidebar = ( { test } ) => {
           {[
             { name: "Advanced Tools", url: "/advanced-tools" },
             { name: "Change Password", url: "/change-password" },
-            { name: "Subscription", url: "/payment-process" },
+            { name: "Subscription", url: "/subscription-info" },
           ].map((text, index) => (
             <ListItem
               button

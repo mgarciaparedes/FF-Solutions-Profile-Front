@@ -19,6 +19,7 @@ import { Profile } from "./views/Profile";
 import { AdvancedTools } from "./views/AdvancedTools";
 import { ActivateLinkedProfile } from "./views/ActivateLinkedProfile";
 import { PaymentProcess } from "./views/PaymentProcess";
+import { SubscriptionInfo } from "./views/SubscriptionInfo";
 
 // import { Help } from "./views/Help";
 // import { AdvancedTools } from "./views/AdvancedTools/index";
@@ -72,6 +73,12 @@ const RouteApp = () => {
               exact
               path="/advanced-tools"
               component={() => <AdvancedTools />}
+            />
+
+            <Route
+              exact
+              path="/subscription-info"
+              component={() => <SubscriptionInfo />}
             />
 
             <Route

@@ -32,7 +32,9 @@ const AppProvider = ({ children }) => {
           if (
             window.location.pathname === "/dashboard" ||
             window.location.pathname === "/setup-profile" ||
-            window.location.pathname === "/change-password"
+            window.location.pathname === "/change-password" ||
+            window.location.pathname === "/advanced-tools" ||
+            window.location.pathname === "/subscription-info"
           ) {
             history.push("/login");
           }
