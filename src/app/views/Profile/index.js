@@ -269,6 +269,14 @@ export const Profile = ({ location }) => {
           setOpenModalError(true);
           return false;
         }
+
+        if (!ok && msg === "User subscription is not active") {
+          setProfileDataOk(false);
+          setErrorMessage(msg);
+          setProfileActive(false);
+          setOpenModalError(true);
+          return false;
+        }
       });
   }, []);
 

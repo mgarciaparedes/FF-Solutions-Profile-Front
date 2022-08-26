@@ -124,6 +124,33 @@ const ModalError = ({ openModalError, errorMessage, history }) => {
                  Contact with this website admin.
               </Typography>
             </>
+          ) : errorMessage === "User subscription is not active" ? (
+            <>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                This may happen for the folowing reasons:
+              </Typography>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle2"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                * user payment method have some trouble.
+              </Typography>
+              <Typography
+                id="modal-modal-body"
+                variant="subtitle1"
+                component="div"
+                sx={{ mt: 1, textAlign: "center" }}
+              >
+                 Contact with this website admin.
+              </Typography>
+            </>
           ) : null}
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={2} sx={{ textAlign: "center" }}>
