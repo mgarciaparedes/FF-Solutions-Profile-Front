@@ -1,25 +1,12 @@
 import React from "react";
-import axios from "axios";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {
-  Avatar,
   Button,
-  CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
-  InputAdornment,
-  Link,
   Grid,
-  Box,
-  IconButton,
-  LinearProgress,
-  Typography,
-  Container,
+  Typography
 } from "@mui/material";
-import history from "../../../../components/History";
-import { useSnackbar } from "notistack";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
@@ -47,8 +34,8 @@ const SecondView = ({ setView, name, setName }) => {
 
   return (
     <>
-      {/* Titulo de CreateProfile */}
-      <Typography component="h1" variant="h4" sx={{ mb: 2 }}>
+      {/* Titulo de SecondView */}
+      <Typography component="h1" variant="h4" sx={{ mb: 2 , fontWeight: 'bold'}}>
         Tell us about yourself
       </Typography>
 

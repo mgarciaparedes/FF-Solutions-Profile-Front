@@ -71,7 +71,7 @@ export const CreateProfile = () => {
         sx={{
           // height: 200,
           width: 0.2,
-          mt: 2
+          mt: 2,
         }}
         alt="logotipo"
         src={logotipo}
@@ -101,15 +101,11 @@ export const CreateProfile = () => {
             setPass={setPassword}
           />
         ) : view === 2 ? (
-          <SecondView
-            setView={setView}
-            name={name}
-            setName={setName}
-          />
+          <SecondView setView={setView} name={name} setName={setName} />
         ) : view === 3 ? (
-          <ThirdView />
+          <ThirdView setView={setView} />
         ) : (
-          <FourthView />
+          <FourthView setView={setView} />
         )}
 
         {/* {view > 1 ? (
@@ -121,7 +117,7 @@ export const CreateProfile = () => {
       </Box>
 
       {/* Link de cuando se tiene una cuenta. */}
-      <Grid container justifyContent="flex-end" sx={{ mt: 5}}>
+      <Grid container justifyContent="flex-end" sx={{ mt: 5 }}>
         <Grid item>
           <Link
             onClick={() => {

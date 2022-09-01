@@ -197,7 +197,7 @@ const FirstView = ({
   return (
     <>
       {/* Titulo de CreateProfile */}
-      <Typography component="h1" variant="h4" sx={{ mb: 2 }}>
+      <Typography component="h1" variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
         Create a profile
       </Typography>
 
