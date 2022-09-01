@@ -119,13 +119,92 @@ const FirstView = ({
     onSubmit: (values) => {
       //Si llega acá es porque pasó todas las validaciones, le enviamos los values
       //de cada campo en el formulario, se obtienen con el nombre de cada campo.
-      // createProfile(values);
-      setUsername(values.userName);
-      setEmail(values.email);
-      setPass(values.password);
-      setView(2);
+      validateNewUser(values);
     },
   });
+
+  const validateNewUser = (values) => {
+    setLoading(true);
+
+    const { userName, email } = values;
+
+    const payload = {
+      username: userName,
+      email: email,
+    };
+
+    axios
+      .post(`/users/validateNewUser`, payload)
+      .then((res) => {
+        setLoading(false);
+
+        const { ok, msg } = res.data;
+
+        //Si está todo ok
+        if (ok && msg === "Username/email available.") {
+
+          //Mostramos en el front que el usuario está disponible
+          enqueueSnackbar(msg, {
+            variant: "success",
+            autoHideDuration: 3000,
+            action,
+          });
+
+          //Guardamos la data del primer paso
+          setUsername(values.userName);
+          setEmail(values.email);
+          setPass(values.password);
+
+          //Enviamos al segundo paso
+          setView(2);
+        } else {
+
+          //Si algo sale mal mostramos el mensaje
+          enqueueSnackbar(msg, {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
+        }
+      })
+      .catch((e) => {
+        //catch es la respuesta de error en la promesa
+        /*Sí los servicios están OFF, retornamos este mensaje*/
+        if (e.response === undefined) {
+          //Si hay error se detiene el progress bar
+          setLoading(false);
+          enqueueSnackbar("An error ocurred. Please try again!", {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
+          return 1;
+        }
+
+        /*Si ocurre algo en el request, retoramos esto*/
+        const { msg, ok } = e.response.data;
+
+        if (msg === undefined || msg === null || msg === "") {
+          setLoading(false);
+          enqueueSnackbar("An error ocurred. Please try again!", {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
+          return 1;
+        }
+
+        if (!ok) {
+          setLoading(false);
+          enqueueSnackbar(msg, {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
+          return 1;
+        }
+      });
+  };
 
   // Funcion que envia objeto de valores al console.---------------------------------------------------
   // const createProfile = (values) => {
@@ -197,7 +276,11 @@ const FirstView = ({
   return (
     <>
       {/* Titulo de CreateProfile */}
-      <Typography component="h1" variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
+      <Typography
+        component="h1"
+        variant="h4"
+        sx={{ mb: 2, fontWeight: "bold" }}
+      >
         Create a profile
       </Typography>
 
