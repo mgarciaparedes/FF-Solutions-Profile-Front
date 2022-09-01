@@ -27,42 +27,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PasswordCheckList from "../../../components/PasswordCheckList";
 
-//Constante con el formato de validación para cada campo-------------------------------------------
-const validationSchema = yup.object({
-  fullName: yup
-    .string()
-    .required("Full name is required")
-    .max(50, "Full name should be maximum 50 characters."),
-  userName: yup
-    .string("Enter your Username")
-    .required("Username is required")
-    .max(25, "Username should be maximum 25 characters."),
-  email: yup
-    .string()
-    .email("Must be a valid email")
-    .required("Email is required")
-    .max(50, "Email should be maximum 50 characters."),
-  serialNumber: yup
-    .string()
-    .required("Serial number is required")
-    .max(12, "Wrong amount of characters.")
-    .matches(/^[A-Za-z0-9]*$/, "Wrong format"),
-  password: yup
-    .string()
-    .required("Password is required")
-    .min(8, "Password should be of minimum 8 characters length")
-    .max(25, "Password should be maximum 25 characters.")
-    .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.-])[A-Za-z\d@$!%*#?&.-]{8,}$/,
-      "Must meet the requirements below"
-    ),
-  confirmPassword: yup
-    .string()
-    .min(8, "Confirm password should be of minimum 8 characters length")
-    .max(25, "Confirm password should be maximum 25 characters.")
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Confirmation password is required"),
-});
+import FirstView from "./ChildrenComponent/FirstView";
+import SecondView from "./ChildrenComponent/SecondView";
+import ThirdView from "./ChildrenComponent/ThirdView";
+import FourthView from "./ChildrenComponent/FourthView";
 
 //Footer de Formulario createProfile--------------------------------------------------------
 function Copyright(props) {
@@ -81,124 +49,16 @@ function Copyright(props) {
 
 //Inicio de componente-----------------------------------------------------------------------------------------
 export const CreateProfile = () => {
-  // useState para mostrar y ocultar contraseña
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+  //Setear valor del paso 1
+  const [view, setView] = useState(1);
 
-  // useState para mostrar y ocultar confirmar contraseña
-  const [showCoPassword, setShowCoPassword] = useState(false);
-  const handleClickShowCoPassword = () => setShowCoPassword(!showCoPassword);
-  const handleMouseDownCoPassword = () => setShowCoPassword(!showCoPassword);
-
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [loading, setLoading] = useState(false);
-
+  //Valores paso 1
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordAgain, setPasswordAgain] = useState("");
 
-  const action = (key) => (
-    <>
-      <IconButton
-        variant="outlined"
-        sx={{
-          color: "white",
-        }}
-        onClick={() => {
-          closeSnackbar(key);
-        }}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </>
-  );
-
-  //Configurar los valores a evaluar por el formulario-----------------------------------------------------------
-
-  const formik = useFormik({
-    initialValues: {
-      fullName: "",
-      userName: "",
-      email: "",
-      serialNumber: "",
-      password: "",
-      confirmPassword: "",
-    },
-    validationSchema: validationSchema, //Se le pasa la costante de formato de cada campo--------------
-    onSubmit: (values) => {
-      //Si llega acá es porque pasó todas las validaciones, le enviamos los values
-      //de cada campo en el formulario, se obtienen con el nombre de cada campo.
-      createProfile(values);
-    },
-  });
-
-  // Funcion que envia objeto de valores al console.---------------------------------------------------
-  const createProfile = (values) => {
-    setLoading(true);
-
-    const { fullName, userName, email, serialNumber, password } = values;
-
-    const payload = {
-      name: fullName,
-      username: userName,
-      email: email,
-      serialNumber: serialNumber,
-      password: password,
-    };
-
-    axios
-      .post(`/users/saveNewUser`, payload)
-      .then((res) => {
-        setLoading(false);
-
-        const { ok, msg } = res.data;
-        if (ok && msg === "User created succesfully.") {
-          enqueueSnackbar(msg, {
-            variant: "success",
-            autoHideDuration: 3000,
-            action,
-          });
-          history.push("/login");
-        }
-      })
-      .catch((e) => {
-        //catch es la respuesta de error en la promesa
-        /*Sí los servicios están OFF, retornamos este mensaje*/
-        if (e.response === undefined) {
-          //Si hay error se detiene el progress bar
-          setLoading(false);
-          enqueueSnackbar("An error ocurred. Please try again!", {
-            variant: "error",
-            autoHideDuration: 3000,
-            action,
-          });
-          return 1;
-        }
-
-        /*Si ocurre algo en el request, retoramos esto*/
-        const { msg, ok } = e.response.data;
-
-        if (msg === undefined || msg === null || msg === "") {
-          setLoading(false);
-          enqueueSnackbar("An error ocurred. Please try again!", {
-            variant: "error",
-            autoHideDuration: 3000,
-            action,
-          });
-          return 1;
-        }
-
-        if (!ok) {
-          setLoading(false);
-          enqueueSnackbar(msg, {
-            variant: "error",
-            autoHideDuration: 3000,
-            action,
-          });
-          return 1;
-        }
-      });
-  };
+  //Valores del paso 2
+  const [name, setName] = useState("");
 
   return (
     // Inicio de Tema proporcionado por template de Material UI
@@ -224,194 +84,33 @@ export const CreateProfile = () => {
         </Typography>
 
         {/* Inicio de formulario */}
+        {view === 1 ? (
+          <FirstView
+            setView={setView}
+            setUsername={setUsername}
+            setEmail={setEmail}
+            setPass={setPassword}
+          />
+        ) : view === 2 ? (
+          <SecondView
+            setView={setView}
+            username={username}
+            email={email}
+            password={password}
+          />
+        ) : view === 3 ? (
+          <ThirdView />
+        ) : (
+          <FourthView />
+        )}
+        {view}
 
-        <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={1}>
-            {/*Campo FullName*/}
-            <Grid item xs={12} sm={12}>
-              <TextField
-                inputProps={{ maxLength: 50 }}
-                autoComplete="off"
-                name="fullName"
-                fullWidth
-                id="fullName"
-                label="Full Name"
-                value={formik.values.fullName}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.fullName && Boolean(formik.errors.fullName)
-                }
-                helperText={formik.touched.fullName && formik.errors.fullName}
-              />
-            </Grid>
-
-            {/*Campo userName*/}
-            <Grid item xs={12} sm={12}>
-              <TextField
-                fullWidth
-                inputProps={{ maxLength: 25 }}
-                id="userName"
-                label="blacklion.stdicompany.com/here_your_username"
-                name="userName"
-                autoComplete="family-name"
-                value={formik.values.userName}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.userName && Boolean(formik.errors.userName)
-                }
-                helperText={formik.touched.userName && formik.errors.userName}
-              />
-            </Grid>
-
-            {/*Campo email*/}
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                inputProps={{ maxLength: 50 }}
-              />
-            </Grid>
-
-            {/*Campo serial number*/}
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                id="serialNumber"
-                label="Type the serial number"
-                name="serialNumber"
-                value={formik.values.serialNumber}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.serialNumber &&
-                  Boolean(formik.errors.serialNumber)
-                }
-                helperText={
-                  formik.touched.serialNumber && formik.errors.serialNumber
-                }
-                inputProps={{ maxLength: 12 }}
-              />
-            </Grid>
-
-            {/* Campo de password */}
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                name="password"
-                label="Password"
-                id="password"
-                type={showPassword ? "text" : "password"}
-                inputProps={{ maxLength: 25 }}
-                InputProps={{
-                  // <-- This is where the toggle button is added.
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                value={formik.values.password}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  setPassword(e.target.value);
-                }}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-              />
-            </Grid>
-
-            {/* Campo de confirm password*/}
-
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                id="confirmPassword"
-                sx={{ fontSize: "50" }}
-                type={showCoPassword ? "text" : "password"}
-                inputProps={{ maxLength: 25 }}
-                InputProps={{
-                  // <-- This is where the toggle button is added.
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowCoPassword}
-                        onMouseDown={handleMouseDownCoPassword}
-                      >
-                        {showCoPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                value={formik.values.confirmPassword}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  setPasswordAgain(e.target.value);
-                }}
-                error={
-                  formik.touched.confirmPassword &&
-                  Boolean(formik.errors.confirmPassword)
-                }
-                helperText={
-                  formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword
-                }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              {password !== "" && (
-                <PasswordCheckList
-                  password={password}
-                  passwordAgain={passwordAgain}
-                />
-              )}
-            </Grid>
-          </Grid>
-          {/* Boton de registrarse */}
-          {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            disabled={loading}
-            sx={{ mt: 2, mb: 2 }}
-          >
-            Sign Up
-          </Button>
-
-          {/* Link de cuando se tiene una cuenta. */}
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link
-                onClick={() => {
-                  history.push("/login");
-                }}
-                variant="body2"
-                sx={{ cursor: "pointer" }}
-                color="primary.light"
-              >
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+        {/* {view > 1 ? (
+          <button onClick={() => setView(view - 1)}>Previous</button>
+        ) : null} */}
+        {/* {view < 4 ? (
+          <button onClick={() => setView(view + 1)}>Next</button>
+        ) : null} */}
       </Box>
 
       <Copyright sx={{ mt: 5 }} />
