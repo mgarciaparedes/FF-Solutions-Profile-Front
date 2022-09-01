@@ -23,6 +23,7 @@ import { useSnackbar } from "notistack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import PasswordCheckList from "../../../../components/PasswordCheckList";
 
 //Constante con el formato de validación para cada campo-------------------------------------------
@@ -62,7 +63,15 @@ const validationSchema = yup.object({
     .required("Confirmation password is required"),
 });
 
-const FirstView = ({ setView, setUsername, setEmail, setPass }) => {
+const FirstView = ({
+  setView,
+  username,
+  email,
+  pass,
+  setUsername,
+  setEmail,
+  setPass,
+}) => {
   // useState para mostrar y ocultar contraseña
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -100,11 +109,11 @@ const FirstView = ({ setView, setUsername, setEmail, setPass }) => {
   const formik = useFormik({
     initialValues: {
       // fullName: "",
-      userName: "Saimon Brinez",
-      email: "sbz3435@gmail.com",
+      userName: username,
+      email: email,
       // serialNumber: "",
-      password: "Capi123.",
-      confirmPassword: "Capi123.",
+      password: pass,
+      confirmPassword: pass,
     },
     validationSchema: validationSchema, //Se le pasa la costante de formato de cada campo--------------
     onSubmit: (values) => {
@@ -186,10 +195,20 @@ const FirstView = ({ setView, setUsername, setEmail, setPass }) => {
   //     });
   // };
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={1}>
-        {/*Campo FullName*/}
-        {/* <Grid item xs={12} sm={12}>
+    <>
+      {/* Titulo de CreateProfile */}
+      <Typography component="h1" variant="h4" sx={{ mb: 2 }}>
+        Create a profile
+      </Typography>
+
+      <Typography variant="body2" sx={{ mb: 2, color: "#B2BABB" }}>
+        Fill the form. Begin the blacklion experience!
+      </Typography>
+
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={1} sx={{ mt: 3 }}>
+          {/*Campo FullName*/}
+          {/* <Grid item xs={12} sm={12}>
           <TextField
             inputProps={{ maxLength: 50 }}
             autoComplete="off"
@@ -204,40 +223,51 @@ const FirstView = ({ setView, setUsername, setEmail, setPass }) => {
           />
         </Grid> */}
 
-        {/*Campo userName*/}
-        <Grid item xs={12} sm={12}>
-          <TextField
-            fullWidth
-            inputProps={{ maxLength: 25 }}
-            id="userName"
-            label="blacklion.stdicompany.com/here_your_username"
-            name="userName"
-            autoComplete="off"
-            value={formik.values.userName}
-            onChange={formik.handleChange}
-            error={formik.touched.userName && Boolean(formik.errors.userName)}
-            helperText={formik.touched.userName && formik.errors.userName}
-          />
-        </Grid>
+          {/*Campo userName*/}
+          <Grid item xs={12} sm={12}>
+            <TextField
+              fullWidth
+              inputProps={{ maxLength: 25 }}
+              id="userName"
+              label="Username"
+              name="userName"
+              autoComplete="off"
+              value={formik.values.userName}
+              onChange={formik.handleChange}
+              error={formik.touched.userName && Boolean(formik.errors.userName)}
+              helperText={
+                formik.touched.userName && formik.errors.userName
+                  ? formik.errors.userName
+                  : "Type only the username you want to be linked with"
+              }
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    blacklion.app/
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
 
-        {/*Campo email*/}
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="off"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-            inputProps={{ maxLength: 50 }}
-          />
-        </Grid>
+          {/*Campo email*/}
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="off"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              inputProps={{ maxLength: 50 }}
+            />
+          </Grid>
 
-        {/*Campo serial number*/}
-        {/* <Grid item xs={12}>
+          {/*Campo serial number*/}
+          {/* <Grid item xs={12}>
           <TextField
             fullWidth
             id="serialNumber"
@@ -255,116 +285,108 @@ const FirstView = ({ setView, setUsername, setEmail, setPass }) => {
           />
         </Grid> */}
 
-        {/* Campo de password */}
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            name="password"
-            label="Password"
-            id="password"
-            type={showPassword ? "text" : "password"}
-            inputProps={{ maxLength: 25 }}
-            InputProps={{
-              // <-- This is where the toggle button is added.
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            value={formik.values.password}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setPassword(e.target.value);
-            }}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-        </Grid>
-
-        {/* Campo de confirm password*/}
-
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            name="confirmPassword"
-            label="Confirm Password"
-            id="confirmPassword"
-            sx={{ fontSize: "50" }}
-            type={showCoPassword ? "text" : "password"}
-            inputProps={{ maxLength: 25 }}
-            InputProps={{
-              // <-- This is where the toggle button is added.
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowCoPassword}
-                    onMouseDown={handleMouseDownCoPassword}
-                  >
-                    {showCoPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            value={formik.values.confirmPassword}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setPasswordAgain(e.target.value);
-            }}
-            error={
-              formik.touched.confirmPassword &&
-              Boolean(formik.errors.confirmPassword)
-            }
-            helperText={
-              formik.touched.confirmPassword && formik.errors.confirmPassword
-            }
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          {password !== "" && (
-            <PasswordCheckList
-              password={password}
-              passwordAgain={passwordAgain}
+          {/* Campo de password */}
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              name="password"
+              label="Password"
+              id="password"
+              type={showPassword ? "text" : "password"}
+              inputProps={{ maxLength: 25 }}
+              InputProps={{
+                // <-- This is where the toggle button is added.
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              value={formik.values.password}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setPassword(e.target.value);
+              }}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
-          )}
-        </Grid>
-      </Grid>
-      {/* Boton de registrarse */}
-      {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        disabled={loading}
-        sx={{ mt: 2, mb: 2 }}
-      >
-        Sign Up
-      </Button>
+          </Grid>
 
-      {/* Link de cuando se tiene una cuenta. */}
-      <Grid container justifyContent="flex-end">
-        <Grid item>
-          <Link
-            onClick={() => {
-              history.push("/login");
-            }}
-            variant="body2"
-            sx={{ cursor: "pointer" }}
-            color="primary.light"
-          >
-            Already have an account? Sign in
-          </Link>
+          {/* Campo de confirm password*/}
+
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              id="confirmPassword"
+              sx={{ fontSize: "50" }}
+              type={showCoPassword ? "text" : "password"}
+              inputProps={{ maxLength: 25 }}
+              InputProps={{
+                // <-- This is where the toggle button is added.
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowCoPassword}
+                      onMouseDown={handleMouseDownCoPassword}
+                    >
+                      {showCoPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              value={formik.values.confirmPassword}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setPasswordAgain(e.target.value);
+              }}
+              error={
+                formik.touched.confirmPassword &&
+                Boolean(formik.errors.confirmPassword)
+              }
+              helperText={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            {password !== "" && (
+              <PasswordCheckList
+                password={password}
+                passwordAgain={passwordAgain}
+              />
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </form>
+
+        {/* Boton de registrarse */}
+        {loading ? <LinearProgress sx={{ mt: 2 }} /> : <></>}
+        <Grid container>
+          {/* <Grid item xs={6}></Grid> */}
+          <Grid item xs={12} textAlign="center">
+            <Button
+              type="submit"
+              // fullWidth
+              variant="contained"
+              disabled={loading}
+              sx={{ mt: 2, mb: 2 }}
+              endIcon={<ArrowRightAltIcon />}
+            >
+              Continue
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </>
   );
 };
 

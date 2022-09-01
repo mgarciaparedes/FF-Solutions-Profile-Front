@@ -26,6 +26,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PasswordCheckList from "../../../components/PasswordCheckList";
+import logotipo from "../../../assets/images/logotipo.png";
 
 import FirstView from "./ChildrenComponent/FirstView";
 import SecondView from "./ChildrenComponent/SecondView";
@@ -53,9 +54,9 @@ export const CreateProfile = () => {
   const [view, setView] = useState(1);
 
   //Valores paso 1
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("saimonbrinez");
+  const [email, setEmail] = useState("sbx3435@gmail.com");
+  const [password, setPassword] = useState("Capi123.");
 
   //Valores del paso 2
   const [name, setName] = useState("");
@@ -66,27 +67,35 @@ export const CreateProfile = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
+        component="img"
         sx={{
-          marginTop: 8,
+          // height: 200,
+          width: 0.2,
+          mt: 2
+        }}
+        alt="logotipo"
+        src={logotipo}
+      />
+      <Box
+        sx={{
+          marginTop: 4,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          // alignItems: "center",
         }}
       >
         {/* Icono de candado en CreateProfile */}
-        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+        {/* <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
-        </Avatar>
-
-        {/* Titulo de CreateProfile */}
-        <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-          Sign up
-        </Typography>
+        </Avatar> */}
 
         {/* Inicio de formulario */}
         {view === 1 ? (
           <FirstView
             setView={setView}
+            username={username}
+            email={email}
+            pass={password}
             setUsername={setUsername}
             setEmail={setEmail}
             setPass={setPassword}
@@ -94,16 +103,14 @@ export const CreateProfile = () => {
         ) : view === 2 ? (
           <SecondView
             setView={setView}
-            username={username}
-            email={email}
-            password={password}
+            name={name}
+            setName={setName}
           />
         ) : view === 3 ? (
           <ThirdView />
         ) : (
           <FourthView />
         )}
-        {view}
 
         {/* {view > 1 ? (
           <button onClick={() => setView(view - 1)}>Previous</button>
@@ -112,6 +119,22 @@ export const CreateProfile = () => {
           <button onClick={() => setView(view + 1)}>Next</button>
         ) : null} */}
       </Box>
+
+      {/* Link de cuando se tiene una cuenta. */}
+      <Grid container justifyContent="flex-end" sx={{ mt: 5}}>
+        <Grid item>
+          <Link
+            onClick={() => {
+              history.push("/login");
+            }}
+            variant="body2"
+            sx={{ cursor: "pointer" }}
+            color="primary.light"
+          >
+            Already have an account? Sign in
+          </Link>
+        </Grid>
+      </Grid>
 
       <Copyright sx={{ mt: 5 }} />
     </Container>

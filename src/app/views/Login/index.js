@@ -285,7 +285,7 @@ export const Login = () => {
             <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h4">
               Sign in
             </Typography>
             {/* <Box
