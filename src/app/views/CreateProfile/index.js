@@ -1,37 +1,20 @@
 import React, { useState } from "react";
 import {
-  Avatar,
-  Button,
   CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  InputAdornment,
   Link,
   Grid,
   Box,
-  IconButton,
-  LinearProgress,
   Typography,
   Container,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import history from "../../../components/History";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import axios from "axios";
-import { useSnackbar } from "notistack";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import PasswordCheckList from "../../../components/PasswordCheckList";
 import logotipo from "../../../assets/images/logotipo.png";
 
 import FirstView from "./ChildrenComponent/FirstView";
 import SecondView from "./ChildrenComponent/SecondView";
 import ThirdView from "./ChildrenComponent/ThirdView";
 import FourthView from "./ChildrenComponent/FourthView";
+import FifthView from "./ChildrenComponent/FifthView";
 
 //Footer de Formulario createProfile--------------------------------------------------------
 function Copyright(props) {
@@ -104,8 +87,10 @@ export const CreateProfile = () => {
           <SecondView setView={setView} name={name} setName={setName} />
         ) : view === 3 ? (
           <ThirdView setView={setView} />
+        ) : view === 4 ? (
+          <FourthView setView={setView} email={email} />
         ) : (
-          <FourthView setView={setView} />
+          <FifthView />
         )}
 
         {/* {view > 1 ? (
