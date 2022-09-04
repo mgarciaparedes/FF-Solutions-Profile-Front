@@ -19,14 +19,14 @@ import {
   Alert,
   Grid,
   Typography,
-  FormCon,
+  IconButton,
 } from "@mui/material";
 import PaymentInput from "./PaymentInput";
 import { useSnackbar } from "notistack";
 import LoadingButton from "@mui/lab/LoadingButton";
 import LockIcon from "@mui/icons-material/Lock";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { Streetview } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const useStyles = makeStyles({
   root: {
@@ -49,78 +49,31 @@ const useStyles = makeStyles({
   },
 });
 
-const CheckoutForm = ({ email, setView, setLoadingPrevious }) => {
-  //     const stripe = useStripe();
-  //     const elements = useElements();
-
-  //     const handleSubmit = async (e) => {
-  //         e.preventDefault();
-
-  //         const { error, paymentMethod } = await stripe.createPaymentMethod({
-  //           type: "card",
-  //           card: elements.getElement(CardElement),
-  //         });
-
-  //         if (!error) {
-  //           console.log(paymentMethod);
-  //         } else {
-  //           console.log(error);
-  //         }
-  //       };
-
-  //       return (
-  //         <form onSubmit={handleSubmit}>
-  //         <CardElement />
-  //         <button type="submit">Buy</button>
-  //       </form>
-  //       );
-  //   };
-
+const CheckoutForm = ({ email, setView, setLoadingPrevious, username, name, password }) => {
   const classes = useStyles();
-
-  const [showSub, setShowSub] = useState(true); //show message with status subscription
 
   const stripe = useStripe();
   const elements = useElements();
 
-  const { enqueueSnackbar } = useSnackbar(); //sweetalert status subscription
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar(); //sweetalert status subscription
   const [showloadSub, setShowloadsub] = useState(false); //show loading subscription
 
-  //   const handleSubmitPay = async (event) => {
-  //     if (!stripe || !elements) {
-  //       // Stripe.js has not yet loaded.
-  //       // Make sure to disable form submission until Stripe.js has loaded.
-  //       return;
-  //     }
-
-  //     const res = await axios.post("http://localhost:3000/pay", { email: email });
-
-  //     const clientSecret = res.data["client_secret"];
-
-  //     const result = await stripe.confirmCardPayment(clientSecret, {
-  //       payment_method: {
-  //         card: elements.getElement(CardElement),
-  //         billing_details: {
-  //           email: email,
-  //         },
-  //       },
-  //     });
-
-  //     if (result.error) {
-  //       // Show error to your customer (e.g., insufficient funds)
-  //       console.log(result.error.message);
-  //     } else {
-  //       // The payment has been processed!
-  //       if (result.paymentIntent.status === "succeeded") {
-  //         console.log("Money is in the bank!");
-  //         // Show a success message to your customer
-  //         // There's a risk of the customer closing the window before callback
-  //         // execution. Set up a webhook or plugin to listen for the
-  //         // payment_intent.succeeded event that handles any business critical
-  //         // post-payment actions.
-  //       }
-  //     }
-  //   };
+  //Botón cerrar notificación
+  const action = (key) => (
+    <>
+      <IconButton
+        variant="outlined"
+        sx={{
+          color: "white",
+        }}
+        onClick={() => {
+          closeSnackbar(key);
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
+    </>
+  );
 
   const handleSubmitSub = async (event) => {
     if (!stripe || !elements) {
@@ -128,9 +81,6 @@ const CheckoutForm = ({ email, setView, setLoadingPrevious }) => {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
-    // console.log("payment",elements.getElement(PaymentElement));
-    // console.log("payment",elements.getElement(CardElement));
 
     setShowloadsub(true);
     setLoadingPrevious(true);
@@ -168,7 +118,7 @@ const CheckoutForm = ({ email, setView, setLoadingPrevious }) => {
         })
         .then((res) => {
           console.log(res);
-          setLoadingPrevious(false);
+
           // eslint-disable-next-line camelcase
           const { client_secret, status } = res.data;
 
@@ -186,24 +136,13 @@ const CheckoutForm = ({ email, setView, setLoadingPrevious }) => {
               } else {
                 // console.log("You got the money!");
                 // Show a success message to your customer
-                enqueueSnackbar("Successful subscription!", {
-                  variant: "success",
-                  autoHideDuration: 3000,
-                });
-                setView(5);
+                createProfile();
               }
             });
           } else {
             // console.log("You got the money!");
-            
-            setShowloadsub(false);
-            enqueueSnackbar("Successful subscription!", {
-              variant: "success",
-              autoHideDuration: 3000,
-            });
-            setView(5);
-            // No additional information was needed
-            // Show a success message to your customer
+
+            createProfile();
           }
         })
         .catch((error) => {
@@ -228,6 +167,80 @@ const CheckoutForm = ({ email, setView, setLoadingPrevious }) => {
           }
         });
     }
+  };
+
+  // Funcion que envia objeto de valores al console.---------------------------------------------------
+  const createProfile = () => {
+    // const { fullName, userName, email, serialNumber, password } = values;
+
+    const payload = {
+      name: name,
+      username: username,
+      email: email,
+      // serialNumber: serialNumber,
+      password: password,
+    };
+
+    axios
+      .post(`/users/saveNewUser`, payload)
+      .then((res) => {
+        const { ok, msg } = res.data;
+        if (ok && msg === "User created succesfully.") {
+          enqueueSnackbar(msg, {
+            variant: "success",
+            autoHideDuration: 3000,
+            action,
+          });
+          enqueueSnackbar("Payment completed succesfully", {
+            variant: "success",
+            autoHideDuration: 3000,
+            action,
+          });
+          setView(5);
+          setLoadingPrevious(false);
+          setShowloadsub(false);
+          // history.push("/login");
+        }
+      })
+      .catch((e) => {
+        setLoadingPrevious(false);
+        setShowloadsub(false);
+        //catch es la respuesta de error en la promesa
+        /*Sí los servicios están OFF, retornamos este mensaje*/
+        if (e.response === undefined) {
+          //Si hay error se detiene el progress bar
+          // setLoading(false);
+          enqueueSnackbar("An error ocurred. Please try again!", {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
+          return 1;
+        }
+
+        /*Si ocurre algo en el request, retoramos esto*/
+        const { msg, ok } = e.response.data;
+
+        if (msg === undefined || msg === null || msg === "") {
+          // setLoading(false);
+          enqueueSnackbar("An error ocurred. Please try again!", {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
+          return 1;
+        }
+
+        if (!ok) {
+          // setLoading(false);
+          enqueueSnackbar(msg, {
+            variant: "error",
+            autoHideDuration: 3000,
+            action,
+          });
+          return 1;
+        }
+      });
   };
 
   //return de vista

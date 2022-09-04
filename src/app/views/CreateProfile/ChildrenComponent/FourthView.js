@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import {
@@ -21,7 +21,7 @@ import CheckoutForm from "./CheckoutForm";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
-const FourthView = ({ setView, email }) => {
+const FourthView = ({ setView, email, username, name, password }) => {
   const [loadingPrevious, setLoadingPrevious] = useState(false);
   return (
     <>
@@ -37,7 +37,14 @@ const FourthView = ({ setView, email }) => {
         Come on! You're almost done.
       </Typography>
       <Elements stripe={stripePromise}>
-        <CheckoutForm email={email} setView={setView} setLoadingPrevious={setLoadingPrevious} />
+        <CheckoutForm
+          email={email}
+          username={username}
+          name={name}
+          password={password}
+          setView={setView}
+          setLoadingPrevious={setLoadingPrevious}
+        />
       </Elements>{" "}
       <Grid container sx={{ mt: 1 }}>
         <Grid item xs={6}>
@@ -50,16 +57,6 @@ const FourthView = ({ setView, email }) => {
             Previous
           </Button>
         </Grid>
-        {/* <Grid item xs={6} textAlign="right">
-          <Button
-            variant="contained"
-            sx={{ mt: 2, mb: 2 }}
-            endIcon={<ArrowRightAltIcon />}
-            onClick={() => setView(4)}
-          >
-            Submit
-          </Button>
-        </Grid> */}
       </Grid>
     </>
   );

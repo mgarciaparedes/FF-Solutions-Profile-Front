@@ -88,7 +88,7 @@ export const CreateProfile = () => {
         ) : view === 3 ? (
           <ThirdView setView={setView} />
         ) : view === 4 ? (
-          <FourthView setView={setView} email={email} />
+          <FourthView setView={setView} username={username} name={name} password={password} email={email} />
         ) : (
           <FifthView />
         )}
