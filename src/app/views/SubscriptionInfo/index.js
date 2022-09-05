@@ -1,69 +1,38 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { makeStyles } from "@mui/styles";
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Elements } from "@stripe/react-stripe-js";
-// import CheckoutForm from "./ChildrenComponent/CheckoutForm";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useSnackbar } from "notistack";
 import history from "../../../components/History";
 import {
   Typography,
   Grid,
   Container,
-  //   LinearProgress,
-  Box,
-  CircularProgress,
+  LinearProgress,
   Card,
   CardContent,
   CssBaseline,
   Button,
-  Alert,
 } from "@mui/material";
 import { AppContext } from "../../../components/AppContext";
-// import { useSnackbar } from "notistack";
-// import SyncLockTwoToneIcon from "@mui/icons-material/SyncLockTwoTone";
-import stripe from "../../../assets/images/stripe.png";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-// const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
-
-const lightTheme = createTheme({
+const darkTheme = createTheme({
   palette: {
-    mode: "light",
-  },
-});
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 500,
-    margin: "35vh auto",
-  },
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    alignContent: "flex-start",
-  },
-  div: {
-    display: "flex",
-    flexDirection: "row",
-    alignContent: "flex-start",
-    justifyContent: "space-between",
-  },
-  button: {
-    margin: "2em auto 1em",
+    mode: "dark",
+    primary: { main: "#dfb05a", light: "#42a5f5" },
   },
 });
 
 export const SubscriptionInfo = () => {
   const { objLogin } = useContext(AppContext);
+  const { enqueueSnackbar } = useSnackbar();
   //   const [isSubscribed, setIsSubscribed] = useState(true);
   const [subscriptionData, setSubscriptionData] = useState({});
   const [cardInfo, setCardInfo] = useState({});
   const [loading, setLoading] = useState(true);
   const payload = { email: objLogin.email };
-  const classes = useStyles();
 
   useEffect(() => {
-    // setLoading(true);
     axios
       .post("/users/stripeFindSubscription", payload)
       .then((res) => {
@@ -76,39 +45,51 @@ export const SubscriptionInfo = () => {
       })
       .catch((error) => {
         setLoading(false);
-        // alert("Error");
+        enqueueSnackbar("Something went wrong. Try again!", {
+          variant: "error",
+          autoHideDuration: 3000
+        });
+        history.push("/dashboard");
+
       });
   }, []);
 
   return (
     <>
-      {!loading ? (
-        <>
-          {/* Si llegó acá es porque existe una suscripción */}
-          <ThemeProvider theme={lightTheme}>
-            <CssBaseline />
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        {!loading ? (
+          <>
+            {/* Si llegó acá es porque existe una suscripción */}
+
             <Container sx={{ mt: 25 }}>
-              <Grid textAlign="center">
-                <Typography
+              <Grid>
+                {/* <Typography
                   variant="button"
                   sx={{ fontSize: "20px", fontWeight: "bold" }}
                 >
                   Subscription Info
+                </Typography> */}
+                <Typography
+                  component="h1"
+                  variant="h4"
+                  sx={{ mb: 2, fontWeight: "bold" }}
+                >
+                  Subscription info
+                </Typography>
+              </Grid>
+              <Grid>
+                <Typography variant="body2" sx={{ mb: 2, color: "#B2BABB" }}>
+                  Take a look at your billing details such as the day you start
+                  the subscription, the current period and the payment method.
                 </Typography>
               </Grid>
 
-              <Alert severity="info" sx={{ mt: 2 }}>
-                Take a look at your billing details such as the day you start
-                the subscription, the current period and the payment method.
-              </Alert>
-              <Card variant="outlined" sx={{ mt: 3 }}>
-                <CardContent className={classes.content}>
+              <Card sx={{ mt: 3 }}>
+                <CardContent>
                   <Grid container>
                     <Grid item xs={12} sx={{ mb: 3 }}>
-                      <Typography
-                        variant="button"
-                        sx={{ fontSize: "15px", fontWeight: "bold" }}
-                      >
+                      <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                         Subscription
                       </Typography>
                     </Grid>
@@ -136,11 +117,17 @@ export const SubscriptionInfo = () => {
                       <Typography
                         variant="overline"
                         sx={{
-                          color: subscriptionData.status === "active" ? "#229954" : "#CB4335",
+                          color:
+                            subscriptionData.status === "active"
+                              ? "#229954"
+                              : "#CB4335",
                           fontWeight: "bold",
-                          backgroundColor: subscriptionData.status === "active" ? "#ABEBC6" : "#F5B7B1",
+                          backgroundColor:
+                            subscriptionData.status === "active"
+                              ? "#ABEBC6"
+                              : "#F5B7B1",
                           padding: "5px 15px 5px 15px",
-                          borderRadius: '5px',
+                          borderRadius: "5px",
                         }}
                       >
                         {subscriptionData.status}
@@ -194,64 +181,50 @@ export const SubscriptionInfo = () => {
               </Card>
               <Grid textAlign="center">
                 <Button
-                  sx={{ mt: 3 }}
                   variant="outlined"
                   color="primary"
-                  className={classes.button}
+                  sx={{
+                    mt: 2,
+                    mb: 2
+                  }}
+                  startIcon={<KeyboardBackspaceIcon />}
                   onClick={() => history.push("/dashboard")}
                 >
-                  {"<"} Go Back
+                  Go back
                 </Button>
               </Grid>
             </Container>
-          </ThemeProvider>
-        </>
-      ) : (
-        //Acá se va cuando está cargando la vista
-        //consume el servicio para saber si el cliente tiene
-        //alguna suscripción activa o no
-        <>
-          <Grid
-            sx={{
-              textAlign: "center",
-              mt: 40,
-            }}
-          >
-            <Grid item xs={12} textAlign="center">
-              {/* <Typography
-            sx={{
-              textAlign: "center",
-              mt: 40,
-            }}
-          > */}
-              {/* <SyncLockTwoToneIcon color="info" sx={{ fontSize: 70 }} /> */}
-              <Box
-                component="img"
+          </>
+        ) : (
+          //Acá se va cuando está cargando la vista
+          //consume el servicio para saber si el cliente tiene
+          //alguna suscripción activa o no
+          <>
+            <Container>
+              <Grid
+                container
                 sx={{
-                  // height: 200,
-                  width: 0.5,
-                  mb: 0,
+                  textAlign: "center",
+                  mt: 50,
                 }}
-                alt="stripe"
-                src={stripe}
-              />
-              {/* </Typography> */}
-            </Grid>
-            <Grid item xs={12} textAlign="center">
-              <CircularProgress color="info" sx={{ mt: 2 }} />
-            </Grid>
-          </Grid>
+              >
+                <Grid item xs={12} textAlign="center">
+                  <LinearProgress color="primary" />
+                </Grid>
+              </Grid>
 
-          <Typography
-            variant="caption"
-            display="block"
-            sx={{ textAlign: "center" }}
-            gutterBottom
-          >
-            Checking your info...
-          </Typography>
-        </>
-      )}
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ textAlign: "center" }}
+                gutterBottom
+              >
+                Checking your info...
+              </Typography>
+            </Container>
+          </>
+        )}
+      </ThemeProvider>
     </>
   );
 };
