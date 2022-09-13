@@ -37,9 +37,9 @@ export const CreateProfile = () => {
   const [view, setView] = useState(1);
 
   //Valores paso 1
-  const [username, setUsername] = useState("saimonbrinez");
-  const [email, setEmail] = useState("sbx3435@gmail.com");
-  const [password, setPassword] = useState("Capi123.");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   //Valores del paso 2
   const [name, setName] = useState("");
